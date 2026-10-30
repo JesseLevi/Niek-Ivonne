@@ -3,13 +3,18 @@
 // met twee silhouetten op de voorgrond. In code, zodat hij meekleurt met de scène.
 ---
 
-<svg class="skyline" viewBox="0 0 400 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-  <circle class="sun" cx="300" cy="120" r="34"></circle>
-  <path
-    class="far"
-    d="M0 150h18v-12h10v12h14v-20h8v20h12v-8h16v8h10v-26h6v-6h4v6h6v26h20v-14h14v14h10v-34l4-30 4 30v34h8v-40l3-26 3 26v40h6v-44l3-28 3 28v44h8v-36l3-24 3 24v36h14v-16h12v16h16v-10h22v10h8v-46q8-14 16 0v46h10v-18h14v18h12v-12h18v12h16v-22h10v22h28V200H0Z"></path>
-  <path class="near" d="M0 176c40-10 80-12 120-6s70 4 100-2 70-8 110-2 50 6 70 4V200H0Z"></path>
-  <g class="couple" transform="translate(196 150)">
+<!--
+  Breed tekenvlak (1200 × 200, de stad drie keer naast elkaar) met bijsnijden aan de zijkanten:
+  zo wordt de skyline op brede schermen nooit bovenaan afgekapt, en houdt de zon zijn vorm.
+  Het midden (stelletje, zon, torens) staat rond x = 600.
+-->
+<svg class="skyline" viewBox="0 0 1200 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <circle class="sun" cx="700" cy="120" r="34"></circle>
+  <path id="skyline-city" class="far" d="M0 150h18v-12h10v12h14v-20h8v20h12v-8h16v8h10v-26h6v-6h4v6h6v26h20v-14h14v14h10v-34l4-30 4 30v34h8v-40l3-26 3 26v40h6v-44l3-28 3 28v44h8v-36l3-24 3 24v36h14v-16h12v16h16v-10h22v10h8v-46q8-14 16 0v46h10v-18h14v18h12v-12h18v12h16v-22h10v22h28V200H0Z"></path>
+  <use href="#skyline-city" x="400"></use>
+  <use href="#skyline-city" x="800"></use>
+  <path class="near" d="M0 176C200 160 400 172 600 168S1000 160 1200 174V200H0Z"></path>
+  <g class="couple" transform="translate(596 150)">
     <circle cx="0" cy="0" r="4.2"></circle>
     <path d="M-6 26v-14c0-5 2.5-7.5 6-7.5s6 2.5 6 7.5v14Z"></path>
     <circle cx="13" cy="1" r="4"></circle>
@@ -29,7 +34,8 @@
     opacity: 0.85;
   }
 
-  .far {
+  .far,
+  use {
     fill: color-mix(in oklch, var(--color-ink) 35%, var(--color-bg));
   }
 
