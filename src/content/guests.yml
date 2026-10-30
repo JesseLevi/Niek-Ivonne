@@ -1,0 +1,34 @@
+# Persoonlijke links: /?g=<slug>
+#
+# LET OP: deze repo is publiek. Alleen namen en begroetingen, nooit adressen,
+# telefoonnummers of andere gevoelige gegevens.
+#
+# TODO: echte gastenlijst. Onderstaande gasten zijn verzonnen.
+
+guests:
+  - slug: familia-rojas
+    name: Familia Rojas
+    language: es
+    party_size: 4
+    greeting:
+      en: Dear Rojas family,
+      es: "Querida familia Rojas:"
+      nl: Lieve familie Rojas,
+
+  - slug: familie-bakker
+    name: Familie Bakker
+    language: nl
+    party_size: 3
+    greeting:
+      en: Dear Bakker family,
+      es: "Querida familia Bakker:"
+      nl: Lieve familie Bakker,
+
+  - slug: sam-en-alex
+    name: Sam & Alex
+    language: en
+    party_size: 2
+    greeting:
+      en: Dear Sam & Alex,
+      es: "Queridos Sam y Alex:"
+      nl: Lieve Sam & Alex,

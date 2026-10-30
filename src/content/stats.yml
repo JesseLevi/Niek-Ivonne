@@ -1,0 +1,33 @@
+# Tellers in het verhaal. In teksten te gebruiken als {distance}, {messages}, {flights}, {flown_km}.
+
+distance:
+  value: 10528 # afstand Lima–Nederland in km
+  label:
+    en: km
+    es: km
+    nl: km
+
+messages:
+  value: 3000 # TODO: echt aantal appjes
+  plus: true # toont "3,000+"
+  steps: [1, 214, 3000] # TODO: tussenstappen van de teller in scène 5
+  label:
+    en: messages
+    es: mensajes
+    nl: appjes
+
+flights:
+  value: 46 # TODO: echt aantal vluchten
+  plus: false
+  label:
+    en: flights
+    es: vuelos
+    nl: vluchten
+
+flown_km:
+  value: 71000 # TODO: gevlogen kilometers heen en weer (46 × ±1.540 km)
+  plus: false
+  label:
+    en: km flown
+    es: km volados
+    nl: km gevlogen

@@ -1,0 +1,33 @@
+# Basisgegevens van de bruiloft. Bewerkbaar via Pages CMS (Site).
+
+couple:
+  first: Niek
+  second: Ivonne
+
+wedding:
+  date: "2027-09-18" # TODO: exacte datum bevestigen (mock: zaterdag 18 september 2027)
+  venue: Mas Terrats
+  town: Pontós
+  region: Alt Empordà
+  province: Girona
+  country:
+    en: Spain
+    es: España
+    nl: Spanje
+  coordinates: # TODO: exacte coördinaten Mas Terrats
+    lat: 42.1876
+    lng: 2.9145
+
+rsvp:
+  deadline: "2027-06-01" # TODO: RSVP-deadline
+  form_url: "" # TODO: URL van het RSVP-formulier (Tally/Formspree/Google)
+
+og:
+  title:
+    en: Niek & Ivonne · September 2027
+    es: Niek & Ivonne · Septiembre 2027
+    nl: Niek & Ivonne · September 2027
+  description:
+    en: "A story that began in two places. You're invited: Mas Terrats, Girona."
+    es: "Una historia que empezó en dos lugares. Están invitados: Mas Terrats, Girona."
+    nl: "Een verhaal dat op twee plekken begon. Jullie zijn uitgenodigd: Mas Terrats, Girona."

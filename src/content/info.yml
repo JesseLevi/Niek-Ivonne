@@ -1,0 +1,188 @@
+# Praktische informatie als vluchtschema (scène 12). Alles hieronder is mock.
+# code = kort mono-label in luchtvaartstijl.
+
+schedule: # TODO: echt programma
+  code: GATE 2027
+  heading:
+    en: Schedule
+    es: Programa
+    nl: Programma
+  items:
+    - time: "16:30"
+      title:
+        en: Boarding
+        es: Embarque
+        nl: Boarding
+      description:
+        en: Arrival at Mas Terrats. Something cold under the olive trees.
+        es: Llegada a Mas Terrats. Algo fresco bajo los olivos.
+        nl: Aankomst bij Mas Terrats. Iets kouds onder de olijfbomen.
+    - time: "17:00"
+      title:
+        en: Ceremony
+        es: Ceremonia
+        nl: Ceremonie
+      description:
+        en: Outside, on the grass. Bring sunglasses.
+        es: Afuera, sobre el pasto. Traigan lentes de sol.
+        nl: Buiten, op het gras. Neem een zonnebril mee.
+    - time: "18:00"
+      title:
+        en: Drinks
+        es: Cóctel
+        nl: Borrel
+      description:
+        en: Cava, pica-pica and the best view of the Empordà.
+        es: Cava, piqueos y la mejor vista del Empordà.
+        nl: Cava, hapjes en het mooiste uitzicht over de Empordà.
+    - time: "20:30"
+      title:
+        en: Dinner
+        es: Cena
+        nl: Diner
+      description:
+        en: A long table under the stars.
+        es: Una mesa larga bajo las estrellas.
+        nl: Een lange tafel onder de sterren.
+    - time: "22:30"
+      title:
+        en: Party
+        es: Fiesta
+        nl: Feest
+      description:
+        en: Dancing until the shoes come off.
+        es: A bailar hasta que se salgan los zapatos.
+        nl: Dansen tot de schoenen uitgaan.
+    - time: "02:00"
+      title:
+        en: Last call
+        es: Última llamada
+        nl: Laatste ronde
+      description:
+        en: Shuttles back to Figueres and Girona.
+        es: Buses de regreso a Figueres y Girona.
+        nl: Pendelbussen terug naar Figueres en Girona.
+
+travel: # TODO: reistijden en vervoer controleren
+  code: ARRIVALS
+  heading:
+    en: Getting there
+    es: Cómo llegar
+    nl: Reizen
+  items:
+    - code: GRO
+      title:
+        en: Girona airport
+        es: Aeropuerto de Girona
+        nl: Vliegveld Girona
+      body:
+        en: About 40 minutes by car to Pontós.
+        es: Unos 40 minutos en auto hasta Pontós.
+        nl: Ongeveer 40 minuten met de auto naar Pontós.
+    - code: BCN
+      title:
+        en: Barcelona airport
+        es: Aeropuerto de Barcelona
+        nl: Vliegveld Barcelona
+      body:
+        en: About 1 hour 45 minutes by car, or the train to Figueres.
+        es: Aproximadamente 1 hora y 45 minutos en auto, o el tren hasta Figueres.
+        nl: Ongeveer 1 uur en 45 minuten met de auto, of de trein naar Figueres.
+    - code: TRAIN
+      title:
+        en: By train
+        es: En tren
+        nl: Met de trein
+      body:
+        en: High-speed trains stop at Figueres Vilafant, 15 minutes from the venue.
+        es: Los trenes de alta velocidad paran en Figueres Vilafant, a 15 minutos del lugar.
+        nl: Hogesnelheidstreinen stoppen in Figueres Vilafant, 15 minuten van de locatie.
+    - code: CAR
+      title:
+        en: By car
+        es: En auto
+        nl: Met de auto
+      body:
+        en: There is parking at Mas Terrats. We'll arrange shuttles at night.
+        es: Hay estacionamiento en Mas Terrats. En la noche habrá buses de regreso.
+        nl: Er is parkeerplek bij Mas Terrats. 's Avonds rijden er pendelbussen.
+
+stay: # TODO: echte overnachtingstips
+  code: CHECK-IN
+  heading:
+    en: Where to stay
+    es: Dónde alojarse
+    nl: Overnachten
+  items:
+    - name: Figueres
+      url: ""
+      body:
+        en: 15 minutes away. Small hotels and the Dalí museum.
+        es: A 15 minutos. Hoteles pequeños y el museo Dalí.
+        nl: Op 15 minuten. Kleine hotels en het Dalí-museum.
+    - name: Girona
+      url: ""
+      body:
+        en: 30 minutes away. A beautiful old town and lots of choice.
+        es: A 30 minutos. Un casco antiguo precioso y muchas opciones.
+        nl: Op 30 minuten. Prachtige oude stad en veel keuze.
+    - name: Costa Brava
+      url: ""
+      body:
+        en: 40 minutes away. Make a holiday of it.
+        es: A 40 minutos. Aprovechen y quédense de vacaciones.
+        nl: Op 40 minuten. Maak er een vakantie van.
+
+dresscode: # TODO: echte dresscode
+  code: DRESS CODE
+  heading:
+    en: Dress code
+    es: Código de vestimenta
+    nl: Dresscode
+  body:
+    en: Summer chic. The ceremony is on grass, so maybe leave the stilettos at home.
+    es: Elegante de verano. La ceremonia es sobre el pasto, así que mejor dejen los tacones finos en casa.
+    nl: Zomers chic. De ceremonie is op het gras, dus laat de naaldhakken misschien thuis.
+
+gifts: # TODO: echte cadeautips
+  code: BAGGAGE
+  heading:
+    en: Gifts
+    es: Regalos
+    nl: Cadeaus
+  body:
+    en: Your being there is the best gift. If you'd like to give something, a small contribution to our honeymoon would make us very happy.
+    es: Que estén ahí es el mejor regalo. Si quieren darnos algo, un pequeño aporte para nuestra luna de miel nos haría muy felices.
+    nl: Dat jullie er zijn is het mooiste cadeau. Willen jullie toch iets geven, dan maakt een bijdrage aan onze huwelijksreis ons heel blij.
+
+faq: # TODO: echte vragen
+  code: INFO DESK
+  heading:
+    en: Questions
+    es: Preguntas
+    nl: Vragen
+  items:
+    - question:
+        en: Can we bring our children?
+        es: ¿Podemos llevar a nuestros hijos?
+        nl: Mogen onze kinderen mee?
+      answer:
+        en: Of course. Let us know in the RSVP so we can plan for them.
+        es: Claro que sí. Avísennos en el RSVP para tenerlos en cuenta.
+        nl: Natuurlijk. Laat het weten in de RSVP, dan houden we er rekening mee.
+    - question:
+        en: Which language will the ceremony be in?
+        es: ¿En qué idioma será la ceremonia?
+        nl: In welke taal is de ceremonie?
+      answer:
+        en: A mix of English, Spanish and a little Dutch.
+        es: Una mezcla de inglés, español y un poquito de neerlandés.
+        nl: Een mix van Engels, Spaans en een beetje Nederlands.
+    - question:
+        en: What's the weather like in September?
+        es: ¿Cómo es el clima en septiembre?
+        nl: Wat voor weer is het in september?
+      answer:
+        en: Usually warm during the day (around 25 °C) and cooler at night. Bring a light jacket.
+        es: Normalmente cálido de día (unos 25 °C) y más fresco de noche. Traigan una casaca ligera.
+        nl: Overdag meestal warm (rond de 25 °C) en 's avonds frisser. Neem een dun jasje mee.

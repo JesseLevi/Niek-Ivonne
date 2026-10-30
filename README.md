@@ -27,3 +27,19 @@ npm run check     # TypeScript- en Astro-controle
 ## Niet indexeren
 
 De site is privé: elke pagina heeft `<meta name="robots" content="noindex, nofollow">`, `robots.txt` blokkeert alles en Vercel (`vercel.json`) en Netlify (`public/_headers`) sturen een `X-Robots-Tag`-header mee.
+
+## Content
+
+Alle tekst en data staat in `src/content/*.yml` (bewerkbaar via Pages CMS) en wordt bij de build gevalideerd met zod (`src/lib/schema.ts`). Een fout, zoals een ontbrekende vertaling of een onbekend `{token}`, laat `npm run build` falen met een melding die het bestand en het veld noemt.
+
+| Bestand | Inhoud |
+| --- | --- |
+| `site.yml` | Namen, datum, locatie, RSVP-deadline en -URL, OG-tekst |
+| `story.yml` | Scènes met regels in `en`/`es`/`nl`, verrassingen, chat, aftiteling |
+| `stats.yml` | Tellers: km, appjes, vluchten (in teksten als `{distance}`, `{messages}`, `{flights}`, `{flown_km}`) |
+| `info.yml` | Programma, reizen, overnachten, dresscode, cadeaus, FAQ |
+| `ui.yml` | Labels en knoppen |
+| `guests.yml` | Persoonlijke links (`?g=slug`). Repo is publiek: geen gevoelige gegevens |
+| `images.yml` | Illustraties met afmetingen en alt-tekst |
+
+Mock data is gemarkeerd met `# TODO`.

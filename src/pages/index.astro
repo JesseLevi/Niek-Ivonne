@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { site } from '../lib/content';
 ---
 
-<Base title="Niek & Ivonne" />
+<Base title={`${site.couple.first} & ${site.couple.second}`} />
