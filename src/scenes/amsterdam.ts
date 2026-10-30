@@ -41,7 +41,7 @@ const amsterdam: Scene = {
     const [lineAt] = animateLines(ctx, el, 0.08, 0.2);
     if (pass) timeline.from(pass, { autoAlpha: 0, y: reducedMotion ? 0 : 50, rotate: reducedMotion ? 0 : -4, duration: 0.1, ease: 'power3.out' }, (lineAt ?? 0.1) + 0.12);
     if (oneWay) place(timeline, typewriter(oneWay, { reducedMotion }), (lineAt ?? 0.1) + 0.24, 0.1);
-    if (suitcase) timeline.from(suitcase, { autoAlpha: 0, x: reducedMotion ? 0 : '-40vw', duration: 0.1, ease: 'power2.out' }, 0.46);
+    if (suitcase) timeline.from(suitcase, { autoAlpha: 0, x: reducedMotion ? 0 : '30vw', duration: 0.1, ease: 'power2.out' }, 0.46);
 
     // Thuiskomen: pass en koffer weg, het grachtenpand komt op, één raam gaat aan.
     if (trip && home) {

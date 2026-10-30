@@ -74,6 +74,8 @@ const final = formatNumber(stats.messages.value, lang) + (stats.messages.plus ? 
   }
 
   .tally-count {
+    /* Teller houdt de breedte van de eindwaarde vast; getal daarbinnen centreren. */
+    text-align: center;
     font-size: clamp(2rem, 9vw, 3.25rem);
     font-weight: 500;
     letter-spacing: 0.02em;

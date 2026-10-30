@@ -61,6 +61,7 @@ interface DrawnLine {
   reveal: SVGPathElement;
   dots: SVGCircleElement[];
   plane?: { el: SVGGElement; length: number };
+  group: SVGGElement;
 }
 
 /** Zelfde silhouet als Plane.astro (64 × 64, neus naar rechts). */
@@ -127,13 +128,17 @@ export class FlightPlan {
       halo.setAttribute('d', d);
       halo.setAttribute('class', 'flight-plan-halo');
       halo.setAttribute('mask', `url(#${id})`);
-      this.svg.append(halo);
+      // Alles van deze lijn in één groep, zodat hij als geheel kan verdwijnen (`until`).
+      const group = document.createElementNS(SVG, 'g');
+      group.setAttribute('class', 'flight-plan-group');
+      this.svg.append(group);
+      group.append(halo);
 
       const dotted = document.createElementNS(SVG, 'path');
       dotted.setAttribute('d', d);
       dotted.setAttribute('class', 'flight-plan-line');
       dotted.setAttribute('mask', `url(#${id})`);
-      this.svg.append(dotted);
+      group.append(dotted);
 
       const dots: SVGCircleElement[] = [];
       for (const [where, at] of [
@@ -147,7 +152,7 @@ export class FlightPlan {
         dot.setAttribute('r', '5');
         dot.setAttribute('class', 'flight-plan-dot');
         dot.dataset.at = where;
-        this.svg.append(dot);
+        group.append(dot);
         dots.push(dot);
       }
       let plane: DrawnLine['plane'];
@@ -158,10 +163,10 @@ export class FlightPlan {
         shape.setAttribute('d', PLANE_PATH);
         shape.setAttribute('transform', 'translate(-58 -32)');
         el.append(shape);
-        this.svg.append(el);
+        group.append(el);
         plane = { el, length: reveal.getTotalLength() };
       }
-      this.lines.push({ line, reveal, dots, plane });
+      this.lines.push({ line, reveal, dots, plane, group });
     }
     this.set(this.progress);
   }
@@ -169,7 +174,8 @@ export class FlightPlan {
   /** Teken de lijnen tot `progress` (0–1). */
   set(progress: number): void {
     this.progress = progress;
-    for (const { line, reveal, dots, plane } of this.lines) {
+    for (const { line, reveal, dots, plane, group } of this.lines) {
+      if (line.until !== undefined) group.classList.toggle('is-gone', progress > line.until);
       const [from, to] = line.draw ?? [0, 1];
       const local = Math.min(Math.max((progress - from) / Math.max(to - from, 0.0001), 0), 1);
       gsap.set(reveal, { drawSVG: `0% ${local * 100}%` });

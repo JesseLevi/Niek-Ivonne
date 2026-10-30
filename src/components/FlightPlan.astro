@@ -32,6 +32,14 @@ const { route, intro = false } = Astro.props;
     stroke-linecap: round;
   }
 
+  .flight-plan :global(.flight-plan-group) {
+    transition: opacity 500ms var(--ease-out);
+  }
+
+  .flight-plan :global(.flight-plan-group.is-gone) {
+    opacity: 0;
+  }
+
   .flight-plan :global(.flight-plan-halo) {
     fill: none;
     stroke: var(--color-bg);
