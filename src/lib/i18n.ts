@@ -36,19 +36,19 @@ export function tokensIn(text: string): string[] {
   return [...text.matchAll(/\{(\w+)\}/g)].map((m) => m[1] ?? '');
 }
 
-/** Een ISO-datum (`2027-09-18`) als Date om 12:00 UTC, zodat tijdzones de dag niet verschuiven. */
+/** Een ISO-datum (`2027-09-08`) als Date om 12:00 UTC, zodat tijdzones de dag niet verschuiven. */
 export function parseDate(iso: string): Date {
   return new Date(`${iso}T12:00:00Z`);
 }
 
-/** Bijv. "zaterdag 18 september 2027". */
+/** Bijv. "woensdag 8 september 2027". */
 export function formatLongDate(iso: string, lang: Locale): string {
   return new Intl.DateTimeFormat(INTL_LOCALE[lang], { dateStyle: 'full', timeZone: 'UTC' }).format(
     parseDate(iso),
   );
 }
 
-/** Bijv. "18 september 2027". */
+/** Bijv. "8 september 2027". */
 export function formatDate(iso: string, lang: Locale): string {
   return new Intl.DateTimeFormat(INTL_LOCALE[lang], { dateStyle: 'long', timeZone: 'UTC' }).format(
     parseDate(iso),
