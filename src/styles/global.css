@@ -94,3 +94,25 @@ button {
 [data-skip] {
   transition: opacity 600ms var(--ease-out);
 }
+
+/*
+ * Beeld dat de resterende ruimte van een scène vult, begrensd door breedte én hoogte.
+ * .fit is het vak (meestal een rij minmax(0, 1fr)), .fit-item het beeld erin met
+ * --ratio (breedte / hoogte) en optioneel --fit-max (maximale breedte).
+ * Zo schuift een beeld op een lage laptop-viewport nooit de tekst uit beeld.
+ */
+.fit {
+  container-type: size;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.fit-item {
+  position: relative;
+  grid-area: 1 / 1;
+  width: min(100cqw, var(--fit-max, 100cqw), 100cqh * var(--ratio));
+  aspect-ratio: var(--ratio);
+}

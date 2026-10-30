@@ -28,8 +28,10 @@ const scene = sceneById('lima');
 >
   <div class="stack">
     <SceneMeta label={scene.label} place={scene.place} from={previousPlace('lima')} />
-    <div class="visual" data-scene-image>
-      {scene.image && <Illustration id={scene.image} lang={lang} class="image" />}
+    <div class="fit">
+      <div class="visual fit-item" data-scene-image style="--ratio: 771 / 979; --fit-max: 22rem">
+        {scene.image && <Illustration id={scene.image} lang={lang} class="image" />}
+      </div>
     </div>
     <SceneLines lines={scene.lines} lang={lang} id="lines-lima" class="compact" />
   </div>
@@ -45,16 +47,9 @@ const scene = sceneById('lima');
     height: 100%;
   }
 
-  .visual {
-    height: 100%;
-    max-height: 34svh;
-  }
-
   .visual :global(.image) {
-    width: auto;
+    width: 100%;
     height: 100%;
-    margin-inline: auto;
-    object-fit: contain;
   }
 
   .stack :global(.compact .text-serif) {

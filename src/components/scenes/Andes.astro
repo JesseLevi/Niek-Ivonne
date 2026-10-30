@@ -38,9 +38,11 @@ const ring = (ax: number, ay: number) => ({ at: '[data-ring]', ax, ay });
   <div class="stack">
     <SceneMeta label={scene.label} />
     <SceneLines lines={scene.lines} lang={lang} id="lines-andes" class="andes-lines" />
-    <div class="ring" data-ring>
+    <div class="fit">
+    <div class="ring fit-item" data-ring style="--ratio: 487 / 740; --fit-max: 11rem">
       <Illustration id="12-ringdoosje-dicht" lang={lang} class="box box-closed" />
       {scene.image && <Illustration id={scene.image} lang={lang} class="box box-open" />}
+    </div>
     </div>
   </div>
 </SceneShell>
@@ -55,7 +57,7 @@ const ring = (ax: number, ay: number) => ({ at: '[data-ring]', ax, ay });
     justify-items: center;
     gap: var(--space-4);
     height: 100%;
-    padding-bottom: 24svh;
+    padding-bottom: 20svh;
   }
 
   .mountains-layer {
@@ -77,13 +79,6 @@ const ring = (ax: number, ay: number) => ({ at: '[data-ring]', ax, ay });
     filter: none;
   }
 
-  .ring {
-    position: relative;
-    height: min(100%, 20svh);
-    align-self: center;
-    aspect-ratio: 487 / 740;
-  }
-
   .ring :global(.box) {
     position: absolute;
     inset: 0;
@@ -92,7 +87,7 @@ const ring = (ax: number, ay: number) => ({ at: '[data-ring]', ax, ay });
   }
 
   .stack :global(.andes-lines .line:last-child) {
-    font-size: clamp(3.5rem, 18vw, 8rem);
+    font-size: clamp(3rem, min(18vw, 13svh), 8rem);
     line-height: 1;
     color: var(--color-accent);
   }

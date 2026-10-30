@@ -36,8 +36,8 @@ const pass = scene.passes?.[0];
         {pass && <BoardingPass pass={pass} lang={lang} size="large" data-pass />}
         <Illustration id="10-koffer" lang={lang} class="suitcase" />
       </div>
-      <div class="home" data-home>
-        <div class="house-wrap">
+      <div class="home fit" data-home>
+        <div class="house-wrap fit-item" style="--ratio: 1000 / 924">
           <span class="glow glow-1" data-glow></span>
           <span class="glow glow-2" data-glow></span>
           {scene.image && <Illustration id={scene.image} lang={lang} class="house" />}
@@ -93,12 +93,14 @@ const pass = scene.passes?.[0];
     color: color-mix(in oklch, var(--color-accent) 75%, var(--color-bg));
   }
 
+  /* Eén cel die precies de resterende hoogte vult; pass en huis liggen erin over elkaar. */
   .stage {
     position: relative;
     width: 100%;
     height: 100%;
+    min-height: 0;
     display: grid;
-    place-items: center;
+    grid-template: minmax(0, 1fr) / 100%;
   }
 
   .trip,
@@ -109,6 +111,7 @@ const pass = scene.passes?.[0];
     align-content: center;
     gap: var(--space-3);
     height: 100%;
+    min-height: 0;
     width: 100%;
   }
 
@@ -139,16 +142,6 @@ const pass = scene.passes?.[0];
 
   .stack :global(.compact .text-serif) {
     font-size: var(--text-xl);
-  }
-
-  .home {
-    place-items: center;
-  }
-
-  .house-wrap {
-    position: relative;
-    height: min(100%, 52svh);
-    aspect-ratio: 1000 / 924;
   }
 
   .house-wrap :global(.house) {
