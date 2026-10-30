@@ -37,7 +37,9 @@ zigzag.push([RAIL.single, 96], [RAIL.single, 100]);
 </SceneShell>
 
 <style>
+  /* Hier liggen de tickets bóven de zigzaglijn (die anders vóór de inhoud loopt). */
   .stack {
+    z-index: 3 !important;
     display: grid;
     grid-template-rows: auto 1fr auto;
     align-items: center;
