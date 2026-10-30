@@ -1,0 +1,205 @@
+/*
+ * Design tokens. Alle kleuren van de site staan hier, in OKLCH, en nergens anders.
+ * Bron: docs/concept.md › Kleurverloop. Hex-waarden uit het concept staan als commentaar.
+ *
+ * Kleuren per scène: --scene-<id>-bg, -ink en -accent. Een scène kan extra
+ * kleurstops hebben (--scene-<id>-2-bg, -3-bg, ...); de achtergrond loopt daar
+ * tijdens de scène doorheen. Ontbreekt -ink of -accent bij een stop, dan geldt
+ * die van de scène zelf. src/scripts/background.ts leest deze tokens uit.
+ *
+ * Dark mode: [data-theme='dark'] op <html> geeft dezelfde reeks als nachtversie.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Basis */
+  --paper: oklch(96% 0.008 73.7); /* #F5F1EC crème papier */
+  --ink: oklch(27.2% 0.009 67.4); /* #2A2622 warme inkt */
+  --accent: oklch(50.1% 0.209 270.3); /* #3B4FD8 vliegtuigblauw */
+  --contrail: oklch(100% 0 0); /* witte condensstreep */
+  --night: oklch(25.6% 0.033 273.7); /* #1E2233 */
+  --night-ink: oklch(95.1% 0.009 78.3); /* #F2EEE8 */
+
+  /* 0. Splash */
+  --scene-splash-bg: var(--paper);
+  --scene-splash-ink: var(--ink);
+  --scene-splash-accent: var(--accent);
+
+  /* 1. Twee plekken: koel papier */
+  --scene-two-places-bg: oklch(95.4% 0.003 247.9); /* #EEF0F2 */
+  --scene-two-places-ink: var(--ink);
+  --scene-two-places-accent: var(--accent);
+
+  /* 2. Lima: zand → terracotta */
+  --scene-lima-bg: oklch(90.8% 0.037 63.4); /* #F3DCC8 */
+  --scene-lima-ink: oklch(29.1% 0.032 37.4); /* #3A2620 */
+  --scene-lima-accent: oklch(59.3% 0.152 33.4); /* #C8553D */
+  --scene-lima-2-bg: oklch(84% 0.07 45);
+
+  /* 3. Nederland: polderlucht */
+  --scene-netherlands-bg: oklch(93.2% 0.009 247.9); /* #E4E9EE */
+  --scene-netherlands-ink: oklch(30.2% 0.025 241.7); /* #23303A */
+  --scene-netherlands-accent: var(--accent);
+
+  /* 4. Barcelona: oker */
+  --scene-barcelona-bg: oklch(92% 0.064 88.6); /* #F6E3B4 */
+  --scene-barcelona-ink: oklch(30.9% 0.037 79.5); /* #3A2E1A */
+  --scene-barcelona-accent: var(--accent);
+
+  /* 5. Appjes: nacht, ook in lichte modus */
+  --scene-messages-bg: var(--night);
+  --scene-messages-ink: var(--night-ink);
+  --scene-messages-accent: oklch(70% 0.158 276); /* lichter blauw op nacht */
+
+  /* 6. Bezoek: nacht → koraal */
+  --scene-visit-bg: var(--night);
+  --scene-visit-ink: var(--night-ink);
+  --scene-visit-accent: oklch(70% 0.158 276);
+  --scene-visit-2-bg: oklch(83.1% 0.075 44.8); /* #F2B9A0 koraal */
+  --scene-visit-2-ink: oklch(28.1% 0.04 39.2); /* #3A221A */
+  --scene-visit-2-accent: var(--accent);
+
+  /* 7. Heen en weer: oker ↔ grijsblauw */
+  --scene-back-and-forth-bg: oklch(92% 0.064 88.6); /* #F6E3B4 */
+  --scene-back-and-forth-ink: oklch(30.9% 0.037 79.5); /* #3A2E1A */
+  --scene-back-and-forth-accent: var(--accent);
+  --scene-back-and-forth-2-bg: oklch(91.5% 0.014 248); /* #DCE4EC */
+  --scene-back-and-forth-2-ink: oklch(27.7% 0.019 232.2); /* #1F2A30 */
+  --scene-back-and-forth-3-bg: oklch(92% 0.064 88.6);
+  --scene-back-and-forth-3-ink: oklch(30.9% 0.037 79.5);
+  --scene-back-and-forth-4-bg: oklch(91.5% 0.014 248);
+  --scene-back-and-forth-4-ink: oklch(27.7% 0.019 232.2);
+
+  /* 8. Amsterdam: grijsblauw, grachtgroen accent */
+  --scene-amsterdam-bg: oklch(91.5% 0.014 248); /* #DCE4EC */
+  --scene-amsterdam-ink: oklch(27.7% 0.019 232.2); /* #1F2A30 */
+  --scene-amsterdam-accent: oklch(44.1% 0.056 173.2); /* #2F5D50 */
+
+  /* 9. Naar Lima: oceaan → eerste ochtendlicht */
+  --scene-to-lima-bg: oklch(87.1% 0.02 250.4); /* #CBD6E2 */
+  --scene-to-lima-ink: oklch(27.7% 0.019 232.2); /* #1F2A30 */
+  --scene-to-lima-accent: var(--accent);
+  --scene-to-lima-2-bg: oklch(90% 0.035 60);
+
+  /* 10. Andes: ijl blauw → roze ochtendlicht → bijna wit */
+  --scene-andes-bg: oklch(87.1% 0.02 250.4); /* #CBD6E2 */
+  --scene-andes-ink: var(--ink);
+  --scene-andes-accent: var(--accent);
+  --scene-andes-2-bg: oklch(86.5% 0.056 39.3); /* #F4C7B8 */
+  --scene-andes-3-bg: oklch(98% 0.015 70.9); /* #FFF7EE */
+
+  /* 11. Girona: goud en olijf */
+  --scene-girona-bg: oklch(90.1% 0.043 86); /* #EBDDBF */
+  --scene-girona-ink: oklch(28.5% 0.025 94.1); /* #2E2A1C */
+  --scene-girona-accent: oklch(59.2% 0.074 117.6); /* #7A8450 */
+
+  /* 12–13. Info en RSVP: terug naar papier */
+  --scene-info-bg: var(--paper);
+  --scene-info-ink: var(--ink);
+  --scene-info-accent: var(--accent);
+
+  /* Actuele kleuren. background.ts zet deze tijdens het scrollen. */
+  --color-bg: var(--scene-splash-bg);
+  --color-ink: var(--scene-splash-ink);
+  --color-accent: var(--scene-splash-accent);
+  --color-line: color-mix(in oklch, var(--color-ink) 18%, transparent);
+  --color-muted: color-mix(in oklch, var(--color-ink) 62%, var(--color-bg));
+
+  /* Illustraties (in dark mode gedimd) */
+  --illustration-filter: none;
+
+  /* Typografie: mobiel eerst, schaalt met de kleinste van breedte en hoogte */
+  --text-xs: 0.75rem; /* mono-labels */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: clamp(1.125rem, 0.9rem + 1vw, 1.375rem);
+  --text-xl: clamp(1.5rem, 1rem + min(3vw, 3svh), 2.25rem);
+  --text-2xl: clamp(2rem, 1rem + min(6vw, 5svh), 3.75rem); /* verhaalzinnen in serif */
+  --text-3xl: clamp(3rem, 1rem + min(11vw, 8svh), 7rem); /* namen op de splash */
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.5;
+  --tracking-mono: 0.08em;
+
+  /* Ruimte */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --gutter: clamp(1.25rem, 5vw, 3rem); /* zijmarge */
+  --measure: 34rem; /* maximale regellengte (Spaans is ±25% langer) */
+  --measure-wide: 48rem;
+
+  /* Schermhoogte: svh, zodat de adresbalk op iOS niets laat verspringen */
+  --screen: 100svh;
+
+  /* Beweging */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fade: 600ms;
+  --duration-ui: 200ms;
+
+  /* Lagen */
+  --z-background: -1;
+  --z-scene: 1;
+  --z-ui: 10;
+}
+
+/* Nachtversie */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --paper: oklch(21.1% 0.005 67.6);
+  --ink: oklch(95.1% 0.009 78.3);
+  --accent: oklch(70% 0.158 276);
+  --night: oklch(20.9% 0.03 274.8);
+
+  --scene-two-places-bg: oklch(23.1% 0.01 268.2);
+
+  --scene-lima-bg: oklch(25.3% 0.02 34.4); /* #2B1F1C */
+  --scene-lima-ink: oklch(93% 0.02 60);
+  --scene-lima-accent: oklch(72.4% 0.118 36.7);
+  --scene-lima-2-bg: oklch(28% 0.04 36);
+
+  --scene-netherlands-bg: oklch(25.2% 0.015 244.3);
+  --scene-netherlands-ink: oklch(94% 0.01 240);
+
+  --scene-barcelona-bg: oklch(26.3% 0.026 87.4); /* #2A2416 */
+  --scene-barcelona-ink: oklch(94% 0.03 88);
+
+  --scene-visit-2-bg: oklch(24.8% 0.03 36.2);
+  --scene-visit-2-ink: oklch(93% 0.03 45);
+  --scene-visit-2-accent: var(--accent);
+
+  --scene-back-and-forth-bg: oklch(26.3% 0.026 87.4);
+  --scene-back-and-forth-ink: oklch(94% 0.03 88);
+  --scene-back-and-forth-2-bg: oklch(25.1% 0.015 235.6);
+  --scene-back-and-forth-2-ink: oklch(94% 0.01 240);
+  --scene-back-and-forth-3-bg: oklch(26.3% 0.026 87.4);
+  --scene-back-and-forth-3-ink: oklch(94% 0.03 88);
+  --scene-back-and-forth-4-bg: oklch(25.1% 0.015 235.6);
+  --scene-back-and-forth-4-ink: oklch(94% 0.01 240);
+
+  --scene-amsterdam-bg: oklch(25.1% 0.015 235.6);
+  --scene-amsterdam-ink: oklch(94% 0.01 240);
+  --scene-amsterdam-accent: oklch(70.2% 0.073 170.1);
+
+  --scene-to-lima-bg: oklch(24.4% 0.025 253.8);
+  --scene-to-lima-ink: oklch(94% 0.01 240);
+  --scene-to-lima-2-bg: oklch(26% 0.03 40);
+
+  --scene-andes-bg: oklch(24.4% 0.025 253.8);
+  --scene-andes-2-bg: oklch(26.3% 0.025 347.4);
+  --scene-andes-3-bg: oklch(27.3% 0.01 61);
+
+  --scene-girona-bg: oklch(23.1% 0.013 93.9); /* #1F1D16 */
+  --scene-girona-ink: oklch(94% 0.03 86);
+  --scene-girona-accent: oklch(74.6% 0.085 116.6);
+
+  --illustration-filter: brightness(0.82) saturate(0.9);
+}

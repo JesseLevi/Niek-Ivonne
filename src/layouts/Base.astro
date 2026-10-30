@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title: string;
   lang?: string;
@@ -14,6 +16,19 @@ const { title, lang = 'en' } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="robots" content="noindex, nofollow" />
     <title>{title}</title>
+    <script is:inline>
+      // Thema vóór de eerste paint: eigen keuze (rolluik) of anders de systeeminstelling.
+      (function () {
+        var theme;
+        try {
+          theme = localStorage.getItem('ni-theme');
+        } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
     <slot name="head" />
   </head>
   <body>

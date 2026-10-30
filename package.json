@@ -10,8 +10,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check && node scripts/check-cms.mjs",
-    "check:cms": "node scripts/check-cms.mjs"
+    "check": "astro check && node scripts/check-cms.mjs && node scripts/check-colors.mjs",
+    "check:cms": "node scripts/check-cms.mjs",
+    "check:colors": "node scripts/check-colors.mjs"
   },
   "dependencies": {
     "astro": "^6.4.8",
