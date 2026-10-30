@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../lib/content';
+---
+
+<Base title={`${site.couple.first} & ${site.couple.second}`}>
+  <main class="lost">
+    <p class="text-mono">404 · GATE NOT FOUND</p>
+    <a class="text-serif" href="/">{site.couple.first} & {site.couple.second}</a>
+  </main>
+</Base>
+
+<style>
+  .lost {
+    display: grid;
+    place-content: center;
+    gap: var(--space-4);
+    min-height: var(--screen);
+    text-align: center;
+  }
+
+  a {
+    color: inherit;
+  }
+</style>

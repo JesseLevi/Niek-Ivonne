@@ -47,3 +47,7 @@ Mock data is gemarkeerd met `# TODO`. Teksten aanpassen via Pages CMS: zie [`doc
 ## Fonts
 
 Self-hosted WOFF2 in `public/fonts/` (samen ±75 KB): Instrument Serif (regular + cursief), Inter (variabel, 400–600) en IBM Plex Mono (400 + 500). Gesubset op Latin plus Spaanse tekens en de pijlen uit de luchtvaartlabels. Opnieuw maken: `scripts/subset-fonts.sh` (vereist `pip install fonttools brotli`). Alleen de serif cursief en de mono worden gepreload.
+
+## Talen
+
+Routes `/en/`, `/es/` en `/nl/` (`src/pages/[lang]/`). `/` stuurt door naar de eerder gekozen taal (localStorage `ni-lang`), anders de browsertaal, anders Engels; query en hash (zoals `?g=…`) gaan mee. De wisselaar `EN · ES · NL` rechtsboven onthoudt de keuze en houdt de scrollpositie vast. Elke pagina heeft `lang` en `hreflang`-links; zet `site` in `astro.config.mjs` zodra het domein bekend is, dan worden die absoluut.

@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import LanguageSwitcher from '../../components/LanguageSwitcher.astro';
+import { site, ui } from '../../lib/content';
+import { formatMonthYear, type Locale } from '../../lib/i18n';
+import { localeStaticPaths } from '../../lib/routes';
+
+export const getStaticPaths = localeStaticPaths;
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const names = `${site.couple.first} & ${site.couple.second}`;
+const flightLine = [site.wedding.province, formatMonthYear(site.wedding.date, lang), site.wedding.venue].join(' · ');
+---
+
+<Base title={site.og.title[lang]} description={site.og.description[lang]} lang={lang} localizedFrom="/">
+  <LanguageSwitcher lang={lang} />
+  <main>
+    <section class="splash" data-scene="splash">
+      <h1 class="names text-serif">{names}</h1>
+      <p class="text-mono">{flightLine}</p>
+      <p class="hint text-mono">{ui.scroll_to_board[lang]}</p>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .splash {
+    display: grid;
+    place-content: center;
+    gap: var(--space-4);
+    min-height: var(--screen);
+    padding: var(--gutter);
+    text-align: center;
+  }
+
+  .names {
+    margin: 0;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .hint {
+    position: absolute;
+    bottom: max(var(--space-6), env(safe-area-inset-bottom));
+    left: 0;
+    right: 0;
+    color: var(--color-muted);
+  }
+</style>

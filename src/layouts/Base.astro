@@ -1,15 +1,23 @@
 ---
 import '../styles/global.css';
+import { LOCALES, type Locale } from '../lib/i18n';
+import { localizedPath } from '../lib/routes';
 
 interface Props {
   title: string;
-  lang?: string;
+  description?: string;
+  lang?: Locale;
+  /** Pad zonder taal (bijv. `/`) als deze pagina in alle talen bestaat: geeft hreflang-links. */
+  localizedFrom?: string;
+  /** Splash-fonts preloaden (niet nodig op de doorstuurpagina). */
+  preloadFonts?: boolean;
 }
 
-const { title, lang = 'en' } = Astro.props;
+const { title, description, lang = 'en', localizedFrom, preloadFonts = true } = Astro.props;
+const absolute = (path: string) => (Astro.site ? new URL(path, Astro.site).href : path);
 
 // Alleen de fonts die de splash nodig heeft: namen (serif cursief) en de mono-regel.
-const preloadFonts = ['/fonts/instrument-serif-italic.woff2', '/fonts/ibm-plex-mono-regular.woff2'];
+const fontFiles = ['/fonts/instrument-serif-italic.woff2', '/fonts/ibm-plex-mono-regular.woff2'];
 ---
 
 <!doctype html>
@@ -19,7 +27,18 @@ const preloadFonts = ['/fonts/instrument-serif-italic.woff2', '/fonts/ibm-plex-m
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="robots" content="noindex, nofollow" />
     <title>{title}</title>
-    {preloadFonts.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
+    {description && <meta name="description" content={description} />}
+    {
+      localizedFrom !== undefined && (
+        <>
+          {LOCALES.map((code) => (
+            <link rel="alternate" hreflang={code} href={absolute(localizedPath(localizedFrom, code))} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={absolute(localizedFrom)} />
+        </>
+      )
+    }
+    {preloadFonts && fontFiles.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
     <script is:inline>
       // Thema vóór de eerste paint: eigen keuze (rolluik) of anders de systeeminstelling.
       (function () {

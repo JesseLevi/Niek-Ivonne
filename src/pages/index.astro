@@ -1,6 +1,70 @@
 ---
+// `/` kiest een taal: eerder gekozen (localStorage), anders de browsertaal, anders Engels.
+// Zonder JavaScript staat er een keuzelijst.
 import Base from '../layouts/Base.astro';
-import { site } from '../lib/content';
+import { DEFAULT_LOCALE, LOCALE_STORAGE_KEY, LOCALES } from '../lib/i18n';
+import { site, ui } from '../lib/content';
+
+const names = `${site.couple.first} & ${site.couple.second}`;
 ---
 
-<Base title={`${site.couple.first} & ${site.couple.second}`} />
+<Base title={names} localizedFrom="/" preloadFonts={false}>
+  <script is:inline slot="head" define:vars={{ locales: LOCALES, fallback: DEFAULT_LOCALE, key: LOCALE_STORAGE_KEY }}>
+    var pick;
+    try {
+      pick = localStorage.getItem(key);
+    } catch (e) {}
+    if (locales.indexOf(pick) < 0) {
+      var preferred = navigator.languages || [navigator.language];
+      for (var i = 0; i < preferred.length && locales.indexOf(pick) < 0; i++) {
+        pick = String(preferred[i] || '').slice(0, 2).toLowerCase();
+      }
+    }
+    if (locales.indexOf(pick) < 0) pick = fallback;
+    location.replace('/' + pick + '/' + location.search + location.hash);
+  </script>
+  <noscript>
+    <main class="choose">
+      <p class="names text-serif">{names}</p>
+      <ul>
+        {
+          LOCALES.map((code) => (
+            <li lang={code}>
+              <a href={`/${code}/`} hreflang={code}>
+                {ui.languages[code]} · {ui.choose_language[code]}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+  </noscript>
+</Base>
+
+<style>
+  .choose {
+    display: grid;
+    place-content: center;
+    gap: var(--space-5);
+    min-height: var(--screen);
+    padding: var(--gutter);
+    text-align: center;
+  }
+
+  .names {
+    margin: 0;
+    font-size: var(--text-3xl);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  a {
+    color: inherit;
+  }
+</style>
