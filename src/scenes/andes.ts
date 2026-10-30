@@ -19,7 +19,12 @@ const andes: Scene = {
     // Het raam als kader: we kijken naar buiten, dan valt het kader weg.
     if (frame) {
       if (reducedMotion) timeline.set(frame, { autoAlpha: 0 }, 0);
-      else timeline.fromTo(frame, { scale: 2.4, autoAlpha: 1 }, { scale: 4, autoAlpha: 0, duration: 0.18, ease: 'power1.in' }, 0.02);
+      else {
+        // Tijdens het binnenschuiven onzichtbaar (anders steekt alleen de bovenrand als een balk
+        // in beeld); pas als de scène staat verschijnt het kader en valt het daarna weg.
+        timeline.fromTo(frame, { scale: 2.4, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.03 }, 0);
+        timeline.to(frame, { scale: 4, autoAlpha: 0, duration: 0.16, ease: 'power1.in' }, 0.05);
+      }
     }
 
     // Bergen rijzen laag voor laag op uit de onderkant (ver eerst, langzaam).
