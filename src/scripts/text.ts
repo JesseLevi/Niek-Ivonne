@@ -23,6 +23,21 @@ function prefersReducedMotion(options: TextOptions): boolean {
   return options.reducedMotion ?? matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
+/**
+ * Toegankelijke tekst naast een geanimeerde weergave: de animatie is aria-hidden, een
+ * visueel verborgen kopie met de eindtekst wordt voorgelezen. (aria-label mag niet op <p>/<span>.)
+ */
+function accessibleCopy(el: HTMLElement, text: string): HTMLElement {
+  const copy = document.createElement('span');
+  copy.className = 'visually-hidden';
+  copy.textContent = text;
+  const visual = document.createElement('span');
+  visual.setAttribute('aria-hidden', 'true');
+  visual.className = 'text-visual';
+  el.replaceChildren(copy, visual);
+  return visual;
+}
+
 /** Een rustige fade, de vervanger van elke helper bij reduced motion. */
 function calmFade(targets: gsap.TweenTarget, duration = 0.6): gsap.core.Timeline {
   return gsap.timeline().fromTo(targets, { autoAlpha: 0 }, { autoAlpha: 1, duration, ease: 'none' });
@@ -73,6 +88,8 @@ export function lineReveal(el: HTMLElement, options: LineRevealOptions = {}): gs
     type: 'lines',
     mask: 'lines',
     linesClass: 'split-line',
+    // Regels bevatten de woorden in volgorde; schermlezers lezen ze gewoon voor.
+    aria: 'none',
     autoSplit: true,
     onSplit(self) {
       // Bij opnieuw splitsen (andere breedte, font geladen) dezelfde stand terugzetten.
@@ -99,7 +116,7 @@ export function wordBlur(el: HTMLElement, options: WordBlurOptions = {}): gsap.c
   const { stagger = 0.12, duration = 1, blur = 12 } = options;
   if (prefersReducedMotion(options)) return calmFade(el, duration);
 
-  const split = SplitText.create(el, { type: 'words', wordsClass: 'split-word' });
+  const split = SplitText.create(el, { type: 'words', wordsClass: 'split-word', aria: 'none' });
   return gsap.timeline().fromTo(
     split.words,
     { autoAlpha: 0, filter: `blur(${blur}px)` },
@@ -135,16 +152,15 @@ export function splitFlap(el: HTMLElement, words: string[], options: SplitFlapOp
   const last = board[board.length - 1] ?? [];
 
   el.classList.add('split-flap');
-  el.setAttribute('aria-label', last.join(''));
-  el.replaceChildren(
+  const visual = accessibleCopy(el, last.join(''));
+  visual.replaceChildren(
     ...Array.from({ length: width }, () => {
       const cell = document.createElement('span');
       cell.className = 'split-flap-cell';
-      cell.setAttribute('aria-hidden', 'true');
       return cell;
     }),
   );
-  const cells = [...el.children] as HTMLElement[];
+  const cells = [...visual.children] as HTMLElement[];
   const show = (chars: string[]) => cells.forEach((cell, i) => (cell.textContent = chars[i] ?? ' '));
 
   if (prefersReducedMotion(options) || board.length < 2) {
@@ -187,17 +203,16 @@ export function typewriter(el: HTMLElement, options: TypewriterOptions = {}): gs
   if (prefersReducedMotion(options)) return calmFade(el);
 
   const chars = [...text];
-  el.setAttribute('aria-label', text);
   el.classList.add('typewriter');
-  el.replaceChildren(
+  const visual = accessibleCopy(el, text);
+  visual.replaceChildren(
     ...chars.map((char) => {
       const span = document.createElement('span');
       span.textContent = char;
-      span.setAttribute('aria-hidden', 'true');
       return span;
     }),
   );
-  const spans = [...el.children] as HTMLElement[];
+  const spans = [...visual.children] as HTMLElement[];
   const cursor = document.createElement('span');
   cursor.className = 'typewriter-caret';
   cursor.setAttribute('aria-hidden', 'true');
@@ -231,7 +246,13 @@ export function counter(el: HTMLElement, options: CounterOptions): gsap.core.Tim
   const final = format(to);
 
   el.classList.add('counter');
-  el.setAttribute('aria-label', final);
+  el.setAttribute('aria-hidden', 'true');
+  if (!el.nextElementSibling?.classList.contains('counter-label')) {
+    const copy = document.createElement('span');
+    copy.className = 'visually-hidden counter-label';
+    copy.textContent = final;
+    el.after(copy);
+  }
   el.textContent = final;
   if (prefersReducedMotion(options)) return gsap.timeline();
   // Breedte van de eindwaarde vasthouden, zodat de zin eromheen niet verschuift.

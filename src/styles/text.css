@@ -7,7 +7,7 @@
 }
 
 /* Split-flap: elke letter een klepje met een scharnierlijn. */
-.split-flap {
+.split-flap .text-visual {
   display: inline-flex;
   gap: 0.12em;
   font-family: var(--font-mono);

@@ -65,24 +65,26 @@ interface DrawnLine {
 export class FlightPlan {
   private lines: DrawnLine[] = [];
   private progress = 0;
+  private active = false;
 
   constructor(
     private svg: SVGSVGElement,
     private container: HTMLElement,
-  ) {
+  ) {}
+
+  /** Pas opbouwen als de scène dichtbij is: meten kost layout-tijd, en dat telt op over 15 scènes. */
+  activate(): void {
+    if (this.active) return;
+    this.active = true;
     this.layout();
   }
 
-  /** Opnieuw opbouwen na een resize of als de layout verandert. */
+  /** Opnieuw opbouwen na een resize of als de layout verandert. Eerst alles meten, dan pas schrijven. */
   layout(): void {
+    if (!this.active) return;
     const route = JSON.parse(this.svg.dataset.route ?? '[]') as RouteLine[];
     const w = this.container.clientWidth;
     const h = this.container.clientHeight;
-    this.svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-    this.svg.replaceChildren();
-    const defs = document.createElementNS(SVG, 'defs');
-    this.svg.append(defs);
-    this.lines = [];
 
     const resolve = (point: RoutePoint): [number, number] => {
       if (Array.isArray(point)) return [(point[0] / 100) * w, (point[1] / 100) * h];
@@ -92,8 +94,15 @@ export class FlightPlan {
       return [box.x + box.w * (point.ax ?? 0.5) + (point.dx ?? 0), box.y + box.h * (point.ay ?? 0.5) + (point.dy ?? 0)];
     };
 
-    for (const line of route) {
-      const points = line.points.map(resolve);
+    const measured = route.map((line) => ({ line, points: line.points.map(resolve) }));
+
+    this.svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    this.svg.replaceChildren();
+    const defs = document.createElementNS(SVG, 'defs');
+    this.svg.append(defs);
+    this.lines = [];
+
+    for (const { line, points } of measured) {
       const d = smoothPath(points);
       const id = `flight-plan-${++uid}`;
 

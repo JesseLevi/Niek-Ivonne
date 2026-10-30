@@ -45,6 +45,9 @@ interface StageScene {
   module?: Scene;
   loading?: Promise<void>;
   ctx?: SceneContext;
+  /** Binnen een scherm van het beeld geweest (modules en lijn zijn dan opgebouwd). */
+  near?: boolean;
+  plan?: FlightPlan;
 }
 
 export interface Stage {
@@ -118,7 +121,11 @@ export function startStage(): Stage {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         const scene = scenes.find((s) => s.el === entry.target);
-        if (scene) load(scene);
+        if (scene) {
+          scene.near = true;
+          scene.plan?.activate();
+          load(scene);
+        }
         observer.unobserve(entry.target);
       }
     },
@@ -184,6 +191,8 @@ export function startStage(): Stage {
         if (svg?.parentElement) {
           const plan = new FlightPlan(svg, svg.parentElement);
           plans.push(plan);
+          scene.plan = plan;
+          if (scene.near) plan.activate();
           if (reducedMotion) plan.set(1);
           else if (svg.dataset.intro !== undefined) {
             const state = { p: 0 };
