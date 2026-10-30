@@ -1,0 +1,67 @@
+---
+// Scène 2: Lima. De kliffen van Miraflores door een koloniaal balkonraam.
+// De Lima-lijn trekt over de oceaan; de Nederland-lijn loopt rechts door.
+import SceneShell from '../SceneShell.astro';
+import SceneMeta from '../SceneMeta.astro';
+import SceneLines from '../SceneLines.astro';
+import Illustration from '../Illustration.astro';
+import { previousPlace, sceneById } from '../../lib/content';
+import { RAIL } from '../../lib/flight-plan';
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const scene = sceneById('lima');
+---
+
+<SceneShell
+  id="lima"
+  pin={200}
+  labelledby="lines-lima"
+  route={[
+    { points: [[RAIL.lima, 0], [RAIL.lima, 12], [4, 34], { at: '[data-scene-image]', ax: 0, ay: 0.72, dx: -6 }, [16, 76], [RAIL.lima, 92], [RAIL.lima, 100]] },
+    { points: [[RAIL.netherlands, 0], [RAIL.netherlands, 100]] },
+  ]}
+>
+  <div class="stack">
+    <SceneMeta label={scene.label} place={scene.place} from={previousPlace('lima')} />
+    <div class="visual" data-scene-image>
+      {scene.image && <Illustration id={scene.image} lang={lang} class="image" />}
+    </div>
+    <SceneLines lines={scene.lines} lang={lang} id="lines-lima" class="compact" />
+  </div>
+</SceneShell>
+
+<style>
+  .stack {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-items: center;
+    justify-items: center;
+    gap: var(--space-4);
+    height: 100%;
+  }
+
+  .visual {
+    height: 100%;
+    max-height: 34svh;
+  }
+
+  .visual :global(.image) {
+    width: auto;
+    height: 100%;
+    margin-inline: auto;
+    object-fit: contain;
+  }
+
+  .stack :global(.compact .text-serif) {
+    font-size: var(--text-xl);
+  }
+
+  .stack :global(.compact .text-body) {
+    font-size: var(--text-base);
+  }
+</style>
