@@ -1,0 +1,80 @@
+---
+import { LOCALES, type Locale } from '../lib/i18n';
+import { localizedPath, stripLocale } from '../lib/routes';
+import { ui } from '../lib/content';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const path = stripLocale(Astro.url.pathname);
+---
+
+<nav class="language-switcher text-mono" aria-label={ui.language_switcher[lang]} data-language-switcher>
+  {
+    LOCALES.map((code, i) => (
+      <>
+        {i > 0 && (
+          <span class="separator" aria-hidden="true">
+            ·
+          </span>
+        )}
+        <a
+          href={localizedPath(path, code)}
+          hreflang={code}
+          lang={code}
+          aria-current={code === lang ? 'true' : undefined}
+          title={ui.languages[code]}
+          data-lang={code}
+        >
+          {code.toUpperCase()}
+        </a>
+      </>
+    ))
+  }
+</nav>
+
+<style>
+  .language-switcher {
+    position: fixed;
+    top: max(var(--space-4), env(safe-area-inset-top));
+    right: max(var(--gutter), env(safe-area-inset-right));
+    z-index: var(--z-ui);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  a {
+    /* Raakvlak van minstens 44px voor duimen, zonder dat het label groter wordt */
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    margin: calc(var(--space-3) * -1) calc(var(--space-2) * -1);
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color var(--duration-ui) var(--ease-out);
+  }
+
+  a:hover,
+  a[aria-current='true'] {
+    color: var(--color-ink);
+  }
+
+  a[aria-current='true'] {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.35em;
+  }
+
+  .separator {
+    color: var(--color-muted);
+  }
+</style>
+
+<script>
+  import { initLanguageSwitcher } from '../scripts/language';
+  initLanguageSwitcher();
+</script>

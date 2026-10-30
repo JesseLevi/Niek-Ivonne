@@ -1,0 +1,81 @@
+---
+// Scène 0: boarding. Vliegtuigraam, namen, datum en de scrollhint. Laadt als enige direct.
+import SceneShell from '../SceneShell.astro';
+import Window from '../Window.astro';
+import { site, ui } from '../../lib/content';
+import { RAIL } from '../../lib/flight-plan';
+import { formatMonthYear, type Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const names = `${site.couple.first} & ${site.couple.second}`;
+const flightLine = [site.wedding.province, formatMonthYear(site.wedding.date, lang), site.wedding.venue].join(' · ');
+---
+
+<SceneShell
+  id="splash"
+  pin={110}
+  intro
+  labelledby="splash-names"
+  route={[{ points: [{ at: '[data-splash-hint]', ay: 1, dy: 10 }, [RAIL.single, 100]] }]}
+>
+  <div class="splash">
+    <p class="greeting text-mono" data-guest-greeting hidden></p>
+    <div class="window-wrap" data-splash-window>
+      <Window lang={lang} interactive eager />
+    </div>
+    <div class="title" data-splash-title>
+      <h1 class="names text-serif" id="splash-names">{names}</h1>
+      <p class="text-mono">{flightLine}</p>
+    </div>
+    <p class="hint text-mono" data-splash-hint>{ui.scroll_to_board[lang]}</p>
+  </div>
+</SceneShell>
+
+<style>
+  .splash {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    justify-items: center;
+    align-items: center;
+    gap: var(--space-4);
+    height: 100%;
+    text-align: center;
+  }
+
+  .greeting {
+    margin: 0;
+    color: var(--color-accent);
+    text-transform: none;
+    letter-spacing: 0.02em;
+    font-size: var(--text-sm);
+  }
+
+  .window-wrap {
+    width: min(64vw, 36svh, 22rem);
+    align-self: center;
+  }
+
+  .title {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .names {
+    margin: 0;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .hint {
+    padding-bottom: var(--space-4);
+    color: var(--color-muted);
+  }
+</style>

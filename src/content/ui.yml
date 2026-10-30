@@ -1,0 +1,162 @@
+# Labels en knoppen per taal. Mono-labels worden in hoofdletters getoond.
+
+# Naam van elke taal in die taal zelf (voor de taalwisselaar en de keuzepagina).
+languages:
+  en: English
+  es: Español
+  nl: Nederlands
+
+language_switcher:
+  en: Choose language
+  es: Elegir idioma
+  nl: Kies taal
+
+choose_language: # tekst op de keuzepagina als JavaScript uit staat
+  en: Choose your language
+  es: Elijan su idioma
+  nl: Kies je taal
+
+scroll_to_board:
+  en: Scroll to board
+  es: Desliza para embarcar
+  nl: Scroll om te boarden
+
+skip_to_details:
+  en: Skip to details ↓
+  es: Ir a los detalles ↓
+  nl: Naar de details ↓
+
+replay_story:
+  en: ▶ Replay our story
+  es: ▶ Ver nuestra historia otra vez
+  nl: ▶ Ons verhaal opnieuw afspelen
+
+info_heading:
+  en: Flight information
+  es: Información del vuelo
+  nl: Vluchtinformatie
+
+doorbell:
+  en: Ring the doorbell
+  es: Tocar el timbre
+  nl: Aanbellen
+
+twin:
+  en: One of the twins
+  es: Uno de los gemelos
+  nl: Een van de tweeling
+
+the_end:
+  en: The end. Or rather, the beginning.
+  es: Fin. O mejor dicho, el comienzo.
+  nl: "Einde. Of eigenlijk: het begin."
+
+boarding_pass:
+  passenger:
+    en: Passenger
+    es: Pasajero
+    nl: Passagier
+  flight:
+    en: Flight
+    es: Vuelo
+    nl: Vlucht
+  from:
+    en: From
+    es: Origen
+    nl: Van
+  to:
+    en: To
+    es: Destino
+    nl: Naar
+  date:
+    en: Date
+    es: Fecha
+    nl: Datum
+  seat:
+    en: Seat
+    es: Asiento
+    nl: Stoel
+  gate:
+    en: Gate
+    es: Puerta
+    nl: Gate
+  one_way:
+    en: One way
+    es: Solo ida
+    nl: Enkele reis
+
+shade_close:
+  en: Close the window shade (night mode)
+  es: Bajar la persiana (modo noche)
+  nl: Rolluik dicht (nachtmodus)
+
+shade_open:
+  en: Open the window shade (day mode)
+  es: Subir la persiana (modo día)
+  nl: Rolluik open (dagmodus)
+
+rsvp:
+  heading:
+    en: Boarding pass
+    es: Pase de abordar
+    nl: Boardingpass
+  intro:
+    en: Please let us know before {deadline}.
+    es: Por favor avísennos antes del {deadline}.
+    nl: Laat het ons weten vóór {deadline}.
+  name:
+    en: Name
+    es: Nombre
+    nl: Naam
+  party_size:
+    en: Number of guests
+    es: Número de invitados
+    nl: Aantal personen
+  attending:
+    en: Will you be there?
+    es: ¿Nos acompañan?
+    nl: Zijn jullie erbij?
+  attending_yes:
+    en: Yes, wouldn't miss it
+    es: Sí, no nos lo perdemos
+    nl: Ja, voor geen goud missen
+  attending_no:
+    en: Sadly, no
+    es: Lamentablemente, no
+    nl: Helaas niet
+  message:
+    en: A note for us (optional)
+    es: Un mensaje para nosotros (opcional)
+    nl: Een berichtje voor ons (optioneel)
+  diet:
+    en: Dietary requirements
+    es: Restricciones alimentarias
+    nl: Dieetwensen
+  sending:
+    en: Checking in…
+    es: Haciendo check-in…
+    nl: Bezig met inchecken…
+  queued:
+    en: Saved on this phone. We'll send it as soon as you're back online.
+    es: Guardado en este celular. Lo enviaremos apenas vuelvan a tener conexión.
+    nl: Bewaard op deze telefoon. We versturen het zodra je weer online bent.
+  closed:
+    en: Check-in opens soon.
+    es: El check-in abre pronto.
+    nl: Inchecken gaat binnenkort open.
+  submit:
+    en: Check in
+    es: Hacer check-in
+    nl: Inchecken
+  confirmed:
+    en: Confirmed
+    es: Confirmado
+    nl: Bevestigd
+  error:
+    en: Something went wrong. Please try again.
+    es: Algo salió mal. Por favor intenten de nuevo.
+    nl: Er ging iets mis. Probeer het nog eens.
+  offline:
+    en: You seem to be offline. We'll try again when you're back.
+    es: Parece que no tienen conexión. Lo intentaremos de nuevo cuando vuelva.
+    nl: Je lijkt offline te zijn. We proberen het opnieuw zodra je weer verbinding hebt.

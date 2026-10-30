@@ -1,0 +1,3 @@
+# Privé trouwwebsite: niet indexeren.
+User-agent: *
+Disallow: /

@@ -1,0 +1,62 @@
+---
+// Scène 1: twee plekken. Wereldkaart met twee pulserende pins, km-teller.
+// Hier beginnen de twee lijnen (Lima en Nederland) die tot Barcelona naast elkaar lopen.
+import SceneShell from '../SceneShell.astro';
+import SceneMeta from '../SceneMeta.astro';
+import SceneLines from '../SceneLines.astro';
+import MapPin from '../MapPin.astro';
+import Illustration from '../Illustration.astro';
+import { sceneById } from '../../lib/content';
+import { RAIL } from '../../lib/flight-plan';
+import { MAP_PINS } from '../../lib/geo';
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const scene = sceneById('two-places');
+const [left, right] = scene.label.split('·').map((s) => s.trim());
+---
+
+<SceneShell
+  id="two-places"
+  pin={220}
+  labelledby="lines-two-places"
+  route={[
+    { points: [[RAIL.single, 0], [RAIL.single, 9], { at: '[data-map]', ay: 0, dy: -12 }], draw: [0, 0.3] },
+    { points: [{ at: '[data-pin=lima]' }, { at: '[data-map]', ax: 0.05, ay: 1, dy: 30 }, [RAIL.lima, 82], [RAIL.lima, 100]], start: 'dot', draw: [0.35, 1] },
+    { points: [{ at: '[data-pin=netherlands]' }, { at: '[data-map]', ax: 0.95, ay: 1, dy: 30 }, [RAIL.netherlands, 82], [RAIL.netherlands, 100]], start: 'dot', draw: [0.35, 1] },
+  ]}
+>
+  <div class="stack">
+    <SceneMeta label={scene.label} place={scene.place} />
+    <div class="map" data-map>
+      {scene.image && <Illustration id={scene.image} lang={lang} class="map-image" />}
+      <MapPin name="lima" x={MAP_PINS.lima.x} y={MAP_PINS.lima.y} label={left} />
+      <MapPin name="netherlands" x={MAP_PINS.netherlands.x} y={MAP_PINS.netherlands.y} label={right} />
+    </div>
+    <SceneLines lines={scene.lines} lang={lang} id="lines-two-places" />
+  </div>
+</SceneShell>
+
+<style>
+  .stack {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    align-items: center;
+    justify-items: center;
+    gap: var(--space-5);
+    height: 100%;
+  }
+
+  .map {
+    position: relative;
+    width: min(100%, 40rem);
+  }
+
+  .map :global(.map-image) {
+    width: 100%;
+  }
+</style>

@@ -1,0 +1,3 @@
+# Netlify: ook op HTTP-niveau niet indexeren.
+/*
+  X-Robots-Tag: noindex, nofollow

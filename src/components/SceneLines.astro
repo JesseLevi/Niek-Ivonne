@@ -1,0 +1,71 @@
+---
+// De regels van een scène uit story.yml. `{tokens}` worden tellers.
+import { stats, statTokens } from '../lib/content';
+import type { Locale } from '../lib/i18n';
+import type { StoryLine } from '../lib/schema';
+
+interface Props {
+  lines: StoryLine[];
+  lang: Locale;
+  id?: string;
+  class?: string;
+}
+
+const { lines, lang, id, class: className } = Astro.props;
+const formatted = statTokens(lang);
+type StatKey = keyof typeof stats;
+const isStat = (key: string): key is StatKey => key in stats;
+
+type Segment = { stat: StatKey } | { text: string };
+function segments(text: string): Segment[] {
+  return text.split(/\{(\w+)\}/).map((part, i) => (i % 2 === 1 && isStat(part) ? { stat: part } : { text: part }));
+}
+---
+
+<div class:list={['lines', className]} id={id}>
+  {
+    lines.map((line) => (
+      <p class:list={['line', `text-${line.style}`]} data-line data-style={line.style} data-pause={line.pause ? '' : undefined}>
+        {segments(line[lang]).map((part) =>
+          'stat' in part ? (
+            <span
+              data-counter={part.stat}
+              data-to={stats[part.stat].value}
+              data-plus={stats[part.stat].plus ? '' : undefined}
+              data-steps={part.stat === 'messages' ? stats.messages.steps.join(',') : undefined}
+            >
+              {formatted[part.stat]}
+            </span>
+          ) : (
+            part.text
+          ),
+        )}
+      </p>
+    ))
+  }
+</div>
+
+<style>
+  .lines {
+    display: grid;
+    gap: var(--space-3);
+    max-width: var(--measure);
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  /* Op smalle schermen binnen de flight plan-lijnen langs de randen blijven (RAIL in lib/flight-plan.ts). */
+  @media (max-width: 47.99rem) {
+    .lines {
+      padding-inline: max(0px, 11vw - var(--gutter));
+    }
+  }
+
+  .line {
+    margin: 0;
+  }
+
+  .line.text-mono {
+    color: var(--color-accent);
+  }
+</style>

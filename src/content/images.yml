@@ -1,0 +1,173 @@
+# Illustraties (zie docs/concept.md › Illustraties).
+#
+# Vervangen: upload het nieuwe beeld en kies het bij `src`. Houd dezelfde
+# beeldverhouding als width × height, dan verspringt de layout niet.
+# Alt-teksten beschrijven het beeld, niet het verhaal (dat staat in de tekst).
+#
+# Bron: ChatGPT-illustraties, vrijgesteld met scripts/process-illustrations.py.
+# Het vliegtuigraam bestaat uit lagen op hetzelfde canvas (raam, glasmasker, rolluik,
+# uitzichten); vervang die alleen samen, via het script.
+# TODO: nachtversies van uitzicht, Amsterdam en Mas Terrats (nu gedimd via een filter).
+
+images:
+  - id: 01-raam
+    src: /images/01-raam.webp
+    width: 707
+    height: 957
+    alt:
+      en: An airplane window
+      es: Una ventana de avión
+      nl: Een vliegtuigraam
+
+  - id: 01-raam-glas
+    src: /images/01-raam-glas.png
+    width: 450
+    height: 609
+    alt:
+      en: The glass of the airplane window
+      es: El vidrio de la ventana del avión
+      nl: Het glas van het vliegtuigraam
+
+  - id: 02-rolluik
+    src: /images/02-rolluik.webp
+    width: 707
+    height: 957
+    alt:
+      en: The window shade
+      es: La cortina de la ventana
+      nl: Het rolluik van het raam
+
+  - id: 03-uitzicht-dag
+    src: /images/03-uitzicht-dag.webp
+    width: 707
+    height: 957
+    alt:
+      en: A sea of clouds in the morning light
+      es: Un mar de nubes con la luz de la mañana
+      nl: Een wolkenzee in ochtendlicht
+
+  - id: 03-uitzicht-nacht
+    src: /images/03-uitzicht-nacht.webp
+    width: 707
+    height: 957
+    alt:
+      en: A starry night above the clouds
+      es: Una noche estrellada sobre las nubes
+      nl: Een sterrennacht boven de wolken
+
+  - id: 03-uitzicht-emporda
+    src: /images/03-uitzicht-emporda.webp
+    width: 707
+    height: 957
+    alt:
+      en: Golden hour over Catalan hills and olive fields
+      es: Atardecer dorado sobre colinas catalanas y olivares
+      nl: Gouden uur boven Catalaanse heuvels en olijfgaarden
+
+  - id: 04-wereldkaart
+    src: /images/04-wereldkaart.webp
+    width: 1161
+    height: 774
+    alt:
+      en: A world map as a plaster relief
+      es: Un mapamundi en relieve de yeso
+      nl: Een wereldkaart als gipsreliëf
+
+  - id: 05-lima
+    src: /images/05-lima.webp
+    width: 771
+    height: 979
+    alt:
+      en: The cliffs of Miraflores above the Pacific, seen through a wooden balcony window
+      es: Los acantilados de Miraflores sobre el Pacífico, vistos desde un balcón de madera
+      nl: De kliffen van Miraflores boven de Stille Oceaan, gezien door een houten balkonraam
+
+  - id: 06-nederland
+    src: /images/06-nederland.webp
+    width: 1193
+    height: 408
+    alt:
+      en: A flat Dutch polder with a bicycle and two identical figures
+      es: Un pólder neerlandés con una bicicleta y dos figuras idénticas
+      nl: Een vlakke polder met een fiets en twee identieke figuurtjes
+
+  - id: 07-barcelona-gevel
+    src: /images/07-barcelona-gevel.webp
+    width: 751
+    height: 1112
+    alt:
+      en: A Barcelona facade with wrought-iron balconies
+      es: Una fachada de Barcelona con balcones de hierro forjado
+      nl: Een Barcelonese gevel met smeedijzeren balkons
+
+  - id: 08-deurbel
+    src: /images/08-deurbel.webp
+    width: 685
+    height: 971
+    alt:
+      en: A brass intercom panel
+      es: Un portero eléctrico de bronce
+      nl: Een messing deurbelpaneel
+
+  - id: 09-telefoon
+    src: /images/09-telefoon.webp
+    width: 577
+    height: 1001
+    alt:
+      en: A smartphone
+      es: Un celular
+      nl: Een smartphone
+
+  - id: 10-koffer
+    src: /images/10-koffer.webp
+    width: 687
+    height: 1051
+    alt:
+      en: A vintage suitcase
+      es: Una maleta antigua
+      nl: Een vintage koffer
+
+  - id: 11-amsterdam
+    src: /images/11-amsterdam.webp
+    width: 1000
+    height: 924
+    alt:
+      en: An Amsterdam canal house at dusk with one window lit
+      es: Una casa de canal en Ámsterdam al anochecer, con una ventana encendida
+      nl: Een Amsterdams grachtenpand in de schemering, één raam brandt
+
+  - id: 12-ringdoosje-dicht
+    src: /images/12-ringdoosje-dicht.webp
+    width: 487
+    height: 740
+    alt:
+      en: A closed ring box
+      es: Una cajita de anillo cerrada
+      nl: Een gesloten ringdoosje
+
+  - id: 12-ringdoosje-open
+    src: /images/12-ringdoosje-open.webp
+    width: 487
+    height: 740
+    alt:
+      en: An open ring box with a ring
+      es: Una cajita de anillo abierta con un anillo
+      nl: Een open ringdoosje met een ring
+
+  - id: 13-mas-terrats
+    src: /images/13-mas-terrats.webp
+    width: 1000
+    height: 499
+    alt:
+      en: Mas Terrats, an old stone farmhouse between olive trees
+      es: Mas Terrats, una antigua masía de piedra entre olivos
+      nl: Mas Terrats, een oude stenen masia tussen olijfbomen
+
+  - id: 13-mas-terrats-wijd
+    src: /images/13-mas-terrats-wijd.webp
+    width: 1312
+    height: 687
+    alt:
+      en: Mas Terrats between olive trees, with the mountains of the Empordà behind
+      es: Mas Terrats entre olivos, con las montañas del Empordà al fondo
+      nl: Mas Terrats tussen olijfbomen, met de bergen van de Empordà erachter

@@ -1,0 +1,137 @@
+---
+// Scène 5: afscheid en appjes. Het vliegtuig vertrekt, dan de telefoon met de eerste appjes.
+// Het enige donkere moment, ook in lichte modus.
+import SceneShell from '../SceneShell.astro';
+import SceneMeta from '../SceneMeta.astro';
+import SceneLines from '../SceneLines.astro';
+import Illustration from '../Illustration.astro';
+import Plane from '../Plane.astro';
+import { sceneById, stats } from '../../lib/content';
+import { aroundRoute } from '../../lib/flight-plan';
+import { formatNumber, type Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const scene = sceneById('messages');
+const final = formatNumber(stats.messages.value, lang) + (stats.messages.plus ? '+' : '');
+---
+
+<SceneShell id="messages" pin={260} labelledby="lines-messages" route={aroundRoute('right')}>
+  <Plane class="departing" data-plane />
+  <p class="tally text-mono" aria-live="off">
+    {stats.messages.label[lang]}: <span data-messages-counter data-to={stats.messages.value} data-steps={stats.messages.steps.join(',')} data-plus={stats.messages.plus ? '' : undefined}>{final}</span>
+  </p>
+  <div class="stack">
+    <SceneMeta label={scene.label} />
+    <div class="phone" data-phone>
+      {scene.image && <Illustration id={scene.image} lang={lang} class="phone-image" />}
+      <ol class="chat" aria-label={stats.messages.label[lang]}>
+        {
+          scene.chat?.map((message) => (
+            <li class:list={['bubble', `from-${message.from}`]} data-bubble>
+              <span class="bubble-text">{message[lang]}</span>
+              <time class="text-mono">{message.time}</time>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+    <SceneLines lines={scene.lines} lang={lang} id="lines-messages" class="compact" />
+  </div>
+</SceneShell>
+
+<style>
+  .stack {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-items: center;
+    justify-items: center;
+    gap: var(--space-4);
+    height: 100%;
+  }
+
+  :global(.departing) {
+    position: absolute !important;
+    left: 40%;
+    top: 45%;
+    width: 3rem;
+  }
+
+  .tally {
+    position: absolute !important;
+    top: calc(var(--space-8) + env(safe-area-inset-top));
+    right: var(--gutter);
+    margin: 0;
+    color: var(--color-accent);
+    font-size: 0.65rem;
+  }
+
+  .phone {
+    position: relative;
+    height: 100%;
+    max-height: 40svh;
+    aspect-ratio: 577 / 1001;
+  }
+
+  .phone :global(.phone-image) {
+    width: 100%;
+    height: 100%;
+    filter: none;
+  }
+
+  /* Scherm van 09-telefoon (een tikje scheef). */
+  .chat {
+    position: absolute;
+    left: 19%;
+    top: 16%;
+    width: 66%;
+    height: 68%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    rotate: 3.4deg;
+    container-type: inline-size;
+  }
+
+  .bubble {
+    max-width: 85%;
+    padding: 0.45em 0.7em 0.35em;
+    border-radius: 1em;
+    font-size: clamp(0.6rem, 7.2cqi, 0.9rem);
+    line-height: 1.25;
+    color: var(--card-ink);
+    background: var(--card);
+    box-shadow: 0 1px 2px var(--shadow);
+  }
+
+  .from-her {
+    align-self: flex-start;
+    border-bottom-left-radius: 0.25em;
+  }
+
+  .from-him {
+    align-self: flex-end;
+    background: var(--card-accent);
+    color: var(--card);
+    border-bottom-right-radius: 0.25em;
+  }
+
+  .bubble time {
+    display: block;
+    margin-top: 0.2em;
+    font-size: 0.8em;
+    opacity: 0.8;
+    text-align: end;
+  }
+
+  .stack :global(.compact .text-serif) {
+    font-size: var(--text-xl);
+  }
+</style>

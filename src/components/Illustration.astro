@@ -1,0 +1,28 @@
+---
+// Een illustratie uit images.yml. width/height reserveren de ruimte, zodat de layout
+// niet verspringt als een placeholder door het echte beeld wordt vervangen.
+import { getImage } from '../lib/content';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  id: string;
+  lang: Locale;
+  class?: string;
+  /** `eager` alleen voor beelden op de splash. */
+  loading?: 'lazy' | 'eager';
+}
+
+const { id, lang, class: className, loading = 'lazy' } = Astro.props;
+const image = getImage(id);
+---
+
+<img
+  class:list={['illustration', className]}
+  src={image.src}
+  width={image.width}
+  height={image.height}
+  alt={image.alt[lang]}
+  loading={loading}
+  decoding="async"
+  data-image={image.id}
+/>

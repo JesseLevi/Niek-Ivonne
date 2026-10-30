@@ -1,0 +1,31 @@
+---
+// Gastgegevens voor persoonlijke links (?g=slug), in de taal van deze pagina.
+// Plus: heeft de bezoeker nog geen taal gekozen, dan meteen naar de taal van de gast.
+import { guests } from '../lib/content';
+import { LOCALE_STORAGE_KEY, type Locale } from '../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const data = Object.fromEntries(
+  guests.map((g) => [g.slug, { name: g.name, language: g.language, party_size: g.party_size, greeting: g.greeting[lang] }]),
+);
+const languages = Object.fromEntries(guests.map((g) => [g.slug, g.language]));
+---
+
+<script is:inline define:vars={{ languages, lang, key: LOCALE_STORAGE_KEY }}>
+  (function () {
+    var slug = new URLSearchParams(location.search).get('g');
+    var wanted = slug && languages[slug];
+    if (!wanted || wanted === lang) return;
+    var chosen = null;
+    try {
+      chosen = localStorage.getItem(key);
+    } catch (e) {}
+    if (chosen) return;
+    location.replace(location.pathname.replace(/^\/[a-z]{2}\//, '/' + wanted + '/') + location.search + location.hash);
+  })();
+</script>
+<script type="application/json" id="guest-data" set:html={JSON.stringify(data)} />

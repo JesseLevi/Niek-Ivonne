@@ -1,0 +1,259 @@
+# Het verhaal, scène voor scène (zie docs/concept.md › Storyboard).
+#
+# Per regel:
+#   style: serif (emotie, cursief) | body (lopende tekst) | mono (luchtvaartlabel)
+#   pause: true = een lege scrollstap vóór deze regel
+#
+# place: plaatsnaam op het vertrekbord (split-flap), klappert vanaf de vorige plaats.
+# passes: boarding passes (from/to als luchthavencode, date als JJJJ-MM-DD).
+# seats: labels van de stoeltjes op het vliegtuig (scène 9).
+#   en / es / nl: de tekst. {distance}, {messages}, {flights} en {flown_km}
+#   worden vervangen door de getallen uit stats.yml, opgemaakt per taal.
+#
+# Spaans is Latijns-Amerikaans (ustedes, nooit vosotros). Grappen per taal los geschreven.
+
+scenes:
+  - id: two-places
+    label: LIM · AMS
+    place: LIMA
+    image: 04-wereldkaart
+    lines:
+      - style: serif
+        en: This story begins in two places.
+        es: Esta historia empieza en dos lugares.
+        nl: Dit verhaal begint op twee plekken.
+      - style: mono
+        en: "{distance} km apart"
+        es: "a {distance} km de distancia"
+        nl: "{distance} km uit elkaar"
+
+  - id: lima
+    label: LIM · 12.05° S 77.04° W
+    image: 05-lima
+    lines:
+      - style: serif
+        en: Lima, Peru.
+        es: Lima, Perú.
+        nl: Lima, Peru.
+      - style: body # TODO: twee echte regels over Ivonne
+        en: She grew up between the cliffs and the Pacific, and always wanted to see the other side.
+        es: Creció entre los acantilados y el Pacífico, y siempre quiso ver el otro lado.
+        nl: Ze groeide op tussen de kliffen en de Stille Oceaan, en wilde altijd de overkant zien.
+      - style: serif
+        en: She packs her life into two suitcases.
+        es: Empaca su vida en dos maletas.
+        nl: Ze pakt haar leven in twee koffers.
+      - style: mono
+        en: "Destination: Barcelona"
+        es: "Destino: Barcelona"
+        nl: "Bestemming: Barcelona"
+
+  - id: netherlands
+    label: NL · ERASMUS
+    image: 06-nederland
+    lines:
+      - style: serif
+        en: Meanwhile in the Netherlands, a boy signs up for Erasmus.
+        es: Mientras tanto, en los Países Bajos, un chico se inscribe en Erasmus.
+        nl: Ondertussen in Nederland schrijft een jongen zich in voor Erasmus.
+      - style: mono
+        en: (No, the other one.)
+        es: (No, el otro.)
+        nl: (Nee, die andere.)
+    surprise: # verkeerde tweeling aantikken
+      en: Nope. The other one.
+      es: Nop. El otro.
+      nl: Nope. Die andere.
+
+  - id: barcelona
+    label: BCN · PISO 3º 2ª # TODO: echt adres/huisnummer (alleen als het stel dat wil delen)
+    place: BARCELONA
+    image: 07-barcelona-gevel
+    lines:
+      - style: serif
+        en: Same city. Same flat. Same kitchen.
+        es: Misma ciudad. Mismo depa. Misma cocina.
+        nl: Zelfde stad. Zelfde huis. Zelfde keuken.
+      - style: serif
+        pause: true
+        en: Housemates.
+        es: Compañeros de casa.
+        nl: Huisgenoten.
+      - style: serif
+        pause: true
+        en: Just housemates.
+        es: Solo compañeros de casa.
+        nl: Gewoon huisgenoten.
+      - style: mono
+        en: (Seriously.)
+        es: (En serio.)
+        nl: (Echt.)
+    surprise: # deurbel indrukken. TODO: eigen grap van het stel
+      en: Bzzzt. Nobody's home. They're at the beach.
+      es: Bzzzt. No hay nadie. Están en la playa.
+      nl: Bzzzt. Niemand thuis. Ze zijn naar het strand.
+
+  - id: messages
+    label: BCN → AMS
+    image: 09-telefoon
+    lines:
+      - style: serif
+        en: Then the semester ended and he flew home.
+        es: Luego terminó el semestre y él volvió a casa.
+        nl: Toen was het semester voorbij en vloog hij naar huis.
+      - style: serif
+        en: That's when the messages started.
+        es: Ahí empezaron los mensajes.
+        nl: Toen begonnen de appjes.
+    chat: # TODO: de echte eerste appjes
+      - time: "22:41"
+        from: her
+        en: Did you land?
+        es: ¿Ya aterrizaste?
+        nl: Ben je geland?
+      - time: "00:13"
+        from: him
+        en: The flat is too quiet without you. Tell me something.
+        es: El depa está muy callado sin ti. Cuéntame algo.
+        nl: Het huis is veel te stil zonder jou. Vertel eens wat.
+      - time: "02:58"
+        from: her
+        en: Ok one more message and then I sleep.
+        es: Ok, un mensaje más y me duermo.
+        nl: Oké, nog één appje en dan ga ik slapen.
+
+  - id: visit
+    label: AMS → BCN
+    passes:
+      - { from: AMS, to: BCN, date: "2019-02-14" } # TODO: datum eerste bezoek
+    lines:
+      - style: serif
+        en: He went back.
+        es: Él volvió.
+        nl: Hij ging terug.
+      - style: serif
+        en: Not for the city.
+        es: No por la ciudad.
+        nl: Niet voor de stad.
+
+  - id: back-and-forth
+    label: BCN ↔ AMS
+    passes: # TODO: echte datums (mock)
+      - { from: BCN, to: AMS, date: "2019-04-26" }
+      - { from: AMS, to: BCN, date: "2019-07-12" }
+      - { from: BCN, to: AMS, date: "2019-12-20" }
+      - { from: AMS, to: BCN, date: "2020-08-07" }
+      - { from: BCN, to: AMS, date: "2021-04-02" }
+      - { from: AMS, to: BCN, date: "2022-06-17" }
+      - { from: BCN, to: AMS, date: "2023-10-13" }
+      - { from: AMS, to: BCN, date: "2024-05-09" }
+    lines:
+      - style: serif
+        en: For years, home was a departure gate.
+        es: Durante años, su hogar fue una puerta de embarque.
+        nl: Jarenlang was thuis een vertrekgate.
+      - style: mono
+        en: "{flights} flights · {flown_km} km"
+        es: "{flights} vuelos · {flown_km} km"
+        nl: "{flights} vluchten · {flown_km} km"
+
+  - id: amsterdam
+    label: BCN → AMS · ONE WAY
+    place: AMSTERDAM
+    image: 11-amsterdam
+    passes:
+      - { from: BCN, to: AMS, date: "2025-03-01", one_way: true } # TODO: echte verhuisdatum
+    lines:
+      - style: serif
+        en: In 2025 she bought a ticket without a return date.
+        es: En 2025 compró un pasaje sin fecha de regreso.
+        nl: In 2025 kocht ze een enkeltje Amsterdam.
+
+  - id: to-lima
+    label: AMS → LIM
+    seats: # stoeltjes op het vliegtuig, in deze volgorde
+      - { en: Her, es: Ella, nl: Zij }
+      - { en: Him, es: Él, nl: Hij }
+      - { en: His mum, es: Su mamá, nl: Zijn moeder }
+      - { en: His dad, es: Su papá, nl: Zijn vader }
+      - { en: The twin, es: El gemelo, nl: De tweeling }
+    lines:
+      - style: serif
+        en: In 2026 they flew to Lima.
+        es: En 2026 volaron a Lima.
+        nl: In 2026 vlogen ze naar Lima.
+      - style: serif
+        en: Together.
+        es: Juntos.
+        nl: Samen.
+      - style: serif
+        en: With his parents.
+        es: Con los papás de él.
+        nl: Met zijn ouders.
+      - style: serif
+        en: And his twin brother.
+        es: Y su hermano gemelo.
+        nl: En zijn tweelingbroer.
+
+  - id: andes
+    label: ANDES · 2026 # TODO: plek van het aanzoek
+    image: 12-ringdoosje-open
+    lines:
+      - style: serif
+        en: With the Andes as witnesses, he asked.
+        es: Con los Andes como testigos, él hizo la pregunta.
+        nl: Met de Andes als getuigen stelde hij de vraag.
+      - style: serif
+        pause: true
+        en: Sí.
+        es: Sí.
+        nl: Sí.
+
+  - id: girona
+    label: GRO · MAS TERRATS
+    place: GIRONA
+    image: 13-mas-terrats
+    lines:
+      - style: serif
+        en: Two places, {distance} km apart, became one.
+        es: Dos lugares, a {distance} km de distancia, se volvieron uno.
+        nl: Twee plekken, {distance} km uit elkaar, werden één.
+      - style: serif
+        en: Now we'd love you there.
+        es: Y ahora nos encantaría que estén ahí.
+        nl: En nu willen we jullie erbij.
+
+# Aftiteling (zie docs/concept.md › 13).
+credits:
+  - role:
+      en: Directed by
+      es: Dirigida por
+      nl: Regie
+    name:
+      en: Love
+      es: El amor
+      nl: De liefde
+  - role:
+      en: Produced by
+      es: Producida por
+      nl: Productie
+    name:
+      en: WhatsApp
+      es: WhatsApp
+      nl: WhatsApp
+  - role:
+      en: Special thanks to
+      es: Agradecimientos especiales
+      nl: Met dank aan
+    name:
+      en: Erasmus
+      es: Erasmus
+      nl: Erasmus
+  - role:
+      en: Starring
+      es: Con la actuación de
+      nl: In de hoofdrollen
+    name:
+      en: Ivonne, Niek and his twin brother (as himself) # TODO: naam tweelingbroer
+      es: Ivonne, Niek y su hermano gemelo (como él mismo)
+      nl: Ivonne, Niek en zijn tweelingbroer (als zichzelf)

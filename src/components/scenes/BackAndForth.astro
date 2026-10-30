@@ -1,0 +1,71 @@
+---
+// Scène 7: heen en weer. Een groeiende stapel boarding passes, de route zigzagt over de
+// volle breedte (verticaal scrollen, geen horizontale hijack) en het vliegtuig pendelt mee.
+import SceneShell from '../SceneShell.astro';
+import SceneMeta from '../SceneMeta.astro';
+import SceneLines from '../SceneLines.astro';
+import BoardingPass from '../BoardingPass.astro';
+import Plane from '../Plane.astro';
+import { sceneById } from '../../lib/content';
+import { RAIL } from '../../lib/flight-plan';
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const scene = sceneById('back-and-forth');
+const zigzag: [number, number][] = [[RAIL.single, 0], [RAIL.single, 4]];
+for (let i = 0; i < 7; i++) zigzag.push([i % 2 ? 93 : 7, 13 + i * 11.5]);
+zigzag.push([RAIL.single, 96], [RAIL.single, 100]);
+---
+
+<SceneShell id="back-and-forth" pin={260} labelledby="lines-back-and-forth" route={[{ points: zigzag }]}>
+  <Plane class="shuttle" data-plane />
+  <div class="stack">
+    <SceneMeta label={scene.label} />
+    <div class="passes">
+      {
+        scene.passes?.map((pass, i) => (
+          <div class="pass-wrap" data-pass style={`--i: ${i}; --tilt: ${(i % 2 ? 1 : -1) * (2 + ((i * 7) % 5))}deg`}>
+            <BoardingPass pass={pass} lang={lang} />
+          </div>
+        ))
+      }
+    </div>
+    <SceneLines lines={scene.lines} lang={lang} id="lines-back-and-forth" />
+  </div>
+</SceneShell>
+
+<style>
+  .stack {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    align-items: center;
+    justify-items: center;
+    gap: var(--space-5);
+    height: 100%;
+  }
+
+  .passes {
+    position: relative;
+    width: min(100%, 22rem);
+    height: 11rem;
+  }
+
+  .pass-wrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    transform: translateY(calc(var(--i) * -0.35rem)) rotate(var(--tilt));
+  }
+
+  :global(.shuttle) {
+    position: absolute !important;
+    left: calc(50% - 1.3rem);
+    top: 26%;
+    width: 2.6rem;
+  }
+</style>

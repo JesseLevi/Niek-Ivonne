@@ -1,0 +1,64 @@
+---
+// Scène 6: het bezoek. Het vliegtuig keert om, boarding pass AMS → BCN, skyline bij zonsondergang.
+import SceneShell from '../SceneShell.astro';
+import SceneMeta from '../SceneMeta.astro';
+import SceneLines from '../SceneLines.astro';
+import BoardingPass from '../BoardingPass.astro';
+import Plane from '../Plane.astro';
+import Skyline from '../Skyline.astro';
+import { sceneById } from '../../lib/content';
+import { aroundRoute } from '../../lib/flight-plan';
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const scene = sceneById('visit');
+const pass = scene.passes?.[0];
+---
+
+<SceneShell id="visit" pin={220} labelledby="lines-visit" route={aroundRoute('left')}>
+  <div class="sky" data-skyline><Skyline /></div>
+  <Plane class="returning" data-plane />
+  <div class="stack">
+    <SceneMeta label={scene.label} />
+    <div class="pass-slot">{pass && <BoardingPass pass={pass} lang={lang} data-pass />}</div>
+    <SceneLines lines={scene.lines} lang={lang} id="lines-visit" />
+  </div>
+</SceneShell>
+
+<style>
+  .stack {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    align-items: center;
+    justify-items: center;
+    gap: var(--space-5);
+    height: 100%;
+    padding-bottom: 18svh;
+  }
+
+  .pass-slot {
+    width: 100%;
+    display: grid;
+    justify-items: center;
+  }
+
+  .sky {
+    position: absolute !important;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40svh;
+    z-index: 0 !important;
+  }
+
+  :global(.returning) {
+    position: absolute !important;
+    right: 10%;
+    top: 30%;
+    width: 2.6rem;
+  }
+</style>

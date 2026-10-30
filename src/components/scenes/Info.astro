@@ -1,0 +1,266 @@
+---
+// Scène 12: praktische informatie. Hier stopt de film: een rustige, leesbare pagina in de
+// stijl van een vluchtschema. Geen scroll-animaties, alleen zachte fades.
+import { info, site, ui } from '../../lib/content';
+import { formatLongDate, type Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const { schedule, travel, stay, dresscode, gifts, faq } = info;
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${site.wedding.coordinates.lat},${site.wedding.coordinates.lng}`;
+---
+
+<section class="info" id="details" data-scene="info" data-module="info" data-pin="0" aria-labelledby="info-heading">
+  <header class="intro" data-fade>
+    <button class="replay text-mono" type="button" data-replay>{ui.replay_story[lang]}</button>
+    <p class="text-mono code">{site.wedding.province} · {site.wedding.venue}</p>
+    <h2 class="text-serif" id="info-heading">{ui.info_heading[lang]}</h2>
+    <p class="when text-serif">{formatLongDate(site.wedding.date, lang)}</p>
+    <p class="where text-mono">
+      <a href={mapsUrl} rel="noopener" target="_blank">{site.wedding.venue}, {site.wedding.town} ({site.wedding.region})</a>
+    </p>
+  </header>
+
+  <section class="block" data-fade aria-labelledby="info-schedule">
+    <p class="text-mono code">{schedule.code}</p>
+    <h3 class="text-serif" id="info-schedule">{schedule.heading[lang]}</h3>
+    <ol class="board">
+      {
+        schedule.items.map((item) => (
+          <li>
+            <time class="text-mono">{item.time}</time>
+            <div>
+              <p class="row-title text-mono">{item.title[lang]}</p>
+              <p class="row-text">{item.description[lang]}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="block" data-fade aria-labelledby="info-travel">
+    <p class="text-mono code">{travel.code}</p>
+    <h3 class="text-serif" id="info-travel">{travel.heading[lang]}</h3>
+    <ul class="board">
+      {
+        travel.items.map((item) => (
+          <li>
+            <span class="text-mono tag">{item.code}</span>
+            <div>
+              <p class="row-title text-mono">{item.title[lang]}</p>
+              <p class="row-text">{item.body[lang]}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="block" data-fade aria-labelledby="info-stay">
+    <p class="text-mono code">{stay.code}</p>
+    <h3 class="text-serif" id="info-stay">{stay.heading[lang]}</h3>
+    <ul class="board">
+      {
+        stay.items.map((item) => (
+          <li>
+            <span class="text-mono tag">{item.name.slice(0, 3).toUpperCase()}</span>
+            <div>
+              <p class="row-title text-mono">{item.url ? <a href={item.url} rel="noopener" target="_blank">{item.name}</a> : item.name}</p>
+              <p class="row-text">{item.body[lang]}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <div class="pair">
+    <section class="block" data-fade aria-labelledby="info-dress">
+      <p class="text-mono code">{dresscode.code}</p>
+      <h3 class="text-serif" id="info-dress">{dresscode.heading[lang]}</h3>
+      <p class="row-text">{dresscode.body[lang]}</p>
+    </section>
+    <section class="block" data-fade aria-labelledby="info-gifts">
+      <p class="text-mono code">{gifts.code}</p>
+      <h3 class="text-serif" id="info-gifts">{gifts.heading[lang]}</h3>
+      <p class="row-text">{gifts.body[lang]}</p>
+    </section>
+  </div>
+
+  <section class="block" data-fade aria-labelledby="info-faq">
+    <p class="text-mono code">{faq.code}</p>
+    <h3 class="text-serif" id="info-faq">{faq.heading[lang]}</h3>
+    <div class="faq">
+      {
+        faq.items.map((item) => (
+          <details>
+            <summary>{item.question[lang]}</summary>
+            <p class="row-text">{item.answer[lang]}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+</section>
+
+<style>
+  .info {
+    position: relative;
+    display: grid;
+    gap: var(--space-8);
+    max-width: var(--measure-wide);
+    margin-inline: auto;
+    padding: calc(var(--space-8) * 1.5) var(--gutter) var(--space-8);
+  }
+
+  [data-fade] {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity 800ms var(--ease-out),
+      transform 800ms var(--ease-out);
+  }
+
+  [data-fade].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  :global(.reduced-motion) [data-fade] {
+    transform: none;
+  }
+
+  .intro {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+    text-align: center;
+  }
+
+  .replay {
+    margin-bottom: var(--space-5);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: transparent;
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: 0.04em;
+  }
+
+  .replay:hover {
+    border-color: var(--color-ink);
+  }
+
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .when {
+    font-size: var(--text-xl);
+    color: var(--color-accent);
+  }
+
+  .when::first-letter {
+    text-transform: uppercase;
+  }
+
+  .code {
+    color: var(--color-muted);
+    margin-bottom: var(--space-1);
+  }
+
+  a {
+    color: inherit;
+    text-underline-offset: 0.25em;
+  }
+
+  .board {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .board li {
+    display: grid;
+    grid-template-columns: 4.25rem 1fr;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .board time,
+  .tag {
+    font-size: var(--text-sm);
+    color: var(--color-accent);
+  }
+
+  .row-title {
+    font-size: var(--text-xs);
+    margin-bottom: var(--space-1);
+  }
+
+  .row-text {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+  }
+
+  .pair {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 48rem) {
+    .pair {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .faq {
+    border-top: 1px solid var(--color-line);
+  }
+
+  details {
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  summary {
+    cursor: pointer;
+    font-weight: 500;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  summary::after {
+    content: '+';
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+  }
+
+  details[open] summary::after {
+    content: '−';
+  }
+
+  details p {
+    margin-top: var(--space-3);
+  }
+</style>

@@ -1,0 +1,32 @@
+{
+  "name": "niek-ivonne",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check && node scripts/check-cms.mjs && node scripts/check-colors.mjs",
+    "check:cms": "node scripts/check-cms.mjs",
+    "check:colors": "node scripts/check-colors.mjs",
+    "placeholders": "node scripts/placeholders.mjs",
+    "og": "node scripts/og.mjs",
+    "export:translations": "node scripts/export-translations.mjs"
+  },
+  "dependencies": {
+    "astro": "^6.4.8",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.27",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@types/node": "^22.20.5",
+    "typescript": "^6.0.3"
+  }
+}

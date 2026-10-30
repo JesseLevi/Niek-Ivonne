@@ -1,0 +1,79 @@
+---
+import '../styles/global.css';
+import { LOCALES, type Locale } from '../lib/i18n';
+import { localizedPath } from '../lib/routes';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: Locale;
+  /** Pad zonder taal (bijv. `/`) als deze pagina in alle talen bestaat: geeft hreflang-links. */
+  localizedFrom?: string;
+  /** Splash-fonts preloaden (niet nodig op de doorstuurpagina). */
+  preloadFonts?: boolean;
+  /** OG-titel en -beeld voor de linkpreview (WhatsApp). */
+  og?: { title: string; image: string };
+}
+
+const { title, description, lang = 'en', localizedFrom, preloadFonts = true, og } = Astro.props;
+const ogLocale = { en: 'en_GB', es: 'es_LA', nl: 'nl_NL' }[lang];
+const absolute = (path: string) => (Astro.site ? new URL(path, Astro.site).href : path);
+
+// Alleen de fonts die de splash nodig heeft: namen (serif cursief) en de mono-regel.
+const fontFiles = ['/fonts/instrument-serif-italic.woff2', '/fonts/ibm-plex-mono-regular.woff2'];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {description && <meta name="description" content={description} />}
+    {
+      og && (
+        <>
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content={og.title} />
+          {description && <meta property="og:description" content={description} />}
+          <meta property="og:image" content={absolute(og.image)} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:locale" content={ogLocale} />
+          {Astro.site && <meta property="og:url" content={absolute(Astro.url.pathname)} />}
+          <meta name="twitter:card" content="summary_large_image" />
+        </>
+      )
+    }
+    {
+      localizedFrom !== undefined && (
+        <>
+          {LOCALES.map((code) => (
+            <link rel="alternate" hreflang={code} href={absolute(localizedPath(localizedFrom, code))} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={absolute(localizedFrom)} />
+        </>
+      )
+    }
+    {preloadFonts && fontFiles.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
+    <script is:inline>
+      // Thema vóór de eerste paint: eigen keuze (rolluik) of anders de systeeminstelling.
+      (function () {
+        var theme;
+        try {
+          theme = localStorage.getItem('ni-theme');
+        } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

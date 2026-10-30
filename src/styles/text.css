@@ -1,0 +1,70 @@
+/* Stijlen voor de tekstanimaties in src/scripts/text.ts. */
+
+/* Regel-reveal: ruimte in het masker zodat cursieve uitlopers niet worden afgesneden. */
+.split-line-mask {
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+
+/* Split-flap: elke letter een klepje met een scharnierlijn. */
+.split-flap .text-visual {
+  display: inline-flex;
+  gap: 0.12em;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.split-flap-cell {
+  position: relative;
+  display: inline-block;
+  min-width: 1.15em;
+  padding: 0.2em 0.1em;
+  border-radius: 0.14em;
+  background: var(--color-ink);
+  color: var(--color-bg);
+  text-align: center;
+  line-height: 1;
+}
+
+.split-flap-cell::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  border-top: 1px solid color-mix(in oklch, var(--color-bg) 35%, transparent);
+}
+
+/* Typemachine: verborgen letters houden hun plek, dus niets verspringt. */
+.typewriter .is-hidden {
+  visibility: hidden;
+}
+
+.typewriter-caret {
+  display: inline-block;
+  width: 0;
+  height: 1.1em;
+  margin-right: -0.1em;
+  border-left: 0.1em solid currentColor;
+  vertical-align: -0.2em;
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Tellers: cijfers even breed, zodat het getal niet wiebelt. */
+.counter {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-caret {
+    animation: none;
+  }
+}
