@@ -20,6 +20,8 @@ export interface RouteLine {
   end?: 'dot';
   /** Deel van de voortgang waarin deze lijn wordt getekend. */
   draw?: [number, number];
+  /** Vliegtuigje op de punt van de lijn: het "trekt" de stippellijn. */
+  plane?: boolean;
 }
 
 /**
@@ -34,7 +36,7 @@ export const RAIL = {
 } as const;
 
 /** Standaardroute voor één lijn: midden in, om de inhoud heen langs de zijkant, midden uit. */
-export function aroundRoute(side: 'left' | 'right' = 'left', draw?: [number, number]): RouteLine[] {
+export function aroundRoute(side: 'left' | 'right' = 'left', draw?: [number, number], plane = false): RouteLine[] {
   const x = side === 'left' ? 7 : 93;
   return [
     {
@@ -47,6 +49,7 @@ export function aroundRoute(side: 'left' | 'right' = 'left', draw?: [number, num
         [RAIL.single, 100],
       ],
       draw,
+      plane,
     },
   ];
 }

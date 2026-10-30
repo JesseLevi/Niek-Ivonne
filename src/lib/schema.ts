@@ -171,6 +171,7 @@ export const uiSchema = z.strictObject({
   scroll_to_board: translated,
   skip_to_details: translated,
   replay_story: translated,
+  story_start: translated,
   info_heading: translated,
   doorbell: translated,
   twin: translated,

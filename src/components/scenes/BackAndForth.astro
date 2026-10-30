@@ -5,7 +5,6 @@ import SceneShell from '../SceneShell.astro';
 import SceneMeta from '../SceneMeta.astro';
 import SceneLines from '../SceneLines.astro';
 import BoardingPass from '../BoardingPass.astro';
-import Plane from '../Plane.astro';
 import { sceneById } from '../../lib/content';
 import { RAIL } from '../../lib/flight-plan';
 import type { Locale } from '../../lib/i18n';
@@ -21,8 +20,7 @@ for (let i = 0; i < 7; i++) zigzag.push([i % 2 ? 93 : 7, 13 + i * 11.5]);
 zigzag.push([RAIL.single, 96], [RAIL.single, 100]);
 ---
 
-<SceneShell id="back-and-forth" pin={260} labelledby="lines-back-and-forth" route={[{ points: zigzag }]}>
-  <Plane class="shuttle" data-plane />
+<SceneShell id="back-and-forth" pin={260} labelledby="lines-back-and-forth" route={[{ points: zigzag, plane: true }]}>
   <div class="stack">
     <SceneMeta label={scene.label} />
     <div class="passes">
@@ -60,12 +58,5 @@ zigzag.push([RAIL.single, 96], [RAIL.single, 100]);
     display: grid;
     place-items: center;
     transform: translateY(calc(var(--i) * -0.35rem)) rotate(var(--tilt));
-  }
-
-  :global(.shuttle) {
-    position: absolute !important;
-    left: calc(50% - 1.3rem);
-    top: 26%;
-    width: 2.6rem;
   }
 </style>

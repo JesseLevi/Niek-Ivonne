@@ -268,6 +268,7 @@ content:
       - { name: scroll_to_board, label: Scrollhint op de splash, component: i18n }
       - { name: skip_to_details, label: Knop naar de details, component: i18n }
       - { name: replay_story, label: Knop verhaal opnieuw, component: i18n }
+      - { name: story_start, label: Titel aan het begin van het verhaal, component: i18n }
       - { name: info_heading, label: Kop praktische info, component: i18n }
       - { name: doorbell, label: Deurbel (voor schermlezers), component: i18n }
       - { name: twin, label: Tweeling (voor schermlezers), component: i18n }

@@ -69,7 +69,10 @@ export function animateMeta(ctx: SceneContext, root: ParentNode, at = 0): void {
   const board = root.querySelector<HTMLElement>('[data-place]');
   if (label) place(timeline, typewriter(label, { reducedMotion }), at, 0.06);
   if (board) {
-    const words = [board.dataset.from || ' ', board.textContent?.trim() ?? ''];
+    const words = [board.dataset.from || ' ', (board.dataset.text ??= board.textContent?.trim() ?? '')];
+    // Tijdens het binnenschuiven nog leeg; pas als de scène staat verschijnt het bord en klappert het
+    // van de vorige plaats naar deze.
+    timeline.fromTo(board, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.02 }, at);
     place(timeline, splitFlap(board, words, { reducedMotion }), at + 0.02, 0.1);
   }
 }
