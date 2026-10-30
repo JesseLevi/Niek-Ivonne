@@ -1,0 +1,75 @@
+---
+// Aftiteling: het vliegtuigraam van de splash, nu boven het Empordà bij zonsondergang.
+// Het rolluik zakt langzaam; daarna de filmcredits.
+import SceneShell from '../SceneShell.astro';
+import Window from '../Window.astro';
+import { site, story, ui } from '../../lib/content';
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+---
+
+<SceneShell id="credits" palette="girona" pin={200} labelledby="credits-title">
+  <div class="stack">
+    <div class="window-wrap" data-credits-window>
+      <Window lang={lang} view="03-uitzicht-emporda" />
+    </div>
+    <div class="roll" data-roll>
+      <h2 class="visually-hidden" id="credits-title">{ui.the_end[lang]}</h2>
+      <dl>
+        {
+          story.credits.map((credit) => (
+            <div class="credit" data-credit>
+              <dt class="text-mono">{credit.role[lang]}</dt>
+              <dd class="text-serif">{credit.name[lang]}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="end text-mono" data-credit>{site.couple.first} & {site.couple.second} · {ui.the_end[lang]}</p>
+    </div>
+  </div>
+</SceneShell>
+
+<style>
+  .stack {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    justify-items: center;
+    align-items: center;
+    gap: var(--space-5);
+    height: 100%;
+  }
+
+  .window-wrap {
+    width: min(56vw, 34svh, 20rem);
+  }
+
+  .roll {
+    text-align: center;
+  }
+
+  dl {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+  }
+
+  dt {
+    color: var(--color-muted);
+  }
+
+  dd {
+    margin: 0;
+    font-size: var(--text-xl);
+  }
+
+  .end {
+    margin: var(--space-6) 0 0;
+    color: var(--color-accent);
+  }
+</style>
