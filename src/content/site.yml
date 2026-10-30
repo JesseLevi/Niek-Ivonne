@@ -5,7 +5,7 @@ couple:
   second: Ivonne
 
 wedding:
-  date: "2027-09-18" # TODO: exacte datum bevestigen (mock: zaterdag 18 september 2027)
+  date: "2027-09-08" # woensdag 8 september 2027
   venue: Mas Terrats
   town: Pontós
   region: Alt Empordà

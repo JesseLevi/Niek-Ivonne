@@ -9,7 +9,7 @@ One-page scroll-film die het verhaal van Niek en Ivonne vertelt en eindigt bij h
 - Ze werden huisgenoten in Barcelona. Geen vonk meteen; toen Niek terug naar Nederland ging, begonnen ze veel te appen. Hij ging terug op bezoek en ze werden verliefd.
 - Jaren heen en weer gevlogen. In **2025** verhuisde Ivonne naar Amsterdam.
 - In **2026** gingen ze met Nieks ouders en tweelingbroer naar Peru om haar ouders te bezoeken. Niek vroeg haar ten huwelijk met de Peruaanse bergen op de achtergrond.
-- Bruiloft: **september 2027**, **Mas Terrats**, Pontós (Alt Empordà, Girona, Spanje). Let op de spelling: Mas Terrats.
+- Bruiloft: **woensdag 8 september 2027**, **Mas Terrats**, Pontós (Alt Empordà, Girona, Spanje). Let op de spelling: Mas Terrats.
 
 ## Talen
 
@@ -40,7 +40,7 @@ Voorstel contentmodel (vertalingen per veld naast elkaar, zodat je in de CMS é�
 | `src/content/guests.yml` | file met lijst | Persoonlijke links: `slug`, `greeting` per taal, `language`, `party_size` |
 | `public/images/` | media | Illustraties (PNG/WebP) |
 
-**Mock data:** vul alles met plausibele placeholderdata en markeer het met `# TODO` in de YAML. Gebruik als mockdatum zaterdag **18 september 2027** en de voorbeeldteksten uit `docs/concept.md` (sectie Tekst en tone of voice). Vertaal ze naar `es` en `nl`.
+**Mock data:** vul alles met plausibele placeholderdata en markeer het met `# TODO` in de YAML. De trouwdatum staat vast (8 september 2027, in `site.yml`). Gebruik de voorbeeldteksten uit `docs/concept.md` (sectie Tekst en tone of voice). Vertaal ze naar `es` en `nl`.
 
 **Placeholder-beelden:** zolang de ChatGPT-illustraties er niet zijn, gebruik je simpele SVG-placeholders op crème met de assetnaam erin (bijv. `05-lima.svg`), zodat je ze later 1-op-1 vervangt.
 
@@ -72,4 +72,4 @@ Stop na elke stap, laat het resultaat zien en wacht op feedback voordat je verde
 
 ## Open vragen (nog niet bekend, mock gebruiken)
 
-Achternamen, exacte datum en programma, jaar van huisgenoten en eerste bezoek, echte eerste appjes, aantal vluchten, plek van het aanzoek, overnachtingen, dresscode, RSVP-deadline, gastenlijst.
+Achternamen, programma, jaar van huisgenoten en eerste bezoek, echte eerste appjes, aantal vluchten, plek van het aanzoek, overnachtingen, dresscode, RSVP-deadline, gastenlijst.
