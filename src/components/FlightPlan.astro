@@ -6,12 +6,14 @@ interface Props {
   route: RouteLine[];
   /** Splash: tekent zichzelf bij het laden in plaats van met de scroll. */
   intro?: boolean;
+  /** Achter de inhoud van de scène in plaats van ervoor. */
+  behind?: boolean;
 }
 
-const { route, intro = false } = Astro.props;
+const { route, intro = false, behind = false } = Astro.props;
 ---
 
-<svg class="flight-plan" data-flight-plan data-route={JSON.stringify(route)} data-intro={intro ? '' : undefined} aria-hidden="true"></svg>
+<svg class:list={['flight-plan', { behind }]} data-flight-plan data-route={JSON.stringify(route)} data-intro={intro ? '' : undefined} aria-hidden="true"></svg>
 
 <style>
   .flight-plan {
@@ -30,6 +32,10 @@ const { route, intro = false } = Astro.props;
     stroke: white;
     stroke-width: 12;
     stroke-linecap: round;
+  }
+
+  .flight-plan.behind {
+    z-index: 0;
   }
 
   .flight-plan :global(.flight-plan-group) {

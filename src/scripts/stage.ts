@@ -47,7 +47,7 @@ interface StageScene {
   ctx?: SceneContext;
   /** Binnen een scherm van het beeld geweest (modules en lijn zijn dan opgebouwd). */
   near?: boolean;
-  plan?: FlightPlan;
+  plans: FlightPlan[];
 }
 
 export interface Stage {
@@ -73,6 +73,7 @@ export function startStage(): Stage {
       palette: el.dataset.palette ?? id,
       pin: el.dataset.pin === undefined ? DEFAULT_PIN : Number(el.dataset.pin),
       load: module ? moduleLoader(module) : undefined,
+      plans: [],
     };
   });
 
@@ -123,7 +124,7 @@ export function startStage(): Stage {
         const scene = scenes.find((s) => s.el === entry.target);
         if (scene) {
           scene.near = true;
-          scene.plan?.activate();
+          scene.plans.forEach((plan) => plan.activate());
           load(scene);
         }
         observer.unobserve(entry.target);
@@ -187,11 +188,13 @@ export function startStage(): Stage {
         });
 
         // Flight plan-lijn: tekent vanaf het binnenkomen van de scène tot het einde van de pin.
-        const svg = scene.el.querySelector<SVGSVGElement>('[data-flight-plan]');
-        if (svg?.parentElement) {
+        // Een scène kan meerdere lagen hebben (bijv. één achter en één vóór de kaart).
+        scene.plans = [];
+        for (const svg of scene.el.querySelectorAll<SVGSVGElement>('[data-flight-plan]')) {
+          if (!svg.parentElement) continue;
           const plan = new FlightPlan(svg, svg.parentElement);
           plans.push(plan);
-          scene.plan = plan;
+          scene.plans.push(plan);
           if (scene.near) plan.activate();
           if (reducedMotion) plan.set(1);
           else if (svg.dataset.intro !== undefined) {
