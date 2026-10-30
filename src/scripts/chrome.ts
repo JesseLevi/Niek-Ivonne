@@ -1,8 +1,7 @@
-// "Skip to details", "Replay our story" en het tweede bezoek (meteen naar de info).
+// "Skip to details" en "Replay our story", en: elk bezoek begint bovenaan.
 
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { Stage } from './stage';
-
-const VISITED_KEY = 'ni-visited';
 
 export function initChrome(stage: Stage, restoredScroll: boolean): void {
   const details = document.getElementById('details');
@@ -27,15 +26,19 @@ export function initChrome(stage: Stage, restoredScroll: boolean): void {
     update();
   }
 
-  // Tweede bezoek: direct naar de info (tenzij er een taalwissel of #anker is).
-  let visited = false;
-  try {
-    visited = localStorage.getItem(VISITED_KEY) === '1';
-    localStorage.setItem(VISITED_KEY, '1');
-  } catch {
-    // Zonder opslag is elk bezoek het eerste.
-  }
-  if (visited && !restoredScroll && !location.hash) {
-    requestAnimationFrame(() => stage.scrollTo(details, true));
+  // Altijd bovenaan beginnen, ook bij herladen of een tweede bezoek; mobiele browsers
+  // zetten anders soms de oude scrollpositie terug. Uitzonderingen: een #anker (bijv.
+  // #details) en een taalwissel, die bewust op dezelfde plek in het verhaal verdergaat.
+  if (!restoredScroll && !location.hash) {
+    // ScrollTrigger onthoudt zelf ook de scrollpositie en zet die terug bij een refresh.
+    ScrollTrigger.clearScrollMemory('manual');
+    const toTop = () => {
+      window.scrollTo(0, 0);
+      stage.scrollTo(0, true);
+    };
+    toTop();
+    // Sommige browsers herstellen de positie pas na 'load' of na het laden van de fonts.
+    addEventListener('load', toTop, { once: true });
+    document.fonts?.ready.then(toTop);
   }
 }

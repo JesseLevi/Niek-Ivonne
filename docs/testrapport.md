@@ -11,7 +11,7 @@ Stand: 30 oktober 2026. Getest in een headless Chromium (Playwright) en met Ligh
 | Dark mode | Systeeminstelling én rolluik (tik, slepen, toetsen) | Keuze blijft na herladen; nacht-uitzicht achter het rolluik |
 | Taal | `/` met browsertaal `es-PE`, `nl-NL`, `fr-FR`; wisselen en herladen | Juiste taal, keuze onthouden, `?g=` gaat mee |
 | Persoonlijke link | `/?g=familie-bakker` zonder eigen taalkeuze | Naar `/nl/`, begroeting op de splash, naam en aantal op de RSVP |
-| Skip en tweede bezoek | Knop, herladen, `▶ Replay` | Springt naar de details; tweede bezoek landt daar; replay naar boven |
+| Skip en herladen | Knop, herladen, `▶ Replay` | Springt naar de details; herladen en een tweede bezoek beginnen bovenaan; replay naar boven |
 | RSVP | Gemockte Formspree-URL | Succes = stempel CONFIRMED (onthouden), fout = melding, offline = bewaard en verstuurd zodra online |
 | Horizontale scroll | `scrollWidth` vs `clientWidth` | Geen horizontale overloop |
 

@@ -9,6 +9,9 @@
 }
 
 html {
+  /* Niets mag de pagina breder maken dan het scherm (grote decorbeelden lopen bewust buiten beeld). */
+  overflow-x: hidden; /* oudere iOS zonder clip */
+  overflow-x: clip;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   background: var(--color-bg);
