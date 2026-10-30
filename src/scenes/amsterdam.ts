@@ -48,8 +48,8 @@ const amsterdam: Scene = {
       timeline.to(trip, { autoAlpha: 0, y: reducedMotion ? 0 : -30, duration: 0.08 }, 0.64);
       timeline.from(home, { autoAlpha: 0, y: reducedMotion ? 0 : 40, duration: 0.12, ease: 'power2.out' }, 0.68);
       if (house) timeline.fromTo(house, { filter: 'brightness(0.75) saturate(0.85)' }, { filter: 'brightness(1) saturate(1)', duration: 0.16 }, 0.8);
-      const glow = el.querySelector('[data-glow]');
-      if (glow) timeline.to(glow, { opacity: 0.85, duration: 0.06 }, 0.88);
+      const glows = el.querySelectorAll('[data-glow]');
+      timeline.to(glows, { opacity: 1, duration: 0.06, stagger: 0.03 }, 0.86);
     }
   },
 };

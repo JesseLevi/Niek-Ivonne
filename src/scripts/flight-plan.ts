@@ -122,6 +122,13 @@ export class FlightPlan {
       mask.append(reveal);
       defs.append(mask);
 
+      // Lichte rand om elke stip, zodat de lijn ook over donkere vlakken (bergen) zichtbaar blijft.
+      const halo = document.createElementNS(SVG, 'path');
+      halo.setAttribute('d', d);
+      halo.setAttribute('class', 'flight-plan-halo');
+      halo.setAttribute('mask', `url(#${id})`);
+      this.svg.append(halo);
+
       const dotted = document.createElementNS(SVG, 'path');
       dotted.setAttribute('d', d);
       dotted.setAttribute('class', 'flight-plan-line');
