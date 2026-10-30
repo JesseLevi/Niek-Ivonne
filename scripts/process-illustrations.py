@@ -188,4 +188,4 @@ for name, x in view_starts.items():
     save(canvas.crop(box), name, 900, 82)
 
 cw, ch = box[2] - box[0], box[3] - box[1]
-print(f'raam-canvas {cw}×{ch}; glas: top {100 * (gy0 - box[1]) / ch:.1f}%, hoogte {100 * (gy1 - gy0) / ch:.1f}%')
+print(f'raam-canvas {cw}×{ch}; glas (voor Window.astro): left {100 * (gx0 - box[0]) / cw:.2f}% top {100 * (gy0 - box[1]) / ch:.2f}% width {100 * (gx1 - gx0) / cw:.2f}% height {100 * (gy1 - gy0) / ch:.2f}%')

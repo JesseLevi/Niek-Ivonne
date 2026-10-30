@@ -1,0 +1,149 @@
+---
+// Het vliegtuigraam in lagen: uitzicht achter het glas, rolluik, kozijn erboven.
+// Alle lagen hebben hetzelfde canvas (scripts/process-illustrations.py), dus ze passen op elkaar.
+// Met `interactive` is het rolluik de dark-mode-schakelaar (src/scripts/shade.ts).
+import { getImage, ui } from '../lib/content';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  lang: Locale;
+  /** Uitzicht overdag; 's nachts (dark mode) altijd de sterrenhemel. */
+  view?: '03-uitzicht-dag' | '03-uitzicht-emporda';
+  interactive?: boolean;
+  /** Alleen op de splash: beelden direct laden. */
+  eager?: boolean;
+  class?: string;
+}
+
+const { lang, view = '03-uitzicht-dag', interactive = false, eager = false, class: className } = Astro.props;
+const frame = getImage('01-raam');
+const glass = getImage('01-raam-glas');
+const shade = getImage('02-rolluik');
+const day = getImage(view);
+const night = getImage('03-uitzicht-nacht');
+const loading = eager ? 'eager' : 'lazy';
+---
+
+<div
+  class:list={['window', className]}
+  data-window
+  style={`--glass-mask: url('${glass.src}'); aspect-ratio: ${frame.width} / ${frame.height}`}
+>
+  <div class="glass" aria-hidden="true">
+    <img class="view view-day" src={day.src} alt="" width={day.width} height={day.height} loading={loading} decoding="async" data-view />
+    <img class="view view-night" src={night.src} alt="" width={night.width} height={night.height} loading="lazy" decoding="async" />
+    <img class="shade" src={shade.src} alt="" width={shade.width} height={shade.height} loading={loading} decoding="async" data-shade />
+  </div>
+  <img class="frame-img" src={frame.src} alt={frame.alt[lang]} width={frame.width} height={frame.height} loading={loading} decoding="async" />
+  {
+    interactive && (
+      <button
+        class="shade-control"
+        type="button"
+        aria-pressed="false"
+        data-shade-toggle
+        data-label-close={ui.shade_close[lang]}
+        data-label-open={ui.shade_open[lang]}
+        aria-label={ui.shade_close[lang]}
+      >
+        <span class="shade-handle" data-shade-handle />
+      </button>
+    )
+  }
+</div>
+
+<style>
+  /*
+   * Glas binnen het canvas (uitvoer van process-illustrations.py):
+   * left 16.22%, top 20.53%, breedte 67.33%, hoogte 61.58%.
+   * Rolluik open = omhoog over de hoogte van het glas; dicht (nacht) = 62% omlaag.
+   */
+  .window {
+    --shade-open: -61.6%;
+    --shade-night: -23.4%;
+    --shade: var(--shade-open);
+    position: relative;
+    width: 100%;
+    filter: drop-shadow(0 10px 18px var(--shadow));
+  }
+
+  :global([data-theme='dark']) .window {
+    --shade: var(--shade-night);
+  }
+
+  .glass {
+    position: absolute;
+    inset: 0;
+    mask-image: var(--glass-mask);
+    mask-size: 100% 100%;
+    -webkit-mask-image: var(--glass-mask);
+    -webkit-mask-size: 100% 100%;
+  }
+
+  .glass img,
+  .frame-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    filter: none;
+  }
+
+  .view-night {
+    opacity: 0;
+    transition: opacity 600ms var(--ease-out);
+  }
+
+  :global([data-theme='dark']) .view-night {
+    opacity: 1;
+  }
+
+  .shade {
+    transform: translateY(var(--shade));
+    transition: transform 700ms var(--ease-in-out);
+    will-change: transform;
+  }
+
+  .window.is-dragging .shade {
+    transition: none;
+  }
+
+  .shade-control {
+    position: absolute;
+    left: 16.22%;
+    top: 20.53%;
+    width: 67.33%;
+    height: 61.58%;
+    padding: 0;
+    border: 0;
+    border-radius: 40% / 30%;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .shade-control:focus-visible {
+    outline-offset: -6px;
+  }
+
+  /* Greep aan de onderrand van het rolluik: hier kun je slepen zonder dat de pagina scrollt. */
+  .shade-handle {
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    height: 3rem;
+    top: calc(100% * (1 + var(--shade-fraction, -1)) - 1.5rem);
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .window.is-dragging .shade-handle {
+    cursor: grabbing;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shade,
+    .view-night {
+      transition: none;
+    }
+  }
+</style>
