@@ -1,0 +1,101 @@
+---
+// Scène 11: Girona, twee plekken worden één. De kaart van scène 1 ingezoomd op het Empordà,
+// Mas Terrats tussen de olijfbomen, de uitnodiging en groot de datum.
+// De flight plan-lijn eindigt hier in één stip.
+import SceneShell from '../SceneShell.astro';
+import SceneMeta from '../SceneMeta.astro';
+import SceneLines from '../SceneLines.astro';
+import Illustration from '../Illustration.astro';
+import MapPin from '../MapPin.astro';
+import { previousPlace, sceneById, site } from '../../lib/content';
+import { RAIL } from '../../lib/flight-plan';
+import { MAP_PINS } from '../../lib/geo';
+import { formatLongDate, type Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const scene = sceneById('girona');
+---
+
+<SceneShell
+  id="girona"
+  pin={260}
+  labelledby="lines-girona"
+  route={[{ points: [[RAIL.single, 0], [RAIL.single, 6], [10, 22], { at: '[data-venue]', ax: 0.12, ay: 0.85 }, { at: '[data-venue]', ax: 0.5, ay: 0.72 }], end: 'dot', draw: [0, 0.75] }]}
+>
+  <div class="stack">
+    <SceneMeta label={scene.label} place={scene.place} from={previousPlace('girona')} />
+    <div class="visual">
+      <div class="map" data-map style={`--ox: ${MAP_PINS.girona.x}%; --oy: ${MAP_PINS.girona.y}%`}>
+        <Illustration id="04-wereldkaart" lang={lang} class="map-image" />
+        <MapPin name="girona" x={MAP_PINS.girona.x} y={MAP_PINS.girona.y} />
+      </div>
+      <div class="venue" data-venue>
+        {scene.image && <Illustration id={scene.image} lang={lang} class="venue-image" />}
+      </div>
+    </div>
+    <div class="words">
+      <SceneLines lines={scene.lines} lang={lang} id="lines-girona" class="compact" />
+      <p class="date text-serif" data-date>{formatLongDate(site.wedding.date, lang)}</p>
+    </div>
+  </div>
+</SceneShell>
+
+<style>
+  .stack {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-items: center;
+    justify-items: center;
+    gap: var(--space-4);
+    height: 100%;
+  }
+
+  .visual {
+    display: grid;
+    place-items: center;
+    width: min(100%, 38rem);
+    height: 100%;
+  }
+
+  .map,
+  .venue {
+    grid-area: 1 / 1;
+    position: relative;
+    width: 100%;
+  }
+
+  .map {
+    overflow: hidden;
+    border-radius: 1rem;
+  }
+
+  .map :global(.map-image),
+  .venue :global(.venue-image) {
+    width: 100%;
+  }
+
+  .words {
+    display: grid;
+    gap: var(--space-3);
+    justify-items: center;
+    text-align: center;
+  }
+
+  .date {
+    margin: 0;
+    font-size: var(--text-2xl);
+    color: var(--color-accent);
+  }
+
+  .date::first-letter {
+    text-transform: uppercase;
+  }
+
+  .stack :global(.compact .text-serif) {
+    font-size: var(--text-xl);
+  }
+</style>
