@@ -30,7 +30,8 @@ const meet: [number, number] = [RAIL.single, 3.5];
 >
   <div class="stack">
     <SceneMeta label={scene.label} place={scene.place} from={previousPlace('barcelona')} />
-    <div class="visual">
+    <div class="fit">
+    <div class="visual fit-item" style="--ratio: 751 / 1112">
       {scene.image && <Illustration id={scene.image} lang={lang} class="facade" />}
       <div class="intercom" data-intercom>
         <Illustration id="08-deurbel" lang={lang} class="intercom-image" />
@@ -47,6 +48,7 @@ const meet: [number, number] = [RAIL.single, 3.5];
         }
       </div>
     </div>
+    </div>
     <SceneLines lines={scene.lines} lang={lang} id="lines-barcelona" class="compact" />
   </div>
 </SceneShell>
@@ -59,13 +61,6 @@ const meet: [number, number] = [RAIL.single, 3.5];
     justify-items: center;
     gap: var(--space-4);
     height: 100%;
-  }
-
-  .visual {
-    position: relative;
-    height: 100%;
-    max-height: 52svh;
-    aspect-ratio: 751 / 1112;
   }
 
   .visual :global(.facade) {

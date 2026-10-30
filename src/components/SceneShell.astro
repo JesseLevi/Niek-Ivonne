@@ -50,7 +50,8 @@ const { id, module = id, pin, palette, hideUi = false, route, routeBehind, intro
     height: var(--screen);
     overflow: hidden;
     /* Onderaan ruimte voor de vaste knop "Skip to details". */
-    padding: calc(var(--space-8) + env(safe-area-inset-top)) var(--gutter) calc(var(--space-6) + 2.5rem + env(safe-area-inset-bottom));
+    padding: calc(min(var(--space-8), 9svh) + env(safe-area-inset-top)) var(--gutter)
+      calc(min(var(--space-6), 3svh) + 2.5rem + env(safe-area-inset-bottom));
   }
 
   .frame > :global(*:not(.flight-plan)) {

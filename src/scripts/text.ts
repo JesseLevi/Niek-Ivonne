@@ -165,6 +165,7 @@ export function splitFlap(el: HTMLElement, words: string[], options: SplitFlapOp
 
   if (prefersReducedMotion(options) || board.length < 2) {
     show(last);
+    cells.forEach((cell, i) => (cell.style.display = i >= last.length ? 'none' : ''));
     return gsap.timeline();
   }
 
@@ -183,6 +184,9 @@ export function splitFlap(el: HTMLElement, words: string[], options: SplitFlapOp
       else if (local >= settle) char = to[i] ?? ' ';
       else char = flapChar(i, index * 100 + Math.floor((local / settle) * flips));
       if (cell.textContent !== char) cell.textContent = char;
+      // Lege klepjes vallen weg zodra het bord stilstaat (GIRONA na AMSTERDAM, niet GIRONA▯▯▯).
+      const empty = progress >= 1 && i >= (board[board.length - 1]?.length ?? 0);
+      cell.style.display = empty ? 'none' : '';
     });
   });
 }

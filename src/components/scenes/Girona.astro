@@ -28,12 +28,12 @@ const scene = sceneById('girona');
 >
   <div class="stack">
     <SceneMeta label={scene.label} place={scene.place} from={previousPlace('girona')} />
-    <div class="visual">
-      <div class="map" data-map style={`--ox: ${MAP_PINS.girona.x}%; --oy: ${MAP_PINS.girona.y}%`}>
+    <div class="visual fit">
+      <div class="map fit-item" data-map style="--ratio: 1161 / 774; --fit-max: 38rem">
         <Illustration id="04-wereldkaart" lang={lang} class="map-image" />
         <MapPin name="girona" x={MAP_PINS.girona.x} y={MAP_PINS.girona.y} />
       </div>
-      <div class="venue" data-venue>
+      <div class="venue fit-item" data-venue style="--ratio: 1000 / 499; --fit-max: 38rem">
         {scene.image && <Illustration id={scene.image} lang={lang} class="venue-image" />}
       </div>
     </div>
@@ -54,20 +54,6 @@ const scene = sceneById('girona');
     height: 100%;
   }
 
-  .visual {
-    display: grid;
-    place-items: center;
-    width: min(100%, 38rem);
-    height: 100%;
-  }
-
-  .map,
-  .venue {
-    grid-area: 1 / 1;
-    position: relative;
-    width: 100%;
-  }
-
   /* De kaart zoomt zonder eigen kader over het hele scherm, maar blijft achter het vertrekbord. */
   .visual {
     position: relative;
@@ -82,6 +68,7 @@ const scene = sceneById('girona');
   .map :global(.map-image),
   .venue :global(.venue-image) {
     width: 100%;
+    height: 100%;
   }
 
   .words {

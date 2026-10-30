@@ -27,7 +27,8 @@ const final = formatNumber(stats.messages.value, lang) + (stats.messages.plus ? 
         <span class="tally-count" data-messages-counter data-to={stats.messages.value} data-steps={stats.messages.steps.join(',')} data-plus={stats.messages.plus ? '' : undefined}>{final}</span>
       </p>
     </div>
-    <div class="phone" data-phone>
+    <div class="fit">
+    <div class="phone fit-item" data-phone style="--ratio: 577 / 1001; --fit-max: 18rem">
       {scene.image && <Illustration id={scene.image} lang={lang} class="phone-image" />}
       <ol class="chat" aria-label={stats.messages.label[lang]}>
         {
@@ -39,6 +40,7 @@ const final = formatNumber(stats.messages.value, lang) + (stats.messages.plus ? 
           ))
         }
       </ol>
+    </div>
     </div>
     <SceneLines lines={scene.lines} lang={lang} id="lines-messages" class="compact" />
   </div>
@@ -82,12 +84,7 @@ const final = formatNumber(stats.messages.value, lang) + (stats.messages.plus ? 
     line-height: 1;
   }
 
-  .phone {
-    position: relative;
-    height: 100%;
-    max-height: 40svh;
-    aspect-ratio: 577 / 1001;
-  }
+
 
   .phone :global(.phone-image) {
     width: 100%;
@@ -111,13 +108,15 @@ const final = formatNumber(stats.messages.value, lang) + (stats.messages.plus ? 
     gap: 0.5rem;
     rotate: 3.4deg;
     container-type: inline-size;
+    /* Zoals een echte chat: oudere appjes schuiven bovenaan uit beeld als het scherm vol is. */
+    overflow: hidden;
   }
 
   .bubble {
     max-width: 85%;
     padding: 0.45em 0.7em 0.35em;
     border-radius: 1em;
-    font-size: clamp(0.6rem, 7.2cqi, 0.9rem);
+    font-size: clamp(0.45rem, 7.2cqi, 0.9rem);
     line-height: 1.25;
     color: var(--card-ink);
     background: var(--card);

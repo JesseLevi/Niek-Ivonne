@@ -15,8 +15,10 @@ const { lang } = Astro.props;
 
 <SceneShell id="credits" palette="girona" pin={200} labelledby="credits-title">
   <div class="stack">
-    <div class="window-wrap" data-credits-window>
-      <Window lang={lang} view="03-uitzicht-emporda" />
+    <div class="fit">
+      <div class="window-wrap fit-item" data-credits-window style="--ratio: 707 / 957; --fit-max: 20rem">
+        <Window lang={lang} view="03-uitzicht-emporda" />
+      </div>
     </div>
     <div class="roll" data-roll>
       <h2 class="visually-hidden" id="credits-title">{ui.the_end[lang]}</h2>
@@ -45,9 +47,7 @@ const { lang } = Astro.props;
     height: 100%;
   }
 
-  .window-wrap {
-    width: min(56vw, 34svh, 20rem);
-  }
+
 
   .roll {
     text-align: center;

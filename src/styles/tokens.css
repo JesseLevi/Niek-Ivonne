@@ -163,6 +163,15 @@
   --z-ui: 10;
 }
 
+/* Lage schermen (laptop met browserbalken): kleinere koppen, zodat beeld en tekst samen passen. */
+@media (max-height: 760px) {
+  :root {
+    --text-xl: clamp(1.2rem, 0.6rem + min(3vw, 3svh), 1.75rem);
+    --text-2xl: clamp(1.6rem, 0.6rem + min(5vw, 4.5svh), 3rem);
+    --text-3xl: clamp(2.5rem, 1rem + min(9vw, 7svh), 5rem);
+  }
+}
+
 /* Nachtversie */
 :root[data-theme='dark'] {
   color-scheme: dark;
