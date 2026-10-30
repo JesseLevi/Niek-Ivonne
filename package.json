@@ -14,7 +14,8 @@
     "check:cms": "node scripts/check-cms.mjs",
     "check:colors": "node scripts/check-colors.mjs",
     "placeholders": "node scripts/placeholders.mjs",
-    "og": "node scripts/og.mjs"
+    "og": "node scripts/og.mjs",
+    "export:translations": "node scripts/export-translations.mjs"
   },
   "dependencies": {
     "astro": "^6.4.8",
