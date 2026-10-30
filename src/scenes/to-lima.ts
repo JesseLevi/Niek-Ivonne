@@ -45,8 +45,10 @@ const toLima: Scene = {
     }
 
     const times = animateLines(ctx, el, 0.1, 0.85);
-    // Eerste regel = de vlucht; daarna per regel een groep stoeltjes.
-    const sizes = groupSizes(seats.length, Math.max(times.length - 1, 1));
+    // Eerste regel = de vlucht; dan per regel een groep stoeltjes: samen (zij en hij),
+    // zijn ouders, de tweelingbroer. De slotregel ("naar haar familie") krijgt geen stoeltjes.
+    const SEAT_LINES = 3;
+    const sizes = groupSizes(seats.length, Math.min(SEAT_LINES, Math.max(times.length - 1, 1)));
     let index = 0;
     sizes.forEach((size, group) => {
       const at = times[group + 1] ?? times[times.length - 1] ?? 0.5;

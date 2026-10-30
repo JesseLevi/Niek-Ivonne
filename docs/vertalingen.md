@@ -133,6 +133,7 @@ _Gegenereerd met `npm run export:translations`; niet met de hand bewerken._
 | `scenes[to-lima].lines[2]` | Together. | Juntos. | Samen. |
 | `scenes[to-lima].lines[3]` | With his parents. | Con los papás de él. | Met zijn ouders. |
 | `scenes[to-lima].lines[4]` | And his twin brother. | Y su hermano gemelo. | En zijn tweelingbroer. |
+| `scenes[to-lima].lines[5]` | To her family. | A ver a su familia. | Naar haar familie. |
 | `scenes[andes].lines[1]` | With the Andes as witnesses, he asked. | Con los Andes como testigos, él hizo la pregunta. | Met de Andes als getuigen stelde hij de vraag. |
 | `scenes[andes].lines[2]` | Sí. | Sí. | Sí. |
 | `scenes[girona].lines[1]` | Two places, {distance} km apart, became one. | Dos lugares, a {distance} km de distancia, se volvieron uno. | Twee plekken, {distance} km uit elkaar, werden één. |

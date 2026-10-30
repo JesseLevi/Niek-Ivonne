@@ -1,18 +1,18 @@
 ---
 // Vijf platte bergsilhouetten als parallaxlagen, van ver (licht) naar dichtbij (donker).
 const ridges = [
-  'M0 120L40 70l30 25 45-55 40 40 35-30 50 50 40-45 50 55 40-35 30 25V200H0Z',
-  'M0 135l50-45 35 30 50-50 45 45 40-25 55 50 45-40 35 30 45-35V200H0Z',
-  'M0 150l35-30 45 25 55-55 40 40 50-30 40 35 55-45 45 50 35-20V200H0Z',
-  'M0 165l60-40 40 25 45-30 55 40 40-25 50 35 45-30 65 30V200H0Z',
-  'M0 182c40-14 80-20 130-12s90 4 130-6 90-10 140 4V200H0Z',
+  'M0 120L40 70l30 25 45-55 40 40 35-30 50 50 40-45 50 55 40-35 30 25V280H0Z',
+  'M0 135l50-45 35 30 50-50 45 45 40-25 55 50 45-40 35 30 45-35V280H0Z',
+  'M0 150l35-30 45 25 55-55 40 40 50-30 40 35 55-45 45 50 35-20V280H0Z',
+  'M0 165l60-40 40 25 45-30 55 40 40-25 50 35 45-30 65 30V280H0Z',
+  'M0 182c40-14 80-20 130-12s90 4 130-6 90-10 140 4V280H0Z',
 ];
 ---
 
 <div class="mountains" aria-hidden="true">
   {
     ridges.map((d, i) => (
-      <svg class="ridge" viewBox="0 0 400 200" preserveAspectRatio="xMidYMax slice" style={`--depth: ${i}`} data-ridge>
+      <svg class="ridge" viewBox="0 0 400 200" preserveAspectRatio="none" style={`--depth: ${i}`} data-ridge>
         <path d={d} />
       </svg>
     ))
@@ -29,11 +29,16 @@ const ridges = [
     pointer-events: none;
   }
 
+  /*
+   * Uitrekken i.p.v. bijsnijden: op brede schermen werden de toppen anders afgekapt.
+   * De vlakken lopen onder de rand door, zodat er bij de parallax geen gat ontstaat.
+   */
   .ridge {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    overflow: visible;
   }
 
   .ridge path {
