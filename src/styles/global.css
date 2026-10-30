@@ -82,3 +82,15 @@ button {
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
 }
+
+/* Tijdens de Andes-scène verdwijnt alle UI (data-hide-ui). */
+.ui-hidden [data-language-switcher],
+.ui-hidden [data-skip] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-language-switcher],
+[data-skip] {
+  transition: opacity 600ms var(--ease-out);
+}

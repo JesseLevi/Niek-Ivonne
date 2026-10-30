@@ -1,0 +1,43 @@
+---
+// Mono-label en (optioneel) vertrekbord bovenaan een scène.
+interface Props {
+  label: string;
+  place?: string;
+  /** Plaats waar het vertrekbord vandaan klappert. */
+  from?: string;
+}
+
+const { label, place, from } = Astro.props;
+---
+
+<div class="meta">
+  <p class="label text-mono" data-scene-label>{label}</p>
+  {
+    place && (
+      <p class="place" data-place data-from={from ?? ''}>
+        {place}
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .meta {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+    text-align: center;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .label {
+    color: var(--color-muted);
+  }
+
+  .place {
+    font-size: var(--text-sm);
+  }
+</style>

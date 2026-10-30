@@ -21,6 +21,14 @@
   --night: oklch(25.6% 0.033 273.7); /* #1E2233 */
   --night-ink: oklch(95.1% 0.009 78.3); /* #F2EEE8 */
 
+  /* Papieren objecten (boarding passes, RSVP-kaart): blijven licht, ook in dark mode */
+  --card: oklch(98.5% 0.006 80);
+  --card-ink: oklch(27.2% 0.009 67.4);
+  --card-accent: oklch(50.1% 0.209 270.3);
+  --stamp: oklch(52% 0.17 28); /* stempel CONFIRMED */
+  --shadow: oklch(27.2% 0.009 67.4 / 0.18);
+  --glow: oklch(88% 0.12 80); /* brandend raam */
+
   /* 0. Splash */
   --scene-splash-bg: var(--paper);
   --scene-splash-ink: var(--ink);

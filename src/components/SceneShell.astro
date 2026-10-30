@@ -1,0 +1,62 @@
+---
+// Omhulsel van een scène: de <section> met de attributen voor het scroll-fundament,
+// een schermvullend frame en het stuk flight plan-lijn.
+import FlightPlan from './FlightPlan.astro';
+import type { RouteLine } from '../lib/flight-plan';
+
+interface Props {
+  id: string;
+  /** Module in src/scenes/; standaard gelijk aan het id. */
+  module?: string;
+  /** Scrollafstand in % schermhoogte. */
+  pin?: number;
+  palette?: string;
+  hideUi?: boolean;
+  route?: RouteLine[];
+  intro?: boolean;
+  labelledby?: string;
+  class?: string;
+}
+
+const { id, module = id, pin, palette, hideUi = false, route, intro, labelledby, class: className } = Astro.props;
+---
+
+<section
+  class:list={['scene', className]}
+  id={`scene-${id}`}
+  data-scene={id}
+  data-module={module}
+  data-pin={pin}
+  data-palette={palette}
+  data-hide-ui={hideUi ? '' : undefined}
+  aria-labelledby={labelledby}
+>
+  <div class="frame">
+    {route && <FlightPlan route={route} intro={intro} />}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .scene {
+    position: relative;
+  }
+
+  .frame {
+    position: relative;
+    height: var(--screen);
+    overflow: hidden;
+    /* Onderaan ruimte voor de vaste knop "Skip to details". */
+    padding: calc(var(--space-8) + env(safe-area-inset-top)) var(--gutter) calc(var(--space-6) + 2.5rem + env(safe-area-inset-bottom));
+  }
+
+  .frame > :global(*:not(.flight-plan)) {
+    position: relative;
+    z-index: 1;
+  }
+
+  :global(.reduced-motion) .frame {
+    height: auto;
+    min-height: var(--screen);
+  }
+</style>

@@ -17,6 +17,8 @@ export interface SceneContext {
    * in beeld komt.
    */
   timeline: gsap.core.Timeline;
+  /** Lenis-instantie (null bij reduced motion), bijv. om naar een plek te scrollen. */
+  lenis: () => import('lenis').default | null;
 }
 
 export interface Scene {

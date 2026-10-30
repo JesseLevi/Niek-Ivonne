@@ -1,0 +1,124 @@
+---
+// Boarding pass in HTML/CSS, zodat hij in drie talen werkt.
+import { site, ui } from '../lib/content';
+import { formatDate, type Locale } from '../lib/i18n';
+import type { BoardingPassData } from '../lib/schema';
+
+interface Props {
+  pass: BoardingPassData;
+  lang: Locale;
+  size?: 'small' | 'large';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { pass, lang, size = 'small', class: className, ...rest } = Astro.props;
+const labels = ui.boarding_pass;
+// Vluchtnummer en stoel volgen vast uit de datum, zodat elke pass anders is maar niet verandert.
+const seed = Number(pass.date.replaceAll('-', '')) % 997;
+const flight = `NI ${String(100 + (seed % 900)).padStart(3, '0')}`;
+const seat = `${(seed % 28) + 2}${'ABCDEF'[seed % 6]}`;
+const gate = `${'ABCDE'[seed % 5]}${(seed % 40) + 1}`;
+// Hij vloog vanuit Amsterdam, zij vanuit Barcelona.
+const passenger = pass.from === 'AMS' ? site.couple.first : site.couple.second;
+---
+
+<article class:list={['pass', `pass-${size}`, className]} {...rest}>
+  <div class="main">
+    <div class="route">
+      <span class="code">{pass.from}</span>
+      <span class="arrow" aria-hidden="true">→</span>
+      <span class="code">{pass.to}</span>
+    </div>
+    <dl class="fields text-mono">
+      <div><dt>{labels.passenger[lang]}</dt><dd>{passenger}</dd></div>
+      <div><dt>{labels.date[lang]}</dt><dd>{formatDate(pass.date, lang)}</dd></div>
+      <div><dt>{labels.flight[lang]}</dt><dd>{flight}</dd></div>
+      <div><dt>{labels.seat[lang]}</dt><dd>{seat}</dd></div>
+    </dl>
+  </div>
+  <div class="stub text-mono">
+    <span>{labels.gate[lang]} {gate}</span>
+    {pass.one_way && <span class="one-way" data-one-way>{labels.one_way[lang]}</span>}
+  </div>
+</article>
+
+<style>
+  .pass {
+    --pass-paper: var(--card);
+    --notch: 0.6rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    width: min(100%, 22rem);
+    color: var(--card-ink);
+    background:
+      radial-gradient(circle at 100% 0, transparent var(--notch), var(--pass-paper) calc(var(--notch) + 0.5px)) top left / 51% 51% no-repeat,
+      radial-gradient(circle at 0 0, transparent var(--notch), var(--pass-paper) calc(var(--notch) + 0.5px)) top right / 51% 51% no-repeat,
+      radial-gradient(circle at 100% 100%, transparent var(--notch), var(--pass-paper) calc(var(--notch) + 0.5px)) bottom left / 51% 51% no-repeat,
+      radial-gradient(circle at 0 100%, transparent var(--notch), var(--pass-paper) calc(var(--notch) + 0.5px)) bottom right / 51% 51% no-repeat;
+    filter: drop-shadow(0 6px 14px var(--shadow));
+    border-radius: 0.5rem;
+    text-align: start;
+  }
+
+  .main {
+    padding: var(--space-4) var(--space-4) var(--space-4) var(--space-5);
+  }
+
+  .route {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 1.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  .arrow {
+    color: var(--card-accent);
+    font-size: 1.25rem;
+  }
+
+  .fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2) var(--space-4);
+    margin: var(--space-3) 0 0;
+  }
+
+  .fields dt {
+    opacity: 0.55;
+    font-size: 0.6rem;
+  }
+
+  .fields dd {
+    margin: 0;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .stub {
+    display: grid;
+    align-content: space-between;
+    justify-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-4);
+    border-left: 2px dashed color-mix(in oklch, currentColor 25%, transparent);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .one-way {
+    color: var(--card-accent);
+    font-weight: 500;
+  }
+
+  .pass-large {
+    width: min(100%, 26rem);
+  }
+
+  .pass-large .route {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+  }
+</style>

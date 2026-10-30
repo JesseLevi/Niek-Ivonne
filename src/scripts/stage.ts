@@ -5,6 +5,8 @@
 //   data-scene   id, en ook de kleurset uit tokens.css (tenzij data-palette)
 //   data-module  bestandsnaam in src/scenes/ (zonder .ts); geen = alleen pin + kleur
 //   data-pin     scrollafstand in % schermhoogte (standaard 200, 0 = niet vastpinnen)
+//   data-hide-ui taalwisselaar en skip-knop weg tijdens deze scène
+// Een <svg data-flight-plan> in de scène is het stuk flight plan-lijn (zie flight-plan.ts).
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -13,6 +15,7 @@ import 'lenis/dist/lenis.css';
 import { isLocale, DEFAULT_LOCALE, type Locale } from '../lib/i18n';
 import type { Scene, SceneContext, SceneModule } from '../scenes/types';
 import { Background, type BackgroundScene } from './background';
+import { FlightPlan } from './flight-plan';
 import { takeScrollAfterSwitch } from './language';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -47,6 +50,10 @@ interface StageScene {
 export interface Stage {
   lenis: Lenis | null;
   scenes: StageScene[];
+  /** True als de pagina na een taalwissel naar de oude plek is gesprongen. */
+  restored: boolean;
+  /** Scroll naar een element (met Lenis als dat aan staat). */
+  scrollTo(target: HTMLElement | number, immediate?: boolean): void;
 }
 
 export function startStage(): Stage {
@@ -67,7 +74,16 @@ export function startStage(): Stage {
   });
 
   const background = new Background(root);
-  const stage: Stage = { lenis: null, scenes };
+  const stage: Stage = {
+    lenis: null,
+    scenes,
+    restored: false,
+    scrollTo(target, immediate = false) {
+      const y = typeof target === 'number' ? target : target.getBoundingClientRect().top + scrollY;
+      if (stage.lenis) stage.lenis.scrollTo(y, { immediate, force: true, duration: 1.6 });
+      else window.scrollTo({ top: y, behavior: immediate || conditions.reducedMotion ? 'auto' : 'smooth' });
+    },
+  };
   let current: gsap.Context | null = null;
   let conditions = { reducedMotion: false, mobile: false };
 
@@ -79,8 +95,9 @@ export function startStage(): Stage {
       const result = module.init(ctx);
       const settle = () => {
         // Animaties die na het begin van de scroll zijn toegevoegd direct in de juiste stand zetten.
+        // Zonder suppressEvents: helpers als de typemachine tekenen in hun onUpdate.
         const progress = timeline.progress();
-        timeline.progress(0, true).progress(progress, true);
+        timeline.progress(0).progress(progress);
       };
       if (result instanceof Promise) result.then(settle);
       else settle();
@@ -126,6 +143,9 @@ export function startStage(): Stage {
       root.classList.toggle('reduced-motion', reducedMotion);
 
       const backgroundScenes: BackgroundScene[] = [];
+      const plans: FlightPlan[] = [];
+      const relayout = () => plans.forEach((plan) => plan.layout());
+      ScrollTrigger.addEventListener('refresh', relayout);
       const onUpdate = () => background.update();
 
       for (const scene of scenes) {
@@ -139,7 +159,7 @@ export function startStage(): Stage {
           scrollTrigger: reducedMotion
             ? { trigger: scene.el, start: 'top 75%', toggleActions: 'play none none none' }
             : pinned
-              ? { trigger: scene.el, start: 'top top', end: `+=${pin}%`, pin: true, scrub: true, anticipatePin: 1, onUpdate }
+              ? { trigger: scene.el, start: 'top top', end: `+=${pin}%`, pin: true, scrub: true, anticipatePin: 1, invalidateOnRefresh: true, onUpdate }
               : { trigger: scene.el, start: 'top top', end: 'bottom top', scrub: true, onUpdate },
         });
         timeline.set({}, {}, 1);
@@ -159,13 +179,43 @@ export function startStage(): Stage {
           play: () => (reducedMotion || !play ? 1 : play.progress),
         });
 
-        scene.ctx = { el: scene.el, id: scene.id, lang, reducedMotion, mobile, timeline };
+        // Flight plan-lijn: tekent vanaf het binnenkomen van de scène tot het einde van de pin.
+        const svg = scene.el.querySelector<SVGSVGElement>('[data-flight-plan]');
+        if (svg?.parentElement) {
+          const plan = new FlightPlan(svg, svg.parentElement);
+          plans.push(plan);
+          if (reducedMotion) plan.set(1);
+          else if (svg.dataset.intro !== undefined) {
+            const state = { p: 0 };
+            gsap.to(state, { p: 1, duration: 1.6, delay: 0.6, ease: 'power2.inOut', onUpdate: () => plan.set(state.p) });
+          } else {
+            ScrollTrigger.create({
+              trigger: scene.el,
+              start: 'top bottom',
+              end: () => (play && pinned ? play.end : (play?.end ?? 0)),
+              onUpdate: (self) => plan.set(self.progress),
+            });
+          }
+        }
+
+        // UI (taalwisselaar, skip-knop) verbergen tijdens scènes met data-hide-ui (de Andes).
+        if (scene.el.dataset.hideUi !== undefined && !reducedMotion) {
+          ScrollTrigger.create({
+            trigger: scene.el,
+            start: 'top 40%',
+            end: () => (play ? play.end - innerHeight * 0.3 : 0),
+            toggleClass: { targets: root, className: 'ui-hidden' },
+          });
+        }
+
+        scene.ctx = { el: scene.el, id: scene.id, lang, reducedMotion, mobile, timeline, lenis: () => stage.lenis };
         if (scene.module) initScene(scene);
       }
 
       background.setScenes(backgroundScenes);
 
       return () => {
+        ScrollTrigger.removeEventListener('refresh', relayout);
         for (const scene of scenes) {
           if (scene.module && scene.ctx) scene.module.destroy?.(scene.ctx);
           scene.ctx = undefined;
@@ -189,6 +239,7 @@ export function startStage(): Stage {
   // Na een taalwissel op dezelfde plek verdergaan.
   const fraction = takeScrollAfterSwitch();
   if (fraction !== null) {
+    stage.restored = true;
     ScrollTrigger.refresh();
     const max = ScrollTrigger.maxScroll(window);
     if (stage.lenis) stage.lenis.scrollTo(fraction * max, { immediate: true, force: true });
