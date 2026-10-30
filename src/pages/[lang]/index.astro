@@ -1,10 +1,25 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Backdrop from '../../components/Backdrop.astro';
-import LanguageSwitcher from '../../components/LanguageSwitcher.astro';
-import StoryScene from '../../components/StoryScene.astro';
-import { site, story, ui } from '../../lib/content';
-import { formatLongDate, formatMonthYear, type Locale } from '../../lib/i18n';
+import Chrome from '../../components/Chrome.astro';
+import GuestData from '../../components/GuestData.astro';
+import Splash from '../../components/scenes/Splash.astro';
+import TwoPlaces from '../../components/scenes/TwoPlaces.astro';
+import Lima from '../../components/scenes/Lima.astro';
+import Netherlands from '../../components/scenes/Netherlands.astro';
+import Barcelona from '../../components/scenes/Barcelona.astro';
+import Messages from '../../components/scenes/Messages.astro';
+import Visit from '../../components/scenes/Visit.astro';
+import BackAndForth from '../../components/scenes/BackAndForth.astro';
+import Amsterdam from '../../components/scenes/Amsterdam.astro';
+import ToLima from '../../components/scenes/ToLima.astro';
+import Andes from '../../components/scenes/Andes.astro';
+import Girona from '../../components/scenes/Girona.astro';
+import Info from '../../components/scenes/Info.astro';
+import Rsvp from '../../components/scenes/Rsvp.astro';
+import Credits from '../../components/scenes/Credits.astro';
+import { site } from '../../lib/content';
+import type { Locale } from '../../lib/i18n';
 import { localeStaticPaths } from '../../lib/routes';
 
 export const getStaticPaths = localeStaticPaths;
@@ -14,74 +29,35 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const names = `${site.couple.first} & ${site.couple.second}`;
-// Elk vertrekbord klappert vanaf de plaats van de vorige scène met een bord.
-const previousPlaces = story.scenes.map((_, i) => story.scenes.slice(0, i).findLast((s) => s.place)?.place);
-const flightLine = [site.wedding.province, formatMonthYear(site.wedding.date, lang), site.wedding.venue].join(' · ');
 ---
 
 <Base title={site.og.title[lang]} description={site.og.description[lang]} lang={lang} localizedFrom="/">
+  <GuestData lang={lang} slot="head" />
   <Backdrop />
-  <LanguageSwitcher lang={lang} />
+  <Chrome lang={lang} />
   <main>
-    <section class="splash" data-scene="splash" data-module="splash" data-pin="0">
-      <div class="splash-title" data-splash-title>
-        <h1 class="names text-serif">{names}</h1>
-        <p class="text-mono">{flightLine}</p>
-      </div>
-      <p class="hint text-mono" data-splash-hint>{ui.scroll_to_board[lang]}</p>
-    </section>
-
-    {story.scenes.map((scene, i) => <StoryScene scene={scene} lang={lang} previousPlace={previousPlaces[i]} />)}
-
-    <section class="details" id="details" data-scene="info" data-pin="0">
-      <p class="text-mono">{site.wedding.venue} · {site.wedding.town}</p>
-      <p class="date text-serif">{formatLongDate(site.wedding.date, lang)}</p>
-    </section>
+    <Splash lang={lang} />
+    <TwoPlaces lang={lang} />
+    <Lima lang={lang} />
+    <Netherlands lang={lang} />
+    <Barcelona lang={lang} />
+    <Messages lang={lang} />
+    <Visit lang={lang} />
+    <BackAndForth lang={lang} />
+    <Amsterdam lang={lang} />
+    <ToLima lang={lang} />
+    <Andes lang={lang} />
+    <Girona lang={lang} />
+    <Info lang={lang} />
+    <Rsvp lang={lang} />
+    <Credits lang={lang} />
   </main>
 </Base>
 
 <script>
   import { startStage } from '../../scripts/stage';
-  startStage();
+  import { initChrome } from '../../scripts/chrome';
+
+  const stage = startStage();
+  initChrome(stage, stage.restored);
 </script>
-
-<style>
-  .splash,
-  .details {
-    position: relative;
-    display: grid;
-    place-content: center;
-    gap: var(--space-4);
-    min-height: var(--screen);
-    padding: var(--gutter);
-    text-align: center;
-  }
-
-  .splash-title {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  .names {
-    margin: 0;
-    font-size: var(--text-3xl);
-    line-height: var(--leading-tight);
-  }
-
-  p {
-    margin: 0;
-  }
-
-  .hint {
-    position: absolute;
-    bottom: max(var(--space-6), env(safe-area-inset-bottom));
-    left: 0;
-    right: 0;
-    color: var(--color-muted);
-  }
-
-  .date::first-letter {
-    text-transform: uppercase;
-  }
-</style>

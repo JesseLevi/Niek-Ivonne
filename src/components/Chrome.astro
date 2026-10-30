@@ -1,0 +1,37 @@
+---
+// Vaste knoppen: taalwisselaar rechtsboven en "Skip to details ↓" onderaan.
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { ui } from '../lib/content';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+---
+
+<LanguageSwitcher lang={lang} />
+<a class="skip text-mono" href="#details" data-skip>{ui.skip_to_details[lang]}</a>
+
+<style>
+  .skip {
+    position: fixed;
+    right: max(var(--gutter), env(safe-area-inset-right));
+    bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    z-index: var(--z-ui);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--color-bg) 80%, transparent);
+    backdrop-filter: blur(6px);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: opacity var(--duration-ui) var(--ease-out);
+  }
+
+  .skip.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
