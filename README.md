@@ -11,7 +11,7 @@ npm install
 npm run dev       # ontwikkelserver op http://localhost:4321
 npm run build     # statische site in dist/
 npm run preview   # bekijk de build lokaal
-npm run check     # TypeScript- en Astro-controle
+npm run check     # TypeScript, Astro en Pages CMS-config controleren
 ```
 
 ## Mappen
@@ -42,4 +42,4 @@ Alle tekst en data staat in `src/content/*.yml` (bewerkbaar via Pages CMS) en wo
 | `guests.yml` | Persoonlijke links (`?g=slug`). Repo is publiek: geen gevoelige gegevens |
 | `images.yml` | Illustraties met afmetingen en alt-tekst |
 
-Mock data is gemarkeerd met `# TODO`.
+Mock data is gemarkeerd met `# TODO`. Teksten aanpassen via Pages CMS: zie [`docs/cms.md`](docs/cms.md).

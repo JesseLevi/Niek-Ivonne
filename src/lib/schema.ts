@@ -9,6 +9,20 @@ const text = z.string().trim().min(1, 'mag niet leeg zijn');
 /** Een vertaald veld: `{ en, es, nl }`, alle drie verplicht. */
 export const translated = z.strictObject({ en: text, es: text, nl: text });
 
+/** Leeg (`null`, `""` of een object met alleen lege waarden, zoals Pages CMS het kan opslaan). */
+function isBlank(value: unknown): boolean {
+  if (value === null || value === undefined || value === '') return true;
+  if (typeof value === 'object' && !Array.isArray(value)) {
+    return Object.values(value).every(isBlank);
+  }
+  return false;
+}
+
+/** Optioneel veld: lege waarden uit de CMS tellen als afwezig. */
+function optional<T extends z.ZodType>(schema: T) {
+  return z.preprocess((value) => (isBlank(value) ? undefined : value), schema.optional());
+}
+
 /** Controleert dat alleen de genoemde `{tokens}` voorkomen, in elke taal dezelfde. */
 function checkTokens(allowed: readonly string[]) {
   return (value: Record<(typeof LOCALES)[number], string>, ctx: z.RefinementCtx) => {
@@ -34,6 +48,9 @@ function checkTokens(allowed: readonly string[]) {
     }
   };
 }
+
+/** Aan/uit-veld, standaard uit. */
+const flag = z.preprocess((value) => value ?? undefined, z.boolean().default(false));
 
 const isoDate = z.iso.date('gebruik het formaat JJJJ-MM-DD');
 const optionalUrl = z.union([z.literal(''), z.url('ongeldige URL')]);
@@ -71,7 +88,7 @@ export const siteSchema = z.strictObject({
 
 const stat = z.strictObject({
   value: z.number().int().nonnegative(),
-  plus: z.boolean().default(false),
+  plus: flag,
   label: translated,
 });
 
@@ -87,7 +104,7 @@ export const statsSchema = z.strictObject({
 const line = z
   .strictObject({
     style: z.enum(['serif', 'body', 'mono']),
-    pause: z.boolean().default(false),
+    pause: flag,
     ...translated.shape,
   })
   .superRefine(checkTokens(STAT_TOKENS));
@@ -101,10 +118,10 @@ const chatMessage = z.strictObject({
 const scene = z.strictObject({
   id: slug,
   label: text,
-  image: z.string().optional(),
+  image: optional(z.string()),
   lines: z.array(line).min(1),
-  surprise: translated.optional(),
-  chat: z.array(chatMessage).optional(),
+  surprise: optional(translated),
+  chat: optional(z.array(chatMessage)),
 });
 
 export const storySchema = z.strictObject({

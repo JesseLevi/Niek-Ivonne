@@ -1,0 +1,325 @@
+# Pages CMS (https://pagescms.org): teksten en data bewerken zonder YAML.
+# Elk veld met vertalingen toont English, Español en Nederlands onder elkaar.
+# Controle: `npm run check:cms` kijkt of dit bestand en src/content/ op elkaar aansluiten.
+
+media:
+  input: public/images
+  output: /images
+  extensions: [svg, png, webp, avif, jpg, jpeg]
+
+components:
+  i18n:
+    type: object
+    fields:
+      - { name: en, label: English, type: string, required: true }
+      - { name: es, label: Español, type: string, required: true }
+      - { name: nl, label: Nederlands, type: string, required: true }
+
+  i18n_text:
+    type: object
+    fields:
+      - { name: en, label: English, type: text, required: true }
+      - { name: es, label: Español, type: text, required: true }
+      - { name: nl, label: Nederlands, type: text, required: true }
+
+  stat:
+    type: object
+    fields:
+      - { name: value, label: Getal, type: number, required: true, options: { min: 0 } }
+      - { name: plus, label: Met plusteken (bijv. 3.000+), type: boolean }
+      - { name: label, label: Label, component: i18n }
+
+  section_heading:
+    type: object
+    fields:
+      - { name: code, label: Mono-label (bijv. GATE 2027), type: string, required: true }
+      - { name: heading, label: Kop, component: i18n }
+
+content:
+  - name: site
+    label: Site
+    type: file
+    path: src/content/site.yml
+    fields:
+      - name: couple
+        label: Namen
+        type: object
+        fields:
+          - { name: first, label: Eerste naam, type: string, required: true }
+          - { name: second, label: Tweede naam, type: string, required: true }
+      - name: wedding
+        label: Bruiloft
+        type: object
+        fields:
+          - { name: date, label: Datum, type: date, required: true, options: { format: yyyy-MM-dd } }
+          - { name: venue, label: Locatie, type: string, required: true }
+          - { name: town, label: Plaats, type: string, required: true }
+          - { name: region, label: Streek, type: string, required: true }
+          - { name: province, label: Provincie, type: string, required: true }
+          - { name: country, label: Land, component: i18n }
+          - name: coordinates
+            label: Coördinaten
+            type: object
+            fields:
+              - { name: lat, label: Breedtegraad, type: number, required: true }
+              - { name: lng, label: Lengtegraad, type: number, required: true }
+      - name: rsvp
+        label: RSVP
+        type: object
+        fields:
+          - { name: deadline, label: Deadline, type: date, required: true, options: { format: yyyy-MM-dd } }
+          - { name: form_url, label: URL van het formulier, type: string, description: Leeg laten zolang er nog geen formulier is. }
+      - name: og
+        label: Linkvoorbeeld (WhatsApp)
+        type: object
+        fields:
+          - { name: title, label: Titel, component: i18n }
+          - { name: description, label: Beschrijving, component: i18n_text }
+
+  - name: story
+    label: Verhaal
+    type: file
+    path: src/content/story.yml
+    fields:
+      - name: scenes
+        label: Scènes
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{index}. {id} · {label}"
+        fields:
+          - { name: id, label: ID, type: string, readonly: true, description: Gekoppeld aan de code, niet wijzigen. }
+          - { name: label, label: Mono-label, type: string, required: true, description: "Luchtvaartlabel, bijv. BCN → AMS" }
+          - { name: image, label: Beeld (ID uit Illustraties), type: string, readonly: true }
+          - name: lines
+            label: Regels
+            type: object
+            list:
+              collapsible:
+                collapsed: false
+                summary: "{style}: {en}"
+            fields:
+              - name: style
+                label: Stijl
+                type: select
+                required: true
+                options:
+                  values:
+                    - { name: serif, label: Serif (cursief, emotie) }
+                    - { name: body, label: Lopende tekst }
+                    - { name: mono, label: Mono (label) }
+              - { name: pause, label: Lege scrollstap ervoor, type: boolean }
+              - { name: en, label: English, type: text, required: true, description: "Getallen: {distance}, {messages}, {flights}, {flown_km}" }
+              - { name: es, label: Español, type: text, required: true }
+              - { name: nl, label: Nederlands, type: text, required: true }
+          - { name: surprise, label: Verrassing (bij aantikken), component: i18n }
+          - name: chat
+            label: Appjes
+            type: object
+            list: true
+            fields:
+              - { name: time, label: Tijd (UU:MM), type: string, required: true, pattern: "^([01][0-9]|2[0-3]):[0-5][0-9]$" }
+              - name: from
+                label: Van
+                type: select
+                required: true
+                options:
+                  values:
+                    - { name: her, label: Ivonne }
+                    - { name: him, label: Niek }
+              - { name: en, label: English, type: text, required: true }
+              - { name: es, label: Español, type: text, required: true }
+              - { name: nl, label: Nederlands, type: text, required: true }
+      - name: credits
+        label: Aftiteling
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{index}"
+        fields:
+          - { name: role, label: Rol, component: i18n }
+          - { name: name, label: Naam, component: i18n }
+
+  - name: stats
+    label: Tellers
+    type: file
+    path: src/content/stats.yml
+    fields:
+      - { name: distance, label: Afstand Lima–Nederland (km), component: stat }
+      - name: messages
+        label: Appjes
+        type: object
+        fields:
+          - { name: value, label: Getal, type: number, required: true, options: { min: 0 } }
+          - { name: plus, label: Met plusteken (bijv. 3.000+), type: boolean }
+          - { name: steps, label: Tussenstappen van de teller, type: number, list: true }
+          - { name: label, label: Label, component: i18n }
+      - { name: flights, label: Vluchten, component: stat }
+      - { name: flown_km, label: Gevlogen kilometers, component: stat }
+
+  - name: info
+    label: Praktische info
+    type: file
+    path: src/content/info.yml
+    fields:
+      - name: schedule
+        label: Programma
+        type: object
+        fields:
+          - { name: code, label: Mono-label, type: string, required: true }
+          - { name: heading, label: Kop, component: i18n }
+          - name: items
+            label: Onderdelen
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{time}"
+            fields:
+              - { name: time, label: Tijd (UU:MM), type: string, required: true, pattern: "^([01][0-9]|2[0-3]):[0-5][0-9]$" }
+              - { name: title, label: Titel, component: i18n }
+              - { name: description, label: Beschrijving, component: i18n_text }
+      - name: travel
+        label: Reizen
+        type: object
+        fields:
+          - { name: code, label: Mono-label, type: string, required: true }
+          - { name: heading, label: Kop, component: i18n }
+          - name: items
+            label: Opties
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{code}"
+            fields:
+              - { name: code, label: Code (bijv. GRO), type: string, required: true }
+              - { name: title, label: Titel, component: i18n }
+              - { name: body, label: Tekst, component: i18n_text }
+      - name: stay
+        label: Overnachten
+        type: object
+        fields:
+          - { name: code, label: Mono-label, type: string, required: true }
+          - { name: heading, label: Kop, component: i18n }
+          - name: items
+            label: Plekken
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{name}"
+            fields:
+              - { name: name, label: Naam, type: string, required: true }
+              - { name: url, label: Link, type: string }
+              - { name: body, label: Tekst, component: i18n_text }
+      - name: dresscode
+        label: Dresscode
+        type: object
+        fields:
+          - { name: code, label: Mono-label, type: string, required: true }
+          - { name: heading, label: Kop, component: i18n }
+          - { name: body, label: Tekst, component: i18n_text }
+      - name: gifts
+        label: Cadeaus
+        type: object
+        fields:
+          - { name: code, label: Mono-label, type: string, required: true }
+          - { name: heading, label: Kop, component: i18n }
+          - { name: body, label: Tekst, component: i18n_text }
+      - name: faq
+        label: Vragen
+        type: object
+        fields:
+          - { name: code, label: Mono-label, type: string, required: true }
+          - { name: heading, label: Kop, component: i18n }
+          - name: items
+            label: Vragen
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{index}"
+            fields:
+              - { name: question, label: Vraag, component: i18n }
+              - { name: answer, label: Antwoord, component: i18n_text }
+
+  - name: ui
+    label: Knoppen en labels
+    type: file
+    path: src/content/ui.yml
+    fields:
+      - { name: languages, label: Naam van elke taal (in die taal), component: i18n }
+      - { name: language_switcher, label: Taalwisselaar (voor schermlezers), component: i18n }
+      - { name: choose_language, label: Keuzepagina zonder JavaScript, component: i18n }
+      - { name: scroll_to_board, label: Scrollhint op de splash, component: i18n }
+      - { name: skip_to_details, label: Knop naar de details, component: i18n }
+      - { name: replay_story, label: Knop verhaal opnieuw, component: i18n }
+      - { name: shade_close, label: Rolluik dicht (voor schermlezers), component: i18n }
+      - { name: shade_open, label: Rolluik open (voor schermlezers), component: i18n }
+      - name: rsvp
+        label: RSVP
+        type: object
+        fields:
+          - { name: heading, label: Kop, component: i18n }
+          - { name: intro, label: Intro, component: i18n_text, description: "{deadline} wordt de datum." }
+          - { name: name, label: Veld naam, component: i18n }
+          - { name: party_size, label: Veld aantal, component: i18n }
+          - { name: attending, label: Vraag komen jullie, component: i18n }
+          - { name: attending_yes, label: Antwoord ja, component: i18n }
+          - { name: attending_no, label: Antwoord nee, component: i18n }
+          - { name: diet, label: Veld dieetwensen, component: i18n }
+          - { name: submit, label: Verstuurknop, component: i18n }
+          - { name: confirmed, label: Stempel na versturen, component: i18n }
+          - { name: error, label: Foutmelding, component: i18n_text }
+          - { name: offline, label: Offline-melding, component: i18n_text }
+
+  - name: guests
+    label: Gasten
+    type: file
+    path: src/content/guests.yml
+    fields:
+      - name: guests
+        label: Persoonlijke links
+        description: "Link: /?g=slug. De repo is publiek: geen adressen of telefoonnummers."
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name} ({slug})"
+        fields:
+          - { name: slug, label: Slug (in de link), type: string, required: true, pattern: { regex: "^[a-z0-9]+(-[a-z0-9]+)*$", message: "Alleen kleine letters, cijfers en streepjes" } }
+          - { name: name, label: Naam (vooringevuld op de RSVP), type: string, required: true }
+          - name: language
+            label: Taal
+            type: select
+            required: true
+            options:
+              values:
+                - { name: en, label: English }
+                - { name: es, label: Español }
+                - { name: nl, label: Nederlands }
+          - { name: party_size, label: Aantal personen, type: number, required: true, options: { min: 1, max: 20 } }
+          - { name: greeting, label: Begroeting op de splash, component: i18n }
+
+  - name: images
+    label: Illustraties
+    type: file
+    path: src/content/images.yml
+    fields:
+      - name: images
+        label: Beelden
+        description: Houd dezelfde beeldverhouding (breedte × hoogte), anders verspringt de layout.
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{id}"
+        fields:
+          - { name: id, label: ID, type: string, readonly: true }
+          - { name: src, label: Beeld, type: image, required: true }
+          - { name: width, label: Breedte (px), type: number, required: true, options: { min: 1 } }
+          - { name: height, label: Hoogte (px), type: number, required: true, options: { min: 1 } }
+          - { name: alt, label: Alt-tekst, component: i18n }
