@@ -5,7 +5,6 @@ import SceneShell from '../SceneShell.astro';
 import SceneMeta from '../SceneMeta.astro';
 import SceneLines from '../SceneLines.astro';
 import Illustration from '../Illustration.astro';
-import Plane from '../Plane.astro';
 import { sceneById, stats } from '../../lib/content';
 import { aroundRoute } from '../../lib/flight-plan';
 import { formatNumber, type Locale } from '../../lib/i18n';
@@ -19,13 +18,15 @@ const scene = sceneById('messages');
 const final = formatNumber(stats.messages.value, lang) + (stats.messages.plus ? '+' : '');
 ---
 
-<SceneShell id="messages" pin={260} labelledby="lines-messages" route={aroundRoute('right')}>
-  <Plane class="departing" data-plane />
-  <p class="tally text-mono" aria-live="off">
-    {stats.messages.label[lang]}: <span data-messages-counter data-to={stats.messages.value} data-steps={stats.messages.steps.join(',')} data-plus={stats.messages.plus ? '' : undefined}>{final}</span>
-  </p>
+<SceneShell id="messages" pin={260} labelledby="lines-messages" route={aroundRoute('right', undefined, true)}>
   <div class="stack">
-    <SceneMeta label={scene.label} />
+    <div class="top">
+      <SceneMeta label={scene.label} />
+      <p class="tally text-mono">
+        <span class="tally-label">{stats.messages.label[lang]}</span>
+        <span class="tally-count" data-messages-counter data-to={stats.messages.value} data-steps={stats.messages.steps.join(',')} data-plus={stats.messages.plus ? '' : undefined}>{final}</span>
+      </p>
+    </div>
     <div class="phone" data-phone>
       {scene.image && <Illustration id={scene.image} lang={lang} class="phone-image" />}
       <ol class="chat" aria-label={stats.messages.label[lang]}>
@@ -53,20 +54,30 @@ const final = formatNumber(stats.messages.value, lang) + (stats.messages.plus ? 
     height: 100%;
   }
 
-  :global(.departing) {
-    position: absolute !important;
-    left: 40%;
-    top: 45%;
-    width: 3rem;
+  .top {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
   }
 
   .tally {
-    position: absolute !important;
-    top: calc(var(--space-8) + env(safe-area-inset-top));
-    right: var(--gutter);
+    display: grid;
+    justify-items: center;
+    gap: var(--space-1);
     margin: 0;
-    color: var(--color-accent);
-    font-size: 0.65rem;
+    color: var(--color-ink);
+  }
+
+  .tally-label {
+    font-size: var(--text-xs);
+    opacity: 0.75;
+  }
+
+  .tally-count {
+    font-size: clamp(2rem, 9vw, 3.25rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1;
   }
 
   .phone {

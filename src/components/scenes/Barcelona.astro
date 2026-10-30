@@ -74,9 +74,14 @@ const meet: [number, number] = [RAIL.single, 3.5];
     object-fit: contain;
   }
 
+  /* Precies de verhouding van 08-deurbel, zodat de %-posities van naambordjes en knoppen kloppen. */
   .intercom {
     position: absolute;
-    inset: 4% 8%;
+    left: 50%;
+    top: 50%;
+    height: 92%;
+    aspect-ratio: 685 / 971;
+    translate: -50% -50%;
     container-type: inline-size;
   }
 

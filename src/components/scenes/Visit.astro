@@ -4,7 +4,6 @@ import SceneShell from '../SceneShell.astro';
 import SceneMeta from '../SceneMeta.astro';
 import SceneLines from '../SceneLines.astro';
 import BoardingPass from '../BoardingPass.astro';
-import Plane from '../Plane.astro';
 import Skyline from '../Skyline.astro';
 import { sceneById } from '../../lib/content';
 import { aroundRoute } from '../../lib/flight-plan';
@@ -19,9 +18,8 @@ const scene = sceneById('visit');
 const pass = scene.passes?.[0];
 ---
 
-<SceneShell id="visit" pin={220} labelledby="lines-visit" route={aroundRoute('left')}>
+<SceneShell id="visit" pin={220} labelledby="lines-visit" route={aroundRoute('left', undefined, true)}>
   <div class="sky" data-skyline><Skyline /></div>
-  <Plane class="returning" data-plane />
   <div class="stack">
     <SceneMeta label={scene.label} />
     <div class="pass-slot">{pass && <BoardingPass pass={pass} lang={lang} data-pass />}</div>
@@ -53,12 +51,5 @@ const pass = scene.passes?.[0];
     bottom: 0;
     height: 40svh;
     z-index: 0 !important;
-  }
-
-  :global(.returning) {
-    position: absolute !important;
-    right: 10%;
-    top: 30%;
-    width: 2.6rem;
   }
 </style>

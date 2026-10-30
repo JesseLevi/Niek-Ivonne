@@ -40,6 +40,10 @@ const { route, intro = false } = Astro.props;
     stroke-dasharray: 0 9;
   }
 
+  .flight-plan :global(.flight-plan-plane) {
+    fill: var(--color-accent);
+  }
+
   .flight-plan :global(.flight-plan-dot) {
     fill: var(--color-accent);
     opacity: 0;

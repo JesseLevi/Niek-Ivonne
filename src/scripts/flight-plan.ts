@@ -60,7 +60,13 @@ interface DrawnLine {
   line: RouteLine;
   reveal: SVGPathElement;
   dots: SVGCircleElement[];
+  plane?: { el: SVGGElement; length: number };
 }
+
+/** Zelfde silhouet als Plane.astro (64 × 64, neus naar rechts). */
+const PLANE_PATH =
+  'M60 32c0-2.2-1.8-3.4-4-3.4H40.5L26.6 6.8C26 5.9 25 5.4 24 5.4h-3.2l7.6 23.2H14.2L9.4 21.8C9 21.2 8.3 20.8 7.6 20.8H4.4l3.4 11.2-3.4 11.2h3.2c.7 0 1.4-.4 1.8-1l4.8-6.8h14.2l-7.6 23.2H24c1 0 2-.5 2.6-1.4l13.9-21.8H56c2.2 0 4-1.2 4-3.4Z';
+const PLANE_SCALE = 0.6;
 
 export class FlightPlan {
   private lines: DrawnLine[] = [];
@@ -137,7 +143,18 @@ export class FlightPlan {
         this.svg.append(dot);
         dots.push(dot);
       }
-      this.lines.push({ line, reveal, dots });
+      let plane: DrawnLine['plane'];
+      if (line.plane) {
+        const el = document.createElementNS(SVG, 'g');
+        el.setAttribute('class', 'flight-plan-plane');
+        const shape = document.createElementNS(SVG, 'path');
+        shape.setAttribute('d', PLANE_PATH);
+        shape.setAttribute('transform', 'translate(-58 -32)');
+        el.append(shape);
+        this.svg.append(el);
+        plane = { el, length: reveal.getTotalLength() };
+      }
+      this.lines.push({ line, reveal, dots, plane });
     }
     this.set(this.progress);
   }
@@ -145,10 +162,22 @@ export class FlightPlan {
   /** Teken de lijnen tot `progress` (0–1). */
   set(progress: number): void {
     this.progress = progress;
-    for (const { line, reveal, dots } of this.lines) {
+    for (const { line, reveal, dots, plane } of this.lines) {
       const [from, to] = line.draw ?? [0, 1];
       const local = Math.min(Math.max((progress - from) / Math.max(to - from, 0.0001), 0), 1);
       gsap.set(reveal, { drawSVG: `0% ${local * 100}%` });
+      if (plane) {
+        // Vliegtuigje op de punt, in de richting van de lijn; weg zodra de lijn af is.
+        const visible = local > 0.001 && local < 0.999;
+        plane.el.style.visibility = visible ? 'visible' : 'hidden';
+        if (visible) {
+          const at = local * plane.length;
+          const p = reveal.getPointAtLength(at);
+          const q = reveal.getPointAtLength(Math.min(at + 2, plane.length));
+          const angle = (Math.atan2(q.y - p.y, q.x - p.x) * 180) / Math.PI;
+          plane.el.setAttribute('transform', `translate(${p.x} ${p.y}) rotate(${angle}) scale(${PLANE_SCALE})`);
+        }
+      }
       for (const dot of dots) {
         const visible = dot.dataset.at === 'start' ? local > 0 : local >= 0.999;
         dot.classList.toggle('is-visible', visible);

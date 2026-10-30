@@ -9,16 +9,11 @@ import type { Scene } from './types';
 const messages: Scene = {
   init(ctx) {
     const { el, timeline, reducedMotion, lang } = ctx;
-    const plane = el.querySelector('[data-plane]');
     const phone = el.querySelector('[data-phone]');
     const bubbles = el.querySelectorAll('[data-bubble]');
     const tally = el.querySelector<HTMLElement>('[data-messages-counter]');
 
     animateMeta(ctx, el, 0);
-    if (plane) {
-      if (reducedMotion) timeline.set(plane, { autoAlpha: 0 }, 0);
-      else timeline.fromTo(plane, { x: 0, y: 0, rotate: -35 }, { x: '60vw', y: '-55svh', duration: 0.22, ease: 'power1.in' }, 0);
-    }
     const [, started] = animateLines(ctx, el, 0.06, 0.4);
     if (phone) timeline.from(phone, { autoAlpha: 0, y: reducedMotion ? 0 : 60, duration: 0.12, ease: 'power2.out' }, 0.22);
 
