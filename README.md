@@ -54,7 +54,14 @@ Routes `/en/`, `/es/` en `/nl/` (`src/pages/[lang]/`). `/` stuurt door naar de e
 
 ## Illustraties
 
-Elke illustratie staat in `src/content/images.yml` met `src`, `width`, `height` en alt-tekst per taal; `<Illustration id="05-lima" lang={lang} />` toont hem met gereserveerde ruimte. Zolang de echte beelden er niet zijn, staan er SVG-placeholders in `public/images/` (opnieuw maken: `npm run placeholders`). Vervangen: upload het nieuwe beeld en zet `src` om (via Pages CMS › Illustraties), met dezelfde beeldverhouding. De build faalt als een `src` niet bestaat.
+De ChatGPT-illustraties staan als WebP met transparantie in `public/images/` en zijn beschreven in `src/content/images.yml` (afmetingen en alt-tekst per taal); `<Illustration id="05-lima" lang={lang} />` toont er één met gereserveerde ruimte. Opnieuw maken uit de originele PNG's:
+
+```bash
+pip install "rembg[cpu]" pillow numpy
+python scripts/process-illustrations.py pad/naar/Images
+```
+
+Het script stelt vrij (rembg), vult ingesloten vlakken weer op (het uitzicht door het Lima-raam, het telefoonscherm), zet de telefoon rechtop, splitst de ringdoosjes en maakt van het vliegtuigraam passende lagen: kozijn, glasmasker, rolluik en drie uitzichten. Losse beelden vervangen kan ook via Pages CMS › Illustraties, met dezelfde beeldverhouding. De build faalt als een `src` niet bestaat. Voor nieuwe assets zonder beeld maakt `npm run placeholders` SVG-placeholders.
 
 ## Scroll-fundament
 
