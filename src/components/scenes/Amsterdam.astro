@@ -21,7 +21,7 @@ const scene = sceneById('amsterdam');
 const pass = scene.passes?.[0];
 ---
 
-<SceneShell id="amsterdam" pin={320} labelledby="lines-amsterdam" route={aroundRoute('right', [0, 0.5])}>
+<SceneShell id="amsterdam" pin={380} labelledby="lines-amsterdam" route={aroundRoute('right', [0, 0.5])}>
   <div class="sky" aria-hidden="true">
     <svg class="contrail" viewBox="0 0 100 100" preserveAspectRatio="none">
       <path id="amsterdam-flight" data-flight d="M-20 62C10 52 30 30 55 26S95 18 125 8"></path>
@@ -141,9 +141,13 @@ const pass = scene.passes?.[0];
     font-size: var(--text-xl);
   }
 
+  .home {
+    place-items: center;
+  }
+
   .house-wrap {
     position: relative;
-    height: min(100%, 34svh);
+    height: min(100%, 52svh);
     aspect-ratio: 1000 / 924;
   }
 
