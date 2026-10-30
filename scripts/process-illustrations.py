@@ -20,6 +20,8 @@ from PIL import Image, ImageDraw, ImageFilter
 from rembg import new_session, remove
 
 SRC = Path(sys.argv[1])
+# Optioneel: alleen deze uitvoerbestanden schrijven, bijv. 11-amsterdam.webp
+ONLY = set(sys.argv[2:])
 OUT = Path(__file__).resolve().parent.parent / 'public' / 'images'
 OUT.mkdir(parents=True, exist_ok=True)
 session = new_session('isnet-general-use')
@@ -69,6 +71,8 @@ def trim(im: Image.Image, pad: float = 0.02) -> Image.Image:
 
 
 def save(im: Image.Image, name: str, max_width: int = 1200, quality: int = 80) -> None:
+    if ONLY and name not in ONLY:
+        return
     if im.width > max_width:
         im = im.resize((max_width, round(im.height * max_width / im.width)), Image.LANCZOS)
     path = OUT / name
@@ -88,12 +92,23 @@ simple = {
     '07-barcelona-gevel.webp': ('Ornate Mediterranean Facade with Balconies.png', 1000),
     '08-deurbel.webp': ('Vintage Brass Intercom Panel.png', 900),
     '10-koffer.webp': ('Vintage Sage Green Ribbed Suitcase.png', 900),
-    '11-amsterdam.webp': ('Marhaba Café at Dusk.png', 1000),
     '13-mas-terrats.webp': ('Mediterranean Stone Farmhouse Diorama-1.png', 1000),
     '13-mas-terrats-wijd.webp': ('Mediterranean Stone Farmhouse Diorama.png', 1400),
 }
 for out_name, (src_name, width, *floor) in simple.items():
     save(trim(cut(src_name, *floor)), out_name, width)
+
+# Amsterdam: rembg ziet de lichte ruiten als achtergrond. Alle ramen weer dicht, behalve de
+# twee boven MARHABA: die blijven open, zodat de site er licht achter kan laten branden.
+house = trim(cut('Marhaba Café at Dusk.png'))
+filled = fill_holes(house)
+alpha = np.asarray(filled.getchannel('A')).copy()
+original = np.asarray(house.getchannel('A'))
+for x0, y0, x1, y1 in ((0.325, 0.54, 0.43, 0.65), (0.486, 0.54, 0.608, 0.65)):  # % van het bijgesneden beeld
+    ys, xs = slice(int(y0 * house.height), int(y1 * house.height)), slice(int(x0 * house.width), int(x1 * house.width))
+    alpha[ys, xs] = original[ys, xs]
+filled.putalpha(Image.fromarray(alpha))
+save(filled, '11-amsterdam.webp', 1000)
 
 # Lima: het uitzicht door het balkonraam hoort bij het beeld.
 save(trim(fill_holes(cut('Sunlit Coastal Balcony View.png'))), '05-lima.webp', 1000)

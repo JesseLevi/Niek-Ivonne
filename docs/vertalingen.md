@@ -144,7 +144,7 @@ _Gegenereerd met `npm run export:translations`; niet met de hand bewerken._
 | `credits[3].role` | Special thanks to | Agradecimientos especiales | Met dank aan |
 | `credits[3].name` | Erasmus | Erasmus | Erasmus |
 | `credits[4].role` | Starring | Con la actuación de | In de hoofdrollen |
-| `credits[4].name` | Ivonne, Niek and his twin brother (as himself) | Ivonne, Niek y su hermano gemelo (como él mismo) | Ivonne, Niek en zijn tweelingbroer (als zichzelf) |
+| `credits[4].name` | Ivonne and Niek | Ivonne y Niek | Ivonne en Niek |
 
 ## ui.yml
 
