@@ -109,6 +109,11 @@
   /* Illustraties (in dark mode gedimd) */
   --illustration-filter: none;
 
+  /* Lettertypes (zie fonts.css). Inter vangt symbolen op die de mono mist (▶). */
+  --font-serif: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Inter', ui-monospace, 'SF Mono', Menlo, monospace;
+
   /* Typografie: mobiel eerst, schaalt met de kleinste van breedte en hoogte */
   --text-xs: 0.75rem; /* mono-labels */
   --text-sm: 0.875rem;

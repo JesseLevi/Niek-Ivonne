@@ -7,6 +7,9 @@ interface Props {
 }
 
 const { title, lang = 'en' } = Astro.props;
+
+// Alleen de fonts die de splash nodig heeft: namen (serif cursief) en de mono-regel.
+const preloadFonts = ['/fonts/instrument-serif-italic.woff2', '/fonts/ibm-plex-mono-regular.woff2'];
 ---
 
 <!doctype html>
@@ -16,6 +19,7 @@ const { title, lang = 'en' } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="robots" content="noindex, nofollow" />
     <title>{title}</title>
+    {preloadFonts.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
     <script is:inline>
       // Thema vóór de eerste paint: eigen keuze (rolluik) of anders de systeeminstelling.
       (function () {

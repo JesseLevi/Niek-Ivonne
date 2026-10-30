@@ -43,3 +43,7 @@ Alle tekst en data staat in `src/content/*.yml` (bewerkbaar via Pages CMS) en wo
 | `images.yml` | Illustraties met afmetingen en alt-tekst |
 
 Mock data is gemarkeerd met `# TODO`. Teksten aanpassen via Pages CMS: zie [`docs/cms.md`](docs/cms.md).
+
+## Fonts
+
+Self-hosted WOFF2 in `public/fonts/` (samen ±75 KB): Instrument Serif (regular + cursief), Inter (variabel, 400–600) en IBM Plex Mono (400 + 500). Gesubset op Latin plus Spaanse tekens en de pijlen uit de luchtvaartlabels. Opnieuw maken: `scripts/subset-fonts.sh` (vereist `pip install fonttools brotli`). Alleen de serif cursief en de mono worden gepreload.
