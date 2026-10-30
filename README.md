@@ -14,12 +14,23 @@ npm run preview   # bekijk de build lokaal
 npm run check     # TypeScript, Astro en Pages CMS-config controleren
 ```
 
+Overige scripts:
+
+| Script | Doet |
+| --- | --- |
+| `npm run og` | OG-beelden per taal maken (`public/og/`), na `npm run build`; vereist Playwright |
+| `npm run export:translations` | Alle teksten naast elkaar in `docs/vertalingen.md`, om te laten nalezen |
+| `npm run placeholders` | SVG-placeholders voor nieuwe beelden in `images.yml` |
+| `npm run check:cms` / `check:colors` | Losse controles (zitten ook in `npm run check`) |
+
 ## Mappen
 
 | Map | Inhoud |
 | --- | --- |
 | `src/content/` | Alle tekst en data (YAML, bewerkbaar via Pages CMS) |
-| `src/scenes/` | Eén TS-module per scène |
+| `src/components/scenes/` | Eén Astro-component per scène (markup en stijl) |
+| `src/scenes/` | Eén TS-module per scène (animaties, `init`/`destroy`) |
+| `src/scripts/` | Scroll-fundament, flight plan-lijn, tekstanimaties, rolluik, gast, chrome |
 | `src/styles/` | Design tokens en globale stijl |
 | `src/pages/` | Routes |
 | `public/images/` | Illustraties |
@@ -50,7 +61,23 @@ Self-hosted WOFF2 in `public/fonts/` (samen ±75 KB): Instrument Serif (regular 
 
 ## Talen
 
-Routes `/en/`, `/es/` en `/nl/` (`src/pages/[lang]/`). `/` stuurt door naar de eerder gekozen taal (localStorage `ni-lang`), anders de browsertaal, anders Engels; query en hash (zoals `?g=…`) gaan mee. De wisselaar `EN · ES · NL` rechtsboven onthoudt de keuze en houdt de scrollpositie vast. Elke pagina heeft `lang` en `hreflang`-links; zet `site` in `astro.config.mjs` zodra het domein bekend is, dan worden die absoluut.
+Routes `/en/`, `/es/` en `/nl/` (`src/pages/[lang]/`). `/` stuurt door naar de eerder gekozen taal (localStorage `ni-lang`), dan de taal van de gast (`?g=`), dan de browsertaal, anders Engels; query en hash gaan mee. De wisselaar `EN · ES · NL` rechtsboven onthoudt de keuze en houdt de scrollpositie vast. Elke pagina heeft `lang` en `hreflang`-links.
+
+## De film
+
+`src/pages/[lang]/index.astro` speelt de splash, scènes 1–11, de praktische info, de RSVP en de aftiteling na elkaar af. Het rolluik op de splash is de dark-mode-schakelaar (slepen aan de greep, tikken, of pijltjestoetsen). De gestippelde flight plan-lijn loopt van scène naar scène (`src/scripts/flight-plan.ts`): elke scène tekent haar stuk vanaf de x waar het vorige ophield. Vaste knop `Skip to details ↓`; een tweede bezoek landt direct op de info met `▶ Replay our story`. Persoonlijke links: `/?g=<slug>` uit `guests.yml` (begroeting, taal, naam en aantal op de RSVP).
+
+## RSVP
+
+Geen eigen backend: het formulier post JSON naar `rsvp.form_url` in `site.yml`. Gekozen voor [Formspree](https://formspree.io): maak daar een formulier aan en zet de URL (bijv. `https://formspree.io/f/abcdwxyz`) in `site.yml` of via Pages CMS › Site. Zolang de URL leeg is, staat de knop uit met "check-in opens soon". Velden: naam, komen ja/nee, aantal, dieetwensen, berichtje, taal en gast-slug. Offline ingevulde antwoorden worden bewaard en verstuurd zodra er weer verbinding is.
+
+## Deploy
+
+Statisch: `npm run build` → `dist/`. Op Vercel of Netlify koppel je de repo; elke push (ook vanuit Pages CMS) bouwt opnieuw, branches krijgen een preview-deploy. Zet de omgevingsvariabele `SITE_URL` op het eigen domein (bijv. `https://niekenivonne.nl`), anders wordt de URL van Vercel/Netlify gebruikt; die is nodig voor absolute `og:image`-links in de WhatsApp-preview. Controleer na de eerste deploy de `X-Robots-Tag`-header en `robots.txt`.
+
+## Testen
+
+Bevindingen van de mobiele test en Lighthouse: [`docs/testrapport.md`](docs/testrapport.md).
 
 ## Illustraties
 
