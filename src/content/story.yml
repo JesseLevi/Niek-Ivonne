@@ -194,6 +194,10 @@ scenes:
         en: And his twin brother.
         es: Y su hermano gemelo.
         nl: En zijn tweelingbroer.
+      - style: serif
+        en: To her family.
+        es: A ver a su familia.
+        nl: Naar haar familie.
 
   - id: andes
     label: ANDES · 2026 # TODO: plek van het aanzoek

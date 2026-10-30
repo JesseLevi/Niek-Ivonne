@@ -46,7 +46,9 @@ const ring = (ax: number, ay: number) => ({ at: '[data-ring]', ax, ay });
 </SceneShell>
 
 <style>
+  /* Ringdoosje (en tekst) vóór de lijn: de lus loopt achter het doosje langs. */
   .stack {
+    z-index: 3 !important;
     display: grid;
     grid-template-rows: auto auto minmax(0, 1fr);
     align-items: start;
