@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1600" viewBox="0 0 800 1600">
+  <title>09-telefoon.svg (placeholder)</title>
+  <rect width="800" height="1600" fill="#F5F1EC"/>
+  <rect x="32" y="32" width="736" height="1536" rx="32" fill="none" stroke="#2A2622" stroke-opacity="0.25" stroke-width="3.2" stroke-dasharray="16 12"/>
+  <path d="M32 32L768 1568M768 32L32 1568" stroke="#2A2622" stroke-opacity="0.08" stroke-width="1.6"/>
+  <g font-family="ui-monospace, Menlo, monospace" text-anchor="middle" fill="#2A2622">
+    <text x="400" y="800" font-size="48" letter-spacing="1">09-telefoon.svg</text>
+    <text x="400" y="864" font-size="28" fill-opacity="0.55">800 × 1600</text>
+  </g>
+  <circle cx="400" cy="704" r="16" fill="#3B4FD8"/>
+</svg>

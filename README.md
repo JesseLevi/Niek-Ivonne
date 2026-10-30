@@ -51,3 +51,7 @@ Self-hosted WOFF2 in `public/fonts/` (samen ±75 KB): Instrument Serif (regular 
 ## Talen
 
 Routes `/en/`, `/es/` en `/nl/` (`src/pages/[lang]/`). `/` stuurt door naar de eerder gekozen taal (localStorage `ni-lang`), anders de browsertaal, anders Engels; query en hash (zoals `?g=…`) gaan mee. De wisselaar `EN · ES · NL` rechtsboven onthoudt de keuze en houdt de scrollpositie vast. Elke pagina heeft `lang` en `hreflang`-links; zet `site` in `astro.config.mjs` zodra het domein bekend is, dan worden die absoluut.
+
+## Illustraties
+
+Elke illustratie staat in `src/content/images.yml` met `src`, `width`, `height` en alt-tekst per taal; `<Illustration id="05-lima" lang={lang} />` toont hem met gereserveerde ruimte. Zolang de echte beelden er niet zijn, staan er SVG-placeholders in `public/images/` (opnieuw maken: `npm run placeholders`). Vervangen: upload het nieuwe beeld en zet `src` om (via Pages CMS › Illustraties), met dezelfde beeldverhouding. De build faalt als een `src` niet bestaat.

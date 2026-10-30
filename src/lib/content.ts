@@ -1,6 +1,8 @@
 // Laadt en valideert alle contentbestanden tijdens de build.
 // Gebruik alleen in Astro-frontmatter (server), niet in browsercode.
 
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { parse } from 'yaml';
 import type { z } from 'zod';
 import { formatNumber, type Locale } from './i18n';
@@ -65,6 +67,12 @@ export const images = load('images.yml', imagesRaw, imagesSchema).images;
 assertUnique('story.yml', 'scène-id', story.scenes.map((s) => s.id));
 assertUnique('guests.yml', 'slug', guests.map((g) => g.slug));
 assertUnique('images.yml', 'id', images.map((i) => i.id));
+
+for (const image of images) {
+  if (!existsSync(join(process.cwd(), 'public', image.src))) {
+    throw new ContentError(`src/content/images.yml: beeld "${image.id}" verwijst naar ${image.src}, maar dat bestand bestaat niet in public/`);
+  }
+}
 
 const imagesById = new Map(images.map((image) => [image.id, image]));
 for (const scene of story.scenes) {

@@ -12,7 +12,8 @@
     "preview": "astro preview",
     "check": "astro check && node scripts/check-cms.mjs && node scripts/check-colors.mjs",
     "check:cms": "node scripts/check-cms.mjs",
-    "check:colors": "node scripts/check-colors.mjs"
+    "check:colors": "node scripts/check-colors.mjs",
+    "placeholders": "node scripts/placeholders.mjs"
   },
   "dependencies": {
     "astro": "^6.4.8",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@types/node": "^22.20.5",
     "typescript": "^6.0.3"
   }
 }
