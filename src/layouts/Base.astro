@@ -59,6 +59,10 @@ const fontFiles = ['/fonts/instrument-serif-italic.woff2', '/fonts/ibm-plex-mono
     }
     {preloadFonts && fontFiles.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
     <script is:inline>
+      // Niet de oude scrollpositie terugzetten bij herladen; de film begint bovenaan.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    </script>
+    <script is:inline>
       // Thema vóór de eerste paint: eigen keuze (rolluik) of anders de systeeminstelling.
       (function () {
         var theme;

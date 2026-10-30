@@ -60,6 +60,9 @@ export interface Stage {
 }
 
 export function startStage(): Stage {
+  // De browser mag de scrollpositie niet zelf terugzetten; chrome.ts begint bovenaan.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
   const root = document.documentElement;
   const langAttr = root.lang;
   const lang: Locale = isLocale(langAttr) ? langAttr : DEFAULT_LOCALE;

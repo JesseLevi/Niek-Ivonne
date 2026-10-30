@@ -65,7 +65,7 @@ Routes `/en/`, `/es/` en `/nl/` (`src/pages/[lang]/`). `/` stuurt door naar de e
 
 ## De film
 
-`src/pages/[lang]/index.astro` speelt de splash, scènes 1–11, de praktische info, de RSVP en de aftiteling na elkaar af. Het rolluik op de splash is de dark-mode-schakelaar (slepen aan de greep, tikken, of pijltjestoetsen). De gestippelde flight plan-lijn loopt van scène naar scène (`src/scripts/flight-plan.ts`): elke scène tekent haar stuk vanaf de x waar het vorige ophield. Vaste knop `Skip to details ↓`; een tweede bezoek landt direct op de info met `▶ Replay our story`. Persoonlijke links: `/?g=<slug>` uit `guests.yml` (begroeting, taal, naam en aantal op de RSVP).
+`src/pages/[lang]/index.astro` speelt de splash, scènes 1–11, de praktische info, de RSVP en de aftiteling na elkaar af. Het rolluik op de splash is de dark-mode-schakelaar (slepen aan de greep, tikken, of pijltjestoetsen). De gestippelde flight plan-lijn loopt van scène naar scène (`src/scripts/flight-plan.ts`): elke scène tekent haar stuk vanaf de x waar het vorige ophield. Vaste knop `Skip to details ↓`; bovenaan de info staat `▶ Replay our story`. Elk bezoek begint bovenaan (ook bij herladen), behalve met een `#anker` of na een taalwissel. Persoonlijke links: `/?g=<slug>` uit `guests.yml` (begroeting, taal, naam en aantal op de RSVP).
 
 ## RSVP
 
