@@ -16,13 +16,15 @@ export function initChrome(stage: Stage, restoredScroll: boolean): void {
   });
   replay?.addEventListener('click', () => stage.scrollTo(0, true));
 
-  // Knop weg zodra de details in beeld zijn (en daarna).
+  // Knop weg zodra de details in beeld zijn (en daarna), ook na een sprong voorbij de details.
   if (skip) {
-    new IntersectionObserver(([entry]) => {
-      if (!entry) return;
-      const passed = entry.isIntersecting || entry.boundingClientRect.top < 0;
-      skip.classList.toggle('is-hidden', passed);
-    }).observe(details);
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      skip.classList.toggle('is-hidden', details.getBoundingClientRect().top < innerHeight * 0.9);
+    };
+    addEventListener('scroll', () => (frame ||= requestAnimationFrame(update)), { passive: true });
+    update();
   }
 
   // Tweede bezoek: direct naar de info (tenzij er een taalwissel of #anker is).
