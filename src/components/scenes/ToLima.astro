@@ -1,0 +1,125 @@
+---
+// Scène 9: terug naar Lima, met het hele gezin. De lange route AMS → LIM; op het vliegtuigje
+// verschijnen de stoeltjes: zij, hij, zijn ouders, de tweelingbroer.
+import SceneShell from '../SceneShell.astro';
+import SceneMeta from '../SceneMeta.astro';
+import SceneLines from '../SceneLines.astro';
+import Plane from '../Plane.astro';
+import { sceneById } from '../../lib/content';
+import { aroundRoute } from '../../lib/flight-plan';
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const scene = sceneById('to-lima');
+const [from, to] = scene.label.split('→').map((s) => s.trim());
+---
+
+<SceneShell id="to-lima" pin={240} labelledby="lines-to-lima" route={aroundRoute('left')}>
+  <div class="stack">
+    <SceneMeta label={scene.label} />
+    <div class="journey">
+      <svg class="arc" viewBox="0 0 100 56" aria-hidden="true">
+        <path class="arc-line" data-arc d="M90 14C66 -6 22 6 10 48"></path>
+        <circle class="end" cx="90" cy="14" r="1.6"></circle>
+        <circle class="end" cx="10" cy="48" r="1.6" data-arrive></circle>
+        <text x="90" y="22" text-anchor="middle">{from}</text>
+        <text x="10" y="55" text-anchor="middle">{to}</text>
+      </svg>
+      <Plane class="long-haul" data-plane />
+    </div>
+    <ol class="seats" data-seats>
+      {
+        scene.seats?.map((seat) => (
+          <li class="seat" data-seat>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 3h8a2 2 0 0 1 2 2v9h2a2 2 0 0 1 2 2v5h-3v-3H7a3 3 0 0 1-3-3V5a2 2 0 0 1 2-2Z" />
+            </svg>
+            <span class="text-mono">{seat[lang]}</span>
+          </li>
+        ))
+      }
+    </ol>
+    <SceneLines lines={scene.lines} lang={lang} id="lines-to-lima" class="compact" />
+  </div>
+</SceneShell>
+
+<style>
+  .stack {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    justify-items: center;
+    gap: var(--space-4);
+    height: 100%;
+  }
+
+  .journey {
+    position: relative;
+    width: min(100%, 34rem);
+  }
+
+  .arc {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .arc-line {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 0.6;
+    stroke-linecap: round;
+  }
+
+  .end {
+    fill: var(--color-accent);
+  }
+
+  .arc text {
+    font-family: var(--font-mono);
+    font-size: 3.4px;
+    letter-spacing: 0.1em;
+    fill: var(--color-ink);
+  }
+
+  .journey :global(.long-haul) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2.2rem;
+  }
+
+  .seats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .seat {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-1);
+    color: var(--color-accent);
+  }
+
+  .seat svg {
+    width: 1.6rem;
+    fill: currentColor;
+  }
+
+  .seat span {
+    font-size: 0.6rem;
+    color: var(--color-ink);
+  }
+
+  .stack :global(.compact .text-serif) {
+    font-size: var(--text-xl);
+  }
+</style>
