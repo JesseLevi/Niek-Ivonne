@@ -68,9 +68,15 @@ const scene = sceneById('girona');
     width: 100%;
   }
 
-  .map {
-    overflow: hidden;
-    border-radius: 1rem;
+  /* De kaart zoomt zonder eigen kader over het hele scherm, maar blijft achter het vertrekbord. */
+  .visual {
+    position: relative;
+    z-index: 0;
+  }
+
+  .stack > :global(.meta) {
+    position: relative;
+    z-index: 2;
   }
 
   .map :global(.map-image),
