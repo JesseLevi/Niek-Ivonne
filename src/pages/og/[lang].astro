@@ -1,0 +1,57 @@
+---
+// Bron voor het OG-beeld (WhatsApp-preview), 1200 × 630. scripts/og.mjs maakt er een PNG van.
+import Base from '../../layouts/Base.astro';
+import Window from '../../components/Window.astro';
+import { site } from '../../lib/content';
+import { formatMonthYear, type Locale } from '../../lib/i18n';
+import { localeStaticPaths } from '../../lib/routes';
+
+export const getStaticPaths = localeStaticPaths;
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const flightLine = [site.wedding.province, formatMonthYear(site.wedding.date, lang), site.wedding.venue].join(' · ');
+---
+
+<Base title="OG" lang={lang}>
+  <main class="og">
+    <div class="window"><Window lang={lang} eager /></div>
+    <div class="text">
+      <p class="names text-serif">{site.couple.first} &amp; {site.couple.second}</p>
+      <p class="line text-mono">{flightLine}</p>
+    </div>
+  </main>
+</Base>
+
+<style>
+  :global(html) {
+    background: var(--paper);
+  }
+
+  .og {
+    display: grid;
+    grid-template-columns: 330px 1fr;
+    align-items: center;
+    gap: 70px;
+    width: 1200px;
+    height: 630px;
+    padding: 0 90px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .names {
+    margin: 0 0 28px;
+    font-size: 112px;
+    line-height: 0.95;
+  }
+
+  .line {
+    margin: 0;
+    font-size: 20px;
+    color: var(--accent);
+  }
+</style>

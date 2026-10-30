@@ -11,9 +11,12 @@ interface Props {
   localizedFrom?: string;
   /** Splash-fonts preloaden (niet nodig op de doorstuurpagina). */
   preloadFonts?: boolean;
+  /** OG-titel en -beeld voor de linkpreview (WhatsApp). */
+  og?: { title: string; image: string };
 }
 
-const { title, description, lang = 'en', localizedFrom, preloadFonts = true } = Astro.props;
+const { title, description, lang = 'en', localizedFrom, preloadFonts = true, og } = Astro.props;
+const ogLocale = { en: 'en_GB', es: 'es_LA', nl: 'nl_NL' }[lang];
 const absolute = (path: string) => (Astro.site ? new URL(path, Astro.site).href : path);
 
 // Alleen de fonts die de splash nodig heeft: namen (serif cursief) en de mono-regel.
@@ -28,6 +31,21 @@ const fontFiles = ['/fonts/instrument-serif-italic.woff2', '/fonts/ibm-plex-mono
     <meta name="robots" content="noindex, nofollow" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    {
+      og && (
+        <>
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content={og.title} />
+          {description && <meta property="og:description" content={description} />}
+          <meta property="og:image" content={absolute(og.image)} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:locale" content={ogLocale} />
+          {Astro.site && <meta property="og:url" content={absolute(Astro.url.pathname)} />}
+          <meta name="twitter:card" content="summary_large_image" />
+        </>
+      )
+    }
     {
       localizedFrom !== undefined && (
         <>

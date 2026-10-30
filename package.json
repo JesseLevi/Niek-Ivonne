@@ -13,7 +13,8 @@
     "check": "astro check && node scripts/check-cms.mjs && node scripts/check-colors.mjs",
     "check:cms": "node scripts/check-cms.mjs",
     "check:colors": "node scripts/check-colors.mjs",
-    "placeholders": "node scripts/placeholders.mjs"
+    "placeholders": "node scripts/placeholders.mjs",
+    "og": "node scripts/og.mjs"
   },
   "dependencies": {
     "astro": "^6.4.8",

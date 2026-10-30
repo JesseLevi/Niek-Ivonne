@@ -10,7 +10,13 @@ const names = `${site.couple.first} & ${site.couple.second}`;
 const guestLanguages = Object.fromEntries(guests.map((g) => [g.slug, g.language]));
 ---
 
-<Base title={names} localizedFrom="/" preloadFonts={false}>
+<Base
+  title={names}
+  description={site.og.description.en}
+  localizedFrom="/"
+  preloadFonts={false}
+  og={{ title: site.og.title.en, image: '/og/og-en.png' }}
+>
   <script is:inline slot="head" define:vars={{ locales: LOCALES, fallback: DEFAULT_LOCALE, key: LOCALE_STORAGE_KEY, guestLanguages }}>
     var pick;
     try {
