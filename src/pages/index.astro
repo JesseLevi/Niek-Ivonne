@@ -3,17 +3,20 @@
 // Zonder JavaScript staat er een keuzelijst.
 import Base from '../layouts/Base.astro';
 import { DEFAULT_LOCALE, LOCALE_STORAGE_KEY, LOCALES } from '../lib/i18n';
-import { site, ui } from '../lib/content';
+import { guests, site, ui } from '../lib/content';
 
 const names = `${site.couple.first} & ${site.couple.second}`;
+// Persoonlijke link zonder eigen taalkeuze: de taal van de gast.
+const guestLanguages = Object.fromEntries(guests.map((g) => [g.slug, g.language]));
 ---
 
 <Base title={names} localizedFrom="/" preloadFonts={false}>
-  <script is:inline slot="head" define:vars={{ locales: LOCALES, fallback: DEFAULT_LOCALE, key: LOCALE_STORAGE_KEY }}>
+  <script is:inline slot="head" define:vars={{ locales: LOCALES, fallback: DEFAULT_LOCALE, key: LOCALE_STORAGE_KEY, guestLanguages }}>
     var pick;
     try {
       pick = localStorage.getItem(key);
     } catch (e) {}
+    if (locales.indexOf(pick) < 0) pick = guestLanguages[new URLSearchParams(location.search).get('g')];
     if (locales.indexOf(pick) < 0) {
       var preferred = navigator.languages || [navigator.language];
       for (var i = 0; i < preferred.length && locales.indexOf(pick) < 0; i++) {
