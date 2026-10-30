@@ -1,0 +1,155 @@
+---
+// Scène 8: één enkele reis. Het hoogtepunt: een groot plat vliegtuig trekt met een witte
+// condensstreep door de achtergrond terwijl de tekst ervoor binnenkomt. Dan de grote boarding
+// pass BCN → AMS · ONE WAY, de koffer, en het grachtenpand waar één raam brandt.
+import SceneShell from '../SceneShell.astro';
+import SceneMeta from '../SceneMeta.astro';
+import SceneLines from '../SceneLines.astro';
+import BoardingPass from '../BoardingPass.astro';
+import Illustration from '../Illustration.astro';
+import Plane from '../Plane.astro';
+import { previousPlace, sceneById } from '../../lib/content';
+import { aroundRoute } from '../../lib/flight-plan';
+import type { Locale } from '../../lib/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const scene = sceneById('amsterdam');
+const pass = scene.passes?.[0];
+---
+
+<SceneShell id="amsterdam" pin={320} labelledby="lines-amsterdam" route={aroundRoute('right', [0, 0.5])}>
+  <div class="sky" aria-hidden="true">
+    <svg class="contrail" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <path id="amsterdam-flight" data-flight d="M-20 62C10 52 30 30 55 26S95 18 125 8"></path>
+      <path class="trail" data-trail d="M-20 62C10 52 30 30 55 26S95 18 125 8"></path>
+    </svg>
+    <Plane class="big-plane" data-big-plane />
+  </div>
+  <div class="stack">
+    <SceneMeta label={scene.label} place={scene.place} from={previousPlace('amsterdam')} />
+    <div class="stage">
+      <div class="trip" data-trip>
+        {pass && <BoardingPass pass={pass} lang={lang} size="large" data-pass />}
+        <Illustration id="10-koffer" lang={lang} class="suitcase" />
+      </div>
+      <div class="home" data-home>
+        <div class="house-wrap">
+          {scene.image && <Illustration id={scene.image} lang={lang} class="house" />}
+          <span class="glow" data-glow></span>
+        </div>
+      </div>
+    </div>
+    <SceneLines lines={scene.lines} lang={lang} id="lines-amsterdam" class="compact" />
+  </div>
+</SceneShell>
+
+<style>
+  .stack {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-items: center;
+    justify-items: center;
+    gap: var(--space-4);
+    height: 100%;
+  }
+
+  .sky {
+    position: absolute !important;
+    inset: 0;
+    z-index: 0 !important;
+    pointer-events: none;
+  }
+
+  .contrail {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .contrail path {
+    fill: none;
+    stroke: none;
+  }
+
+  .contrail .trail {
+    stroke: var(--contrail);
+    stroke-width: 3;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.9;
+  }
+
+  .sky :global(.big-plane) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: clamp(9rem, 42vw, 22rem);
+    color: color-mix(in oklch, var(--color-accent) 75%, var(--color-bg));
+  }
+
+  .stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+  }
+
+  .trip,
+  .home {
+    grid-area: 1 / 1;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: var(--space-3);
+    height: 100%;
+    width: 100%;
+  }
+
+  @media (min-width: 48rem) {
+    .trip {
+      grid-auto-flow: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-6);
+    }
+  }
+
+  .trip :global(.suitcase) {
+    width: auto;
+    height: 14svh;
+  }
+
+  .stack :global(.compact .text-serif) {
+    font-size: var(--text-xl);
+  }
+
+  .house-wrap {
+    position: relative;
+    height: min(100%, 34svh);
+    aspect-ratio: 1000 / 924;
+  }
+
+  .house-wrap :global(.house) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Eén raam brandt (11-amsterdam: raam rechtsboven, x 66–73%, y 24.5–32.5%). */
+  .glow {
+    position: absolute;
+    left: 66.2%;
+    top: 24.8%;
+    width: 6.8%;
+    height: 7.6%;
+    background: var(--glow);
+    box-shadow: 0 0 1.2rem 0.4rem color-mix(in oklch, var(--glow) 70%, transparent);
+    mix-blend-mode: screen;
+    opacity: 0;
+  }
+</style>
