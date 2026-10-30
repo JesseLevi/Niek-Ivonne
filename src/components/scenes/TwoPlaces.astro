@@ -24,9 +24,11 @@ const [left, right] = scene.label.split('·').map((s) => s.trim());
   id="two-places"
   pin={220}
   labelledby="lines-two-places"
-  route={[
-    // Aanloop vanaf de splash naar "Onze start"; verdwijnt zodra de kaart verschijnt.
+  routeBehind={[
+    // Aanloop vanaf de splash naar "Onze start". Ligt achter de kaart en verdwijnt zodra die verschijnt.
     { points: [[RAIL.single, 0], { at: '[data-start]', ay: 0, dy: -16 }], end: 'dot', draw: [0, 0.3], until: 0.39 },
+  ]}
+  route={[
     { points: [{ at: '[data-pin=lima]' }, { at: '[data-map]', ax: 0.05, ay: 1, dy: 30 }, [RAIL.lima, 82], [RAIL.lima, 100]], start: 'dot', draw: [0.5, 1] },
     { points: [{ at: '[data-pin=netherlands]' }, { at: '[data-map]', ax: 0.95, ay: 1, dy: 30 }, [RAIL.netherlands, 82], [RAIL.netherlands, 100]], start: 'dot', draw: [0.5, 1] },
   ]}

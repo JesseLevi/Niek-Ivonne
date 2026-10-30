@@ -13,12 +13,14 @@ interface Props {
   palette?: string;
   hideUi?: boolean;
   route?: RouteLine[];
+  /** Extra stuk lijn dat áchter de inhoud loopt. */
+  routeBehind?: RouteLine[];
   intro?: boolean;
   labelledby?: string;
   class?: string;
 }
 
-const { id, module = id, pin, palette, hideUi = false, route, intro, labelledby, class: className } = Astro.props;
+const { id, module = id, pin, palette, hideUi = false, route, routeBehind, intro, labelledby, class: className } = Astro.props;
 ---
 
 <section
@@ -32,6 +34,7 @@ const { id, module = id, pin, palette, hideUi = false, route, intro, labelledby,
   aria-labelledby={labelledby}
 >
   <div class="frame">
+    {routeBehind && <FlightPlan route={routeBehind} behind />}
     {route && <FlightPlan route={route} intro={intro} />}
     <slot />
   </div>
