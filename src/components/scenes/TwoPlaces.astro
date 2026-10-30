@@ -6,7 +6,7 @@ import SceneMeta from '../SceneMeta.astro';
 import SceneLines from '../SceneLines.astro';
 import MapPin from '../MapPin.astro';
 import Illustration from '../Illustration.astro';
-import { sceneById } from '../../lib/content';
+import { sceneById, ui } from '../../lib/content';
 import { RAIL } from '../../lib/flight-plan';
 import { MAP_PINS } from '../../lib/geo';
 import type { Locale } from '../../lib/i18n';
@@ -25,11 +25,12 @@ const [left, right] = scene.label.split('·').map((s) => s.trim());
   pin={220}
   labelledby="lines-two-places"
   route={[
-    { points: [[RAIL.single, 0], [RAIL.single, 9], { at: '[data-map]', ay: 0, dy: -12 }], draw: [0, 0.3] },
-    { points: [{ at: '[data-pin=lima]' }, { at: '[data-map]', ax: 0.05, ay: 1, dy: 30 }, [RAIL.lima, 82], [RAIL.lima, 100]], start: 'dot', draw: [0.35, 1] },
-    { points: [{ at: '[data-pin=netherlands]' }, { at: '[data-map]', ax: 0.95, ay: 1, dy: 30 }, [RAIL.netherlands, 82], [RAIL.netherlands, 100]], start: 'dot', draw: [0.35, 1] },
+    { points: [[RAIL.single, 0], { at: '[data-start]', ay: 0, dy: -16 }], end: 'dot', draw: [0, 0.3] },
+    { points: [{ at: '[data-pin=lima]' }, { at: '[data-map]', ax: 0.05, ay: 1, dy: 30 }, [RAIL.lima, 82], [RAIL.lima, 100]], start: 'dot', draw: [0.5, 1] },
+    { points: [{ at: '[data-pin=netherlands]' }, { at: '[data-map]', ax: 0.95, ay: 1, dy: 30 }, [RAIL.netherlands, 82], [RAIL.netherlands, 100]], start: 'dot', draw: [0.5, 1] },
   ]}
 >
+  <h2 class="start text-serif" data-start>{ui.story_start[lang]}</h2>
   <div class="stack">
     <SceneMeta label={scene.label} place={scene.place} />
     <div class="map" data-map>
@@ -49,6 +50,17 @@ const [left, right] = scene.label.split('·').map((s) => s.trim());
     justify-items: center;
     gap: var(--space-5);
     height: 100%;
+  }
+
+  .start {
+    position: absolute !important;
+    left: var(--gutter);
+    right: var(--gutter);
+    top: 38%;
+    margin: 0;
+    text-align: center;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
   }
 
   .map {

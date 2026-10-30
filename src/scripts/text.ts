@@ -199,7 +199,8 @@ export interface TypewriterOptions extends TextOptions {
 /** Labels typen zich uit in mono (coördinaten, vluchtcodes, ONE WAY). De breedte ligt vooraf vast. */
 export function typewriter(el: HTMLElement, options: TypewriterOptions = {}): gsap.core.Timeline {
   const { speed = 0.05, caret = true } = options;
-  const text = el.textContent ?? '';
+  // Origineel bewaren: bij opnieuw opbouwen bevat textContent ook de verborgen kopie.
+  const text = (el.dataset.text ??= el.textContent ?? '');
   if (prefersReducedMotion(options)) return calmFade(el);
 
   const chars = [...text];

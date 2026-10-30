@@ -21,7 +21,8 @@ const { route, intro = false } = Astro.props;
     height: 100%;
     overflow: visible;
     pointer-events: none;
-    z-index: 0;
+    /* Vóór de beelden (kaart, gevel), net als de pins. */
+    z-index: 2;
   }
 
   .flight-plan :global(.flight-plan-reveal) {

@@ -31,6 +31,11 @@ replay_story:
   es: ▶ Ver nuestra historia otra vez
   nl: ▶ Ons verhaal opnieuw afspelen
 
+story_start: # titel als de film begint (begin van scène 1)
+  en: How it started
+  es: Cómo empezó todo
+  nl: Onze start
+
 info_heading:
   en: Flight information
   es: Información del vuelo

@@ -11,11 +11,14 @@ const twoPlaces: Scene = {
     const map = el.querySelector<HTMLElement>('[data-map]');
     const pins = el.querySelectorAll('[data-pin]');
 
-    animateMeta(ctx, el, 0.02);
+    // "Onze start" staat er terwijl de scène binnenschuift en maakt dan plaats voor de kaart.
+    const start = el.querySelector('[data-start]');
+    if (start) timeline.to(start, { autoAlpha: 0, y: reducedMotion ? 0 : -30, duration: 0.08 }, 0.02);
+    animateMeta(ctx, el, 0.06);
     if (map) {
-      timeline.from(map, { autoAlpha: 0, scale: reducedMotion ? 1 : 1.25, filter: reducedMotion ? 'none' : 'blur(8px)', duration: 0.18, ease: 'power2.out' }, 0);
+      timeline.from(map, { autoAlpha: 0, scale: reducedMotion ? 1 : 1.25, filter: reducedMotion ? 'none' : 'blur(8px)', duration: 0.18, ease: 'power2.out' }, 0.06);
     }
-    timeline.from(pins, { autoAlpha: 0, scale: 0, duration: 0.06, stagger: 0.05, ease: 'back.out(2)' }, 0.18);
+    timeline.from(pins, { autoAlpha: 0, scale: 0, duration: 0.06, stagger: 0.05, ease: 'back.out(2)' }, 0.22);
     animateLines(ctx, el, 0.28, 0.7);
 
     if (map && !reducedMotion) {

@@ -18,7 +18,8 @@ const barcelona: Scene = {
     if (intercom) {
       timeline.set(intercom, { autoAlpha: 0 }, 0);
       if (facade && !reducedMotion) {
-        timeline.to(facade, { scale: 2.6, transformOrigin: '50% 92%', autoAlpha: 0, duration: 0.14, ease: 'power2.in' }, 0.2);
+        timeline.to(facade, { scale: 1.5, transformOrigin: '50% 92%', duration: 0.1, ease: 'power2.in' }, 0.2);
+        timeline.to(facade, { autoAlpha: 0, duration: 0.05 }, 0.25);
       } else if (facade) {
         timeline.to(facade, { autoAlpha: 0, duration: 0.1 }, 0.2);
       }

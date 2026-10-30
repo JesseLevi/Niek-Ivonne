@@ -156,6 +156,7 @@ _Gegenereerd met `npm run export:translations`; niet met de hand bewerken._
 | `scroll_to_board` | Scroll to board | Desliza para embarcar | Scroll om te boarden |
 | `skip_to_details` | Skip to details ↓ | Ir a los detalles ↓ | Naar de details ↓ |
 | `replay_story` | ▶ Replay our story | ▶ Ver nuestra historia otra vez | ▶ Ons verhaal opnieuw afspelen |
+| `story_start` | How it started | Cómo empezó todo | Onze start |
 | `info_heading` | Flight information | Información del vuelo | Vluchtinformatie |
 | `doorbell` | Ring the doorbell | Tocar el timbre | Aanbellen |
 | `twin` | One of the twins | Uno de los gemelos | Een van de tweeling |
