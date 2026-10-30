@@ -5,6 +5,8 @@
 #   pause: true = een lege scrollstap vóór deze regel
 #
 # place: plaatsnaam op het vertrekbord (split-flap), klappert vanaf de vorige plaats.
+# passes: boarding passes (from/to als luchthavencode, date als JJJJ-MM-DD).
+# seats: labels van de stoeltjes op het vliegtuig (scène 9).
 #   en / es / nl: de tekst. {distance}, {messages}, {flights} en {flown_km}
 #   worden vervangen door de getallen uit stats.yml, opgemaakt per taal.
 #
@@ -122,7 +124,8 @@ scenes:
 
   - id: visit
     label: AMS → BCN
-    image: 07-barcelona-gevel
+    passes:
+      - { from: AMS, to: BCN, date: "2019-02-14" } # TODO: datum eerste bezoek
     lines:
       - style: serif
         en: He went back.
@@ -135,6 +138,15 @@ scenes:
 
   - id: back-and-forth
     label: BCN ↔ AMS
+    passes: # TODO: echte datums (mock)
+      - { from: BCN, to: AMS, date: "2019-04-26" }
+      - { from: AMS, to: BCN, date: "2019-07-12" }
+      - { from: BCN, to: AMS, date: "2019-12-20" }
+      - { from: AMS, to: BCN, date: "2020-08-07" }
+      - { from: BCN, to: AMS, date: "2021-04-02" }
+      - { from: AMS, to: BCN, date: "2022-06-17" }
+      - { from: BCN, to: AMS, date: "2023-10-13" }
+      - { from: AMS, to: BCN, date: "2024-05-09" }
     lines:
       - style: serif
         en: For years, home was a departure gate.
@@ -149,6 +161,8 @@ scenes:
     label: BCN → AMS · ONE WAY
     place: AMSTERDAM
     image: 11-amsterdam
+    passes:
+      - { from: BCN, to: AMS, date: "2025-03-01", one_way: true } # TODO: echte verhuisdatum
     lines:
       - style: serif
         en: In 2025 she bought a ticket without a return date.
@@ -157,6 +171,12 @@ scenes:
 
   - id: to-lima
     label: AMS → LIM
+    seats: # stoeltjes op het vliegtuig, in deze volgorde
+      - { en: Her, es: Ella, nl: Zij }
+      - { en: Him, es: Él, nl: Hij }
+      - { en: His mum, es: Su mamá, nl: Zijn moeder }
+      - { en: His dad, es: Su papá, nl: Zijn vader }
+      - { en: The twin, es: El gemelo, nl: De tweeling }
     lines:
       - style: serif
         en: In 2026 they flew to Lima.
@@ -177,7 +197,7 @@ scenes:
 
   - id: andes
     label: ANDES · 2026 # TODO: plek van het aanzoek
-    image: 12-ringdoosje-dicht
+    image: 12-ringdoosje-open
     lines:
       - style: serif
         en: With the Andes as witnesses, he asked.

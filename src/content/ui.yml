@@ -31,6 +31,60 @@ replay_story:
   es: ▶ Ver nuestra historia otra vez
   nl: ▶ Ons verhaal opnieuw afspelen
 
+info_heading:
+  en: Flight information
+  es: Información del vuelo
+  nl: Vluchtinformatie
+
+doorbell:
+  en: Ring the doorbell
+  es: Tocar el timbre
+  nl: Aanbellen
+
+twin:
+  en: One of the twins
+  es: Uno de los gemelos
+  nl: Een van de tweeling
+
+the_end:
+  en: The end. Or rather, the beginning.
+  es: Fin. O mejor dicho, el comienzo.
+  nl: "Einde. Of eigenlijk: het begin."
+
+boarding_pass:
+  passenger:
+    en: Passenger
+    es: Pasajero
+    nl: Passagier
+  flight:
+    en: Flight
+    es: Vuelo
+    nl: Vlucht
+  from:
+    en: From
+    es: Origen
+    nl: Van
+  to:
+    en: To
+    es: Destino
+    nl: Naar
+  date:
+    en: Date
+    es: Fecha
+    nl: Datum
+  seat:
+    en: Seat
+    es: Asiento
+    nl: Stoel
+  gate:
+    en: Gate
+    es: Puerta
+    nl: Gate
+  one_way:
+    en: One way
+    es: Solo ida
+    nl: Enkele reis
+
 shade_close:
   en: Close the window shade (night mode)
   es: Bajar la persiana (modo noche)
@@ -70,10 +124,26 @@ rsvp:
     en: Sadly, no
     es: Lamentablemente, no
     nl: Helaas niet
+  message:
+    en: A note for us (optional)
+    es: Un mensaje para nosotros (opcional)
+    nl: Een berichtje voor ons (optioneel)
   diet:
     en: Dietary requirements
     es: Restricciones alimentarias
     nl: Dieetwensen
+  sending:
+    en: Checking in…
+    es: Haciendo check-in…
+    nl: Bezig met inchecken…
+  queued:
+    en: Saved on this phone. We'll send it as soon as you're back online.
+    es: Guardado en este celular. Lo enviaremos apenas vuelvan a tener conexión.
+    nl: Bewaard op deze telefoon. We versturen het zodra je weer online bent.
+  closed:
+    en: Check-in opens soon.
+    es: El check-in abre pronto.
+    nl: Inchecken gaat binnenkort open.
   submit:
     en: Check in
     es: Hacer check-in

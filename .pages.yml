@@ -115,6 +115,16 @@ content:
               - { name: es, label: Español, type: text, required: true }
               - { name: nl, label: Nederlands, type: text, required: true }
           - { name: surprise, label: Verrassing (bij aantikken), component: i18n }
+          - name: passes
+            label: Boarding passes
+            type: object
+            list: true
+            fields:
+              - { name: from, label: Van (code), type: string, required: true, pattern: "^[A-Z]{3}$" }
+              - { name: to, label: Naar (code), type: string, required: true, pattern: "^[A-Z]{3}$" }
+              - { name: date, label: Datum, type: date, required: true, options: { format: yyyy-MM-dd } }
+              - { name: one_way, label: Enkele reis, type: boolean }
+          - { name: seats, label: Stoeltjes op het vliegtuig, component: i18n, list: true }
           - name: chat
             label: Appjes
             type: object
@@ -258,6 +268,22 @@ content:
       - { name: scroll_to_board, label: Scrollhint op de splash, component: i18n }
       - { name: skip_to_details, label: Knop naar de details, component: i18n }
       - { name: replay_story, label: Knop verhaal opnieuw, component: i18n }
+      - { name: info_heading, label: Kop praktische info, component: i18n }
+      - { name: doorbell, label: Deurbel (voor schermlezers), component: i18n }
+      - { name: twin, label: Tweeling (voor schermlezers), component: i18n }
+      - { name: the_end, label: Laatste regel aftiteling, component: i18n }
+      - name: boarding_pass
+        label: Boarding pass
+        type: object
+        fields:
+          - { name: passenger, label: Passagier, component: i18n }
+          - { name: flight, label: Vlucht, component: i18n }
+          - { name: from, label: Van, component: i18n }
+          - { name: to, label: Naar, component: i18n }
+          - { name: date, label: Datum, component: i18n }
+          - { name: seat, label: Stoel, component: i18n }
+          - { name: gate, label: Gate, component: i18n }
+          - { name: one_way, label: Enkele reis, component: i18n }
       - { name: shade_close, label: Rolluik dicht (voor schermlezers), component: i18n }
       - { name: shade_open, label: Rolluik open (voor schermlezers), component: i18n }
       - name: rsvp
@@ -271,7 +297,11 @@ content:
           - { name: attending, label: Vraag komen jullie, component: i18n }
           - { name: attending_yes, label: Antwoord ja, component: i18n }
           - { name: attending_no, label: Antwoord nee, component: i18n }
+          - { name: message, label: Veld berichtje, component: i18n }
           - { name: diet, label: Veld dieetwensen, component: i18n }
+          - { name: sending, label: Bezig met versturen, component: i18n }
+          - { name: queued, label: Bewaard (offline), component: i18n_text }
+          - { name: closed, label: Formulier nog niet open, component: i18n }
           - { name: submit, label: Verstuurknop, component: i18n }
           - { name: confirmed, label: Stempel na versturen, component: i18n }
           - { name: error, label: Foutmelding, component: i18n_text }

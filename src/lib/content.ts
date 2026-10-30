@@ -100,3 +100,16 @@ export function statTokens(lang: Locale): Record<keyof Stats, string> {
     flown_km: format('flown_km'),
   };
 }
+
+/** Een scène uit story.yml; de build faalt als hij ontbreekt. */
+export function sceneById(id: string) {
+  const scene = story.scenes.find((s) => s.id === id);
+  if (!scene) throw new ContentError(`src/content/story.yml: scène "${id}" ontbreekt`);
+  return scene;
+}
+
+/** Plaats op het vertrekbord van de dichtstbijzijnde eerdere scène met een bord. */
+export function previousPlace(id: string): string | undefined {
+  const index = story.scenes.findIndex((s) => s.id === id);
+  return story.scenes.slice(0, Math.max(index, 0)).findLast((s) => s.place)?.place;
+}
