@@ -44,7 +44,12 @@ Voorstel contentmodel (vertalingen per veld naast elkaar, zodat je in de CMS é�
 
 **Placeholder-beelden:** zolang de ChatGPT-illustraties er niet zijn, gebruik je simpele SVG-placeholders op crème met de assetnaam erin (bijv. `05-lima.svg`), zodat je ze later 1-op-1 vervangt.
 
-**Privacy:** `guests.yml` bevat namen van gasten. Repo blijft **privé**; de site krijgt `noindex`.
+**Privacy:** de repo is **publiek** (`github.com/JesseLevi/Niek-Ivonne`). Alles wat je commit, inclusief `guests.yml`, is dus voor iedereen leesbaar: zet er geen adressen, telefoonnummers of andere gevoelige gegevens in. De site krijgt `noindex`.
+
+## Werkwijze en tickets
+
+- Werk gebeurt via de GitHub-repo; push elke stap naar `main` (of een branch + PR bij grotere stappen).
+- Alle taken staan als issues in het GitHub Project **Trouwwebsite Niek & Ivonne**. Verwijs in commits naar het issue (`#12`) en sluit het issue als de stap is goedgekeurd.
 
 ## Bouwvolgorde
 
