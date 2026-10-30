@@ -20,6 +20,8 @@ export interface RouteLine {
   end?: 'dot';
   /** Deel van de voortgang waarin deze lijn wordt getekend. */
   draw?: [number, number];
+  /** Na deze voortgang verdwijnt de lijn weer (bijv. het aanloopje naar een titel). */
+  until?: number;
   /** Vliegtuigje op de punt van de lijn: het "trekt" de stippellijn. */
   plane?: boolean;
 }
