@@ -3,6 +3,8 @@
 # Per regel:
 #   style: serif (emotie, cursief) | body (lopende tekst) | mono (luchtvaartlabel)
 #   pause: true = een lege scrollstap vóór deze regel
+#
+# place: plaatsnaam op het vertrekbord (split-flap), klappert vanaf de vorige plaats.
 #   en / es / nl: de tekst. {distance}, {messages}, {flights} en {flown_km}
 #   worden vervangen door de getallen uit stats.yml, opgemaakt per taal.
 #
@@ -11,6 +13,7 @@
 scenes:
   - id: two-places
     label: LIM · AMS
+    place: LIMA
     image: 04-wereldkaart
     lines:
       - style: serif
@@ -62,6 +65,7 @@ scenes:
 
   - id: barcelona
     label: BCN · PISO 3º 2ª # TODO: echt adres/huisnummer (alleen als het stel dat wil delen)
+    place: BARCELONA
     image: 07-barcelona-gevel
     lines:
       - style: serif
@@ -143,6 +147,7 @@ scenes:
 
   - id: amsterdam
     label: BCN → AMS · ONE WAY
+    place: AMSTERDAM
     image: 11-amsterdam
     lines:
       - style: serif
@@ -186,6 +191,7 @@ scenes:
 
   - id: girona
     label: GRO · MAS TERRATS
+    place: GIRONA
     image: 13-mas-terrats
     lines:
       - style: serif

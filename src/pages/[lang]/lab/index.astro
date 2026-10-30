@@ -1,0 +1,118 @@
+---
+// Demopagina voor de tekstanimaties (#8). Niet gelinkt vanaf de site; teksten komen uit de content.
+import Base from '../../../layouts/Base.astro';
+import Backdrop from '../../../components/Backdrop.astro';
+import LanguageSwitcher from '../../../components/LanguageSwitcher.astro';
+import { info, stats, story } from '../../../lib/content';
+import { formatNumber, type Locale } from '../../../lib/i18n';
+import { localeStaticPaths } from '../../../lib/routes';
+
+export const getStaticPaths = localeStaticPaths;
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const scene = (id: string) => {
+  const found = story.scenes.find((s) => s.id === id);
+  if (!found) throw new Error(`Scène ${id} ontbreekt in story.yml`);
+  return found;
+};
+const places = story.scenes.flatMap((s) => (s.place ? [s.place] : []));
+const counters = (['distance', 'messages', 'flights'] as const).map((key) => ({ key, ...stats[key] }));
+---
+
+<Base title="Lab · text" lang={lang} localizedFrom="/lab/">
+  <Backdrop />
+  <LanguageSwitcher lang={lang} />
+  <main>
+    <section class="demo" data-scene="lab-line-reveal" data-palette="lima" data-module="lab" data-demo="line-reveal" data-pin="150">
+      <p class="name text-mono">lineReveal()</p>
+      <p class="text-serif" data-demo-target>{info.dresscode.body[lang]}</p>
+    </section>
+
+    <section class="demo" data-scene="lab-word-blur" data-palette="andes" data-module="lab" data-demo="word-blur" data-pin="150">
+      <p class="name text-mono">wordBlur()</p>
+      <p class="text-serif" data-demo-target>{scene('andes').lines[0]?.[lang]}</p>
+    </section>
+
+    <section class="demo" data-scene="lab-split-flap" data-palette="barcelona" data-module="lab" data-demo="split-flap" data-pin="200">
+      <p class="name text-mono">splitFlap()</p>
+      <p class="flap" data-demo-target data-words={places.join('|')}>{places.at(-1)}</p>
+    </section>
+
+    <section class="demo" data-scene="lab-typewriter" data-palette="amsterdam" data-module="lab" data-demo="typewriter" data-pin="150">
+      <p class="name text-mono">typewriter()</p>
+      <p class="typed text-mono" data-demo-target>{scene('amsterdam').label}</p>
+    </section>
+
+    <section class="demo" data-scene="lab-counter" data-palette="messages" data-module="lab" data-demo="counter" data-pin="200">
+      <p class="name text-mono">counter()</p>
+      <dl class="counters">
+        {
+          counters.map((c) => (
+            <div>
+              <dt class="text-mono">{c.label[lang]}</dt>
+              <dd
+                class="text-serif"
+                data-counter={c.key}
+                data-to={c.value}
+                data-plus={c.plus ? '' : undefined}
+                data-steps={'steps' in c ? c.steps.join(',') : undefined}
+              >
+                {formatNumber(c.value, lang) + (c.plus ? '+' : '')}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </main>
+</Base>
+
+<script>
+  import { startStage } from '../../../scripts/stage';
+  startStage();
+</script>
+
+<style>
+  .demo {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--space-6);
+    min-height: var(--screen);
+    padding: var(--gutter);
+    text-align: center;
+  }
+
+  .demo > p {
+    margin: 0;
+    max-width: var(--measure);
+  }
+
+  .name {
+    color: var(--color-muted);
+  }
+
+  .flap {
+    font-size: clamp(1.25rem, 6vw, 2.5rem);
+  }
+
+  .typed {
+    font-size: var(--text-lg);
+    color: var(--color-accent);
+  }
+
+  .counters {
+    display: grid;
+    gap: var(--space-5);
+    margin: 0;
+  }
+
+  .counters dd {
+    margin: 0;
+    font-size: var(--text-2xl);
+  }
+</style>

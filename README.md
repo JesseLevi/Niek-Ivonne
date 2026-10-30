@@ -67,3 +67,7 @@ Elke illustratie staat in `src/content/images.yml` met `src`, `width`, `height` 
 | `data-pin` | Scrollafstand in % schermhoogte (standaard 200, op mobiel ×0,75; `0` = niet vastpinnen) |
 
 Alleen `src/scenes/splash.ts` zit in de eerste bundel; andere modules worden een scherm vóór de scène geladen (dynamic import). De achtergrond is één vaste laag (`--color-bg`) die tussen scènes in OKLCH meeschuift, ook terug. Met `prefers-reduced-motion` is er geen pinning en geen smooth scroll: de scènes staan onder elkaar en spelen als rustige fades af. Er is geen horizontale scroll-hijack.
+
+## Tekstanimaties
+
+`src/scripts/text.ts` bevat de helpers uit het concept: `lineReveal` (regel uit masker, 80 ms na elkaar), `wordBlur`, `splitFlap` (vertrekbord), `typewriter` en `counter` (getallen per taal opgemaakt). Elke helper geeft een GSAP-tijdlijn terug die je met `place(ctx.timeline, helper(el), positie, lengte)` in een scène hangt; alles werkt met scrub, ook terug, en wordt een rustige fade bij reduced motion. Demo: `/en/lab/`, `/es/lab/`, `/nl/lab/` (niet gelinkt vanaf de site).

@@ -118,6 +118,7 @@ const chatMessage = z.strictObject({
 const scene = z.strictObject({
   id: slug,
   label: text,
+  place: optional(text),
   image: optional(z.string()),
   lines: z.array(line).min(1),
   surprise: optional(translated),

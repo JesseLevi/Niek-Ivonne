@@ -91,6 +91,7 @@ content:
         fields:
           - { name: id, label: ID, type: string, readonly: true, description: Gekoppeld aan de code, niet wijzigen. }
           - { name: label, label: Mono-label, type: string, required: true, description: "Luchtvaartlabel, bijv. BCN → AMS" }
+          - { name: place, label: Plaats op het vertrekbord, type: string, description: "Hoofdletters, bijv. BARCELONA. Leeg = geen vertrekbord." }
           - { name: image, label: Beeld (ID uit Illustraties), type: string, readonly: true }
           - name: lines
             label: Regels
