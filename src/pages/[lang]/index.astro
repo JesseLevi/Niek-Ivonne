@@ -1,8 +1,10 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Backdrop from '../../components/Backdrop.astro';
 import LanguageSwitcher from '../../components/LanguageSwitcher.astro';
-import { site, ui } from '../../lib/content';
-import { formatMonthYear, type Locale } from '../../lib/i18n';
+import StoryScene from '../../components/StoryScene.astro';
+import { site, story, ui } from '../../lib/content';
+import { formatLongDate, formatMonthYear, type Locale } from '../../lib/i18n';
 import { localeStaticPaths } from '../../lib/routes';
 
 export const getStaticPaths = localeStaticPaths;
@@ -17,24 +19,46 @@ const flightLine = [site.wedding.province, formatMonthYear(site.wedding.date, la
 ---
 
 <Base title={site.og.title[lang]} description={site.og.description[lang]} lang={lang} localizedFrom="/">
+  <Backdrop />
   <LanguageSwitcher lang={lang} />
   <main>
-    <section class="splash" data-scene="splash">
-      <h1 class="names text-serif">{names}</h1>
-      <p class="text-mono">{flightLine}</p>
-      <p class="hint text-mono">{ui.scroll_to_board[lang]}</p>
+    <section class="splash" data-scene="splash" data-module="splash" data-pin="0">
+      <div class="splash-title" data-splash-title>
+        <h1 class="names text-serif">{names}</h1>
+        <p class="text-mono">{flightLine}</p>
+      </div>
+      <p class="hint text-mono" data-splash-hint>{ui.scroll_to_board[lang]}</p>
+    </section>
+
+    {story.scenes.map((scene) => <StoryScene scene={scene} lang={lang} />)}
+
+    <section class="details" id="details" data-scene="info" data-pin="0">
+      <p class="text-mono">{site.wedding.venue} · {site.wedding.town}</p>
+      <p class="date text-serif">{formatLongDate(site.wedding.date, lang)}</p>
     </section>
   </main>
 </Base>
 
+<script>
+  import { startStage } from '../../scripts/stage';
+  startStage();
+</script>
+
 <style>
-  .splash {
+  .splash,
+  .details {
+    position: relative;
     display: grid;
     place-content: center;
     gap: var(--space-4);
     min-height: var(--screen);
     padding: var(--gutter);
     text-align: center;
+  }
+
+  .splash-title {
+    display: grid;
+    gap: var(--space-4);
   }
 
   .names {
@@ -53,5 +77,9 @@ const flightLine = [site.wedding.province, formatMonthYear(site.wedding.date, la
     left: 0;
     right: 0;
     color: var(--color-muted);
+  }
+
+  .date::first-letter {
+    text-transform: uppercase;
   }
 </style>

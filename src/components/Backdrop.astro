@@ -1,0 +1,16 @@
+---
+// Vaste achtergrondlaag achter de hele pagina. De kleur is één CSS-variabele
+// (--color-bg) die src/scripts/background.ts met de scroll mee laat schuiven.
+---
+
+<div class="backdrop" aria-hidden="true"></div>
+
+<style>
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-background);
+    background: var(--color-bg);
+    pointer-events: none;
+  }
+</style>

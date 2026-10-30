@@ -55,3 +55,15 @@ Routes `/en/`, `/es/` en `/nl/` (`src/pages/[lang]/`). `/` stuurt door naar de e
 ## Illustraties
 
 Elke illustratie staat in `src/content/images.yml` met `src`, `width`, `height` en alt-tekst per taal; `<Illustration id="05-lima" lang={lang} />` toont hem met gereserveerde ruimte. Zolang de echte beelden er niet zijn, staan er SVG-placeholders in `public/images/` (opnieuw maken: `npm run placeholders`). Vervangen: upload het nieuwe beeld en zet `src` om (via Pages CMS › Illustraties), met dezelfde beeldverhouding. De build faalt als een `src` niet bestaat.
+
+## Scroll-fundament
+
+`src/scripts/stage.ts` koppelt Lenis aan GSAP ScrollTrigger en maakt per `<section data-scene>` één tijdlijn van lengte 1:
+
+| Attribuut | Betekenis |
+| --- | --- |
+| `data-scene` | Id; ook de kleurset uit `tokens.css` (`--scene-<id>-bg/-ink/-accent`, extra stops `-2-`, `-3-`) |
+| `data-module` | Module in `src/scenes/` die de animaties bouwt (`init(ctx)` / `destroy(ctx)`) |
+| `data-pin` | Scrollafstand in % schermhoogte (standaard 200, op mobiel ×0,75; `0` = niet vastpinnen) |
+
+Alleen `src/scenes/splash.ts` zit in de eerste bundel; andere modules worden een scherm vóór de scène geladen (dynamic import). De achtergrond is één vaste laag (`--color-bg`) die tussen scènes in OKLCH meeschuift, ook terug. Met `prefers-reduced-motion` is er geen pinning en geen smooth scroll: de scènes staan onder elkaar en spelen als rustige fades af. Er is geen horizontale scroll-hijack.
